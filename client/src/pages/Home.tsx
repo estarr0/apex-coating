@@ -1,25 +1,39 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { useState, useCallback } from "react";
+import Navbar from "@/components/Navbar";
+import HeroCarousel from "@/components/HeroCarousel";
+import Features from "@/components/Features";
+import ShadeCard from "@/components/ShadeCard";
+import ColorVisualizer from "@/components/ColorVisualizer";
+import ProductCatalog from "@/components/ProductCatalog";
+import ContactFooter from "@/components/ContactFooter";
+import CartDrawer from "@/components/CartDrawer";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleNavigate = useCallback((section: string) => {
+    if (section === "hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const el = document.getElementById(section);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-white">
+      <Navbar onSearch={setSearchQuery} onNavigate={handleNavigate} />
       <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
+        <HeroCarousel onNavigate={handleNavigate} />
+        <Features />
+        <ShadeCard externalSearch={searchQuery} />
+        <ColorVisualizer />
+        <ProductCatalog />
+        <ContactFooter />
       </main>
+      <CartDrawer />
     </div>
   );
 }
