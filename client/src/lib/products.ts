@@ -610,7 +610,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Luxurious silk-finish vinyl emulsion for interior walls. Creates an elegant soft sheen that enhances light reflection and is highly washable.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
+    image: "/manus-storage/silk-vinyl-4l-skyblue_69fd3b0b.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "10L", volume: "10 Litre", price: 5500 },
