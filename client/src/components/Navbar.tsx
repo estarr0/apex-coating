@@ -1,11 +1,35 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, ShoppingCart, Menu, X, ChevronDown, Droplets } from "lucide-react";
+import { Search, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
   onNavigate: (section: string) => void;
 }
+
+// Apex Coating logo matching the actual brand: triangular geometric with APEX letters, green/red/blue diamonds
+const ApexLogoSVG = ({ size = "w-12 h-12" }: { size?: string }) => (
+  <svg viewBox="0 0 120 100" className={size} fill="none">
+    {/* APEX triangular logo */}
+    <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
+    <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
+    <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
+    {/* Colored diamonds at bottom */}
+    <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
+    <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
+    <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
+  </svg>
+);
+
+// Premier Coat oval badge matching the actual brand
+const PremierCoatBadge = ({ size = "h-12" }: { size?: string }) => (
+  <svg viewBox="0 0 120 80" className={size}>
+    <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
+    <text x="60" y="32" textAnchor="middle" fill="white" fontSize="16" fontWeight="900" fontFamily="Arial, sans-serif" letterSpacing="2">PREMIER</text>
+    <path d="M15 40 Q60 32 105 40" fill="none" stroke="#D42020" strokeWidth="3" />
+    <text x="60" y="58" textAnchor="middle" fill="white" fontSize="16" fontStyle="italic" fontWeight="700" fontFamily="Georgia, serif">Coat</text>
+  </svg>
+);
 
 export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
@@ -50,65 +74,61 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
     setMobileOpen(false);
   };
 
-  // Apex logo SVG with paint-drop accent
-  const ApexLogo = ({ size = "w-9 h-9", textColor }: { size?: string; textColor: string }) => (
-    <svg viewBox="0 0 48 48" className={size}>
-      {/* Paint drop accent */}
-      <path d="M24 4 C28 10, 32 14, 32 20 C32 24.4 28.4 28 24 28 C19.6 28 16 24.4 16 20 C16 14 20 10 24 4Z" fill={scrolled ? "#2563EB" : "#60A5FA"} opacity="0.9" />
-      {/* Apex triangle frame */}
-      <path d="M24 10 L42 42 L6 42 Z" fill="none" stroke={textColor} strokeWidth="2" strokeLinejoin="round" opacity="0.6" />
-      <text x="24" y="36" textAnchor="middle" fill={textColor} fontSize="10" fontWeight="800" fontFamily="system-ui">A</text>
-    </svg>
-  );
+  const brandTextColor = scrolled ? "#0A1B3D" : "#FFFFFF";
+  const brandSubTextColor = scrolled ? "#64748B" : "rgba(191,219,254,0.8)";
 
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "glass-nav shadow-[0_2px_20px_rgba(10,27,61,0.08)]"
+            ? "bg-white/95 backdrop-blur-lg shadow-[0_2px_20px_rgba(10,27,61,0.08)]"
             : "bg-[#0A1B3D]"
         }`}
       >
         <nav className="container flex items-center justify-between h-16 lg:h-[72px]">
           {/* Dual Branding */}
-          <div className="flex items-center gap-3 lg:gap-5">
-            {/* Apex Logo */}
+          <div className="flex items-center gap-2 lg:gap-4">
+            {/* Apex Logo + Text */}
             <button
               onClick={() => handleNav("hero")}
-              className="flex items-center gap-2.5 group"
+              className="flex items-center gap-2 group"
             >
-              <ApexLogo size="w-10 h-10 lg:w-11 lg:h-11" textColor={scrolled ? "#0A1B3D" : "#FFFFFF"} />
-              <div className="hidden sm:block text-left">
-                <div className={`font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none ${scrolled ? "text-[#0A1B3D]" : "text-white"}`}>
-                  APEX COATING
+              <ApexLogoSVG size="w-10 h-9 lg:w-12 lg:h-10" />
+              <div className="hidden sm:block">
+                <div
+                  className="font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none transition-colors"
+                  style={{ color: brandTextColor }}
+                >
+                  Apex Coating
                 </div>
-                <div className={`text-[9px] tracking-widest uppercase ${scrolled ? "text-slate-500" : "text-blue-200/80"}`}>
+                <div
+                  className="text-[9px] tracking-widest uppercase leading-none mt-0.5 transition-colors"
+                  style={{ color: brandSubTextColor }}
+                >
                   E.A Ltd
                 </div>
               </div>
             </button>
 
             {/* Divider */}
-            <div className={`w-px h-9 mx-1 ${scrolled ? "bg-slate-200" : "bg-white/20"}`} />
+            <div className={`w-px h-9 mx-1 transition-colors ${scrolled ? "bg-slate-200" : "bg-white/20"}`} />
 
             {/* Premier Coat Badge */}
             <button
               onClick={() => handleNav("hero")}
               className="flex items-center gap-2"
             >
-              <div className="w-9 h-13 flex items-center justify-center">
-                <div className={`w-8 h-11 rounded-[50%] border-[1.5px] flex flex-col items-center justify-center px-1 ${scrolled ? "border-[#0A1B3D]" : "border-white/50"}`}>
-                  <span className={`text-[6px] font-extrabold leading-[1.1] tracking-wider text-center ${scrolled ? "text-[#0A1B3D]" : "text-white/90"}`}>
-                    PREMIER<br />COAT
-                  </span>
-                </div>
-              </div>
-              <div className="hidden sm:block text-left">
-                <div className={`text-[11px] font-bold leading-none ${scrolled ? "text-slate-700" : "text-white/90"}`}>
+              <PremierCoatBadge size="h-11" />
+              <div className="hidden sm:block">
+                <div
+                  className={`text-[11px] font-bold leading-none transition-colors ${scrolled ? "text-[#2D1B69]" : "text-white/90"}`}
+                >
                   Premier Coat
                 </div>
-                <div className={`text-[9px] ${scrolled ? "text-slate-400" : "text-blue-200/60"}`}>
+                <div
+                  className={`text-[9px] transition-colors ${scrolled ? "text-slate-400" : "text-blue-200/60"}`}
+                >
                   by Apex
                 </div>
               </div>
@@ -190,7 +210,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             >
               <ShoppingCart className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-red-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -205,7 +225,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             >
               <ShoppingCart className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-red-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                   {itemCount}
                 </span>
               )}

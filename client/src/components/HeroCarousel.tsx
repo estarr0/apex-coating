@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowRight, Palette } from "lucide-react";
+import { ArrowRight, Palette, Shield, Paintbrush as Roller, Clock, Leaf } from "lucide-react";
 
 interface HeroCarouselProps {
   onNavigate: (section: string) => void;
@@ -34,6 +34,28 @@ const slides = [
     cta2Target: "contact",
   },
 ];
+
+// Apex Coating logo SVG matching the actual brand
+const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 120 100" className={className} fill="none">
+    <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
+    <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
+    <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
+    <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
+    <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
+    <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
+  </svg>
+);
+
+// Premier Coat oval badge SVG
+const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 120 80" className={className}>
+    <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
+    <text x="60" y="32" textAnchor="middle" fill="white" fontSize="16" fontWeight="900" fontFamily="Arial, sans-serif" letterSpacing="2">PREMIER</text>
+    <path d="M15 40 Q60 32 105 40" fill="none" stroke="#D42020" strokeWidth="3" />
+    <text x="60" y="58" textAnchor="middle" fill="white" fontSize="16" fontStyle="italic" fontWeight="700" fontFamily="Georgia, serif">Coat</text>
+  </svg>
+);
 
 export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
   const [current, setCurrent] = useState(0);
@@ -155,30 +177,29 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
         </button>
       </div>
 
-      {/* Brand Emblem Strip */}
+      {/* Brand Emblem Strip — Now with actual logos */}
       <div className="bg-white border-b border-slate-100">
-        <div className="container py-4">
-          <div className="flex items-center justify-center gap-6 md:gap-10 lg:gap-16 flex-wrap">
+        <div className="container py-5">
+          <div className="flex items-center justify-center gap-4 md:gap-6 lg:gap-10 flex-wrap">
+            {/* Apex Coating Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-                <span className="text-xs font-bold text-[#0A1B3D]">APEX</span>
-              </div>
+              <ApexLogoSVG className="w-12 h-10" />
               <div className="hidden sm:block">
-                <div className="text-xs font-semibold text-slate-700">Apex Coating</div>
+                <div className="text-xs font-bold text-[#0A1B3D] leading-tight">Apex Coating</div>
                 <div className="text-[10px] text-slate-400">E.A Ltd</div>
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
+            {/* Premier Coat Badge */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border-2 border-[#0A1B3D] flex items-center justify-center">
-                <span className="text-[7px] font-bold text-[#0A1B3D] leading-none text-center">PREMIER<br/>COAT</span>
-              </div>
+              <PremierCoatBadge className="h-10" />
               <div className="hidden sm:block">
-                <div className="text-xs font-semibold text-slate-700">Premier Coat</div>
+                <div className="text-xs font-bold text-[#2D1B69] leading-tight">Premier Coat</div>
                 <div className="text-[10px] text-slate-400">By Apex</div>
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
+            {/* BS 4800 */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
                 <span className="text-xs font-mono font-bold text-blue-600">BS</span>
@@ -189,6 +210,7 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
+            {/* East Africa */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
                 <span className="text-xs font-bold text-emerald-600">EA</span>
@@ -199,6 +221,7 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
+            {/* 10-Year Guarantee */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
                 <span className="text-xs font-bold text-amber-600">10Y</span>
@@ -209,8 +232,30 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
           </div>
+
+          {/* Tagline strip matching the brand image */}
+          <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-6 md:gap-12 flex-wrap">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-[#0A1B3D]" />
+              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Superior Protection</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Roller className="w-4 h-4 text-[#0A1B3D]" />
+              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Excellent Finish</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#0A1B3D]" />
+              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Long Lasting Durability</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Leaf className="w-4 h-4 text-[#0A1B3D]" />
+              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Environment Friendly</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+

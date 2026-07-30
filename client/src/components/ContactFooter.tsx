@@ -113,11 +113,19 @@ export default function ContactFooter() {
 
       {/* Footer */}
       <footer className="bg-[#0A1B3D] text-white relative overflow-hidden">
-        {/* Paint drop accent in footer corner */}
-        <div className="absolute -bottom-8 -right-8 w-40 h-40 opacity-5">
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            <path d="M50 5 C65 25, 85 45, 85 60 C85 76 68 90 50 90 C32 90 15 76 15 60 C15 45 35 25 50 5Z" fill="white" />
+        {/* Paint splash accent using brand colors */}
+        <div className="absolute -bottom-8 -right-8 w-60 h-60 opacity-[0.04]">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <path d="M100 10 Q130 50, 160 60 Q180 70, 170 90 Q160 120, 140 150 Q120 180, 100 185 Q80 180, 60 150 Q40 120, 30 90 Q20 70, 40 60 Q70 50, 100 10Z" fill="white" />
+            <path d="M100 40 Q120 60, 130 70 Q140 80, 135 90 Q125 105, 110 115 Q95 125, 100 10Z" fill="#D42020" opacity="0.5" />
           </svg>
+        </div>
+        {/* Two Brands tagline */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="container py-3 flex items-center justify-center gap-2 border-b border-white/5">
+          <span className="text-[10px] font-mono text-blue-300/40 tracking-wider">
+            Two Brands. One Commitment. Quality. Protection. Lasting Beauty.
+          </span>
         </div>
 
         <div className="container py-14">
@@ -125,13 +133,16 @@ export default function ContactFooter() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2.5 mb-4">
-                <svg viewBox="0 0 48 48" className="w-9 h-9">
-                  <path d="M24 4 C28 10, 32 14, 32 20 C32 24.4 28.4 28 24 28 C19.6 28 16 24.4 16 20 C16 14 20 10 24 4Z" fill="#60A5FA" opacity="0.9" />
-                  <path d="M24 10 L42 42 L6 42 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" opacity="0.4" />
-                  <text x="24" y="36" textAnchor="middle" fill="white" fontSize="9" fontWeight="800">A</text>
+                <svg viewBox="0 0 120 100" className="w-12 h-10">
+                  <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
+                  <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
+                  <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
+                  <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
+                  <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
+                  <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
                 </svg>
                 <div>
-                  <div className="font-display font-extrabold text-base tracking-tight">APEX COATING</div>
+                  <div className="font-display font-extrabold text-base tracking-tight">Apex Coating</div>
                   <div className="text-[9px] tracking-widest uppercase text-blue-300/60">E.A Ltd</div>
                 </div>
               </div>
