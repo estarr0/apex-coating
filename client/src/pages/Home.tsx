@@ -4,6 +4,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import Features from "@/components/Features";
 import ShadeCard from "@/components/ShadeCard";
 import ColorVisualizer from "@/components/ColorVisualizer";
+import CustomPaintMixer from "@/components/CustomPaintMixer";
 import ProductCatalog from "@/components/ProductCatalog";
 import ContactFooter from "@/components/ContactFooter";
 import CartDrawer from "@/components/CartDrawer";
@@ -81,6 +82,7 @@ export default function Home() {
         <Features />
         <ShadeCard externalSearch={searchQuery} />
         <ColorVisualizer />
+        <CustomPaintMixer />
         <ProductCatalog />
         <ContactFooter />
       </main>

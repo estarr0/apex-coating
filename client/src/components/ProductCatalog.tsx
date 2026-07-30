@@ -2,14 +2,14 @@ import { useState, useMemo } from "react";
 import { PRODUCTS, PRODUCT_CATEGORIES, formatKES } from "@/lib/products";
 import { BS4800_COLORS, BSColor } from "@/lib/bs4800";
 import { useCart } from "@/contexts/CartContext";
-import { Plus, Check, ChevronDown, Package, Tag } from "lucide-react";
+import { Plus, Check, Package, Tag, Droplets } from "lucide-react";
 
 export default function ProductCatalog() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedColors, setSelectedColors] = useState<Record<string, BSColor>>({});
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
-  const [colorPickers, setColorPickers] = useState<Record<string, boolean>>({});
-  const [colorSearch, setColorSearch] = useState("");
+  const [shadePickerOpen, setShadePickerOpen] = useState<string | null>(null);
+  const [shadeSearch, setShadeSearch] = useState("");
   const { addItem } = useCart();
 
   const filteredProducts = useMemo(() => {
@@ -30,11 +30,16 @@ export default function ProductCatalog() {
     return product.sizes.find((s) => s.label === sizeLabel) || product.sizes[0];
   };
 
-  const filteredColors = BS4800_COLORS.filter((c) => {
-    if (!colorSearch.trim()) return true;
-    const q = colorSearch.toLowerCase().trim();
-    return c.code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q);
-  });
+  const filteredShades = useMemo(() => {
+    const q = shadeSearch.toLowerCase().trim();
+    if (!q) return BS4800_COLORS;
+    return BS4800_COLORS.filter(
+      (c) =>
+        c.code.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(q) ||
+        c.family.toLowerCase().includes(q)
+    );
+  }, [shadeSearch]);
 
   const handleAddToCart = (product: typeof PRODUCTS[0], color: BSColor, size: typeof PRODUCTS[0]["sizes"][0]) => {
     addItem({
@@ -47,6 +52,7 @@ export default function ProductCatalog() {
       bsCode: color.code,
       colorName: color.name,
       colorHex: color.hex,
+      finishType: product.name,
     });
   };
 
@@ -55,16 +61,16 @@ export default function ProductCatalog() {
       <div className="container">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-4">
-            <Package className="w-3.5 h-3.5 text-blue-600" />
-            <span className="text-xs font-mono text-blue-600 tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A1B3D]/5 border border-[#0A1B3D]/10 mb-4">
+            <Package className="w-3.5 h-3.5 text-[#0A1B3D]" />
+            <span className="text-xs font-mono text-[#0A1B3D] tracking-wider uppercase">
               Product Catalog
             </span>
           </div>
           <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-[#0A1B3D] mb-4">
             Complete Price List
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+          <p className="text-slate-500 max-w-2xl mx-auto text-base">
             42+ products across 5 categories. Hardcoded pricing effective July 2026. Select your size, choose your BS 4800 shade, and add to cart.
           </p>
         </div>
@@ -165,71 +171,31 @@ export default function ProductCatalog() {
                     </div>
                   </div>
 
-                  {/* Color Selector */}
-                  <div className="mb-4 relative">
+                  {/* Choose Shade Button (Path B) */}
+                  <div className="mb-4">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">
                       BS 4800 Shade
                     </label>
                     <button
-                      onClick={() =>
-                        setColorPickers((prev) => ({
-                          ...prev,
-                          [product.id]: !prev[product.id],
-                        }))
-                      }
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors bg-white"
+                      onClick={() => setShadePickerOpen(product.id)}
+                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border-2 border-slate-200 hover:border-[#0A1B3D] transition-all duration-200 bg-white group/btn"
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2.5">
                         <div
-                          className="w-4 h-4 rounded border border-slate-200"
+                          className="w-5 h-5 rounded-md border border-slate-200 shadow-sm"
                           style={{ backgroundColor: color.hex }}
                         />
-                        <span className="font-mono text-xs text-slate-600">
-                          {color.code}
-                        </span>
-                        <span className="text-[10px] text-slate-400">·</span>
-                        <span className="text-xs text-slate-600 truncate max-w-[120px]">{color.name}</span>
+                        <div className="text-left">
+                          <span className="font-mono text-xs font-semibold text-slate-700">
+                            {color.code}
+                          </span>
+                          <span className="text-[10px] text-slate-400 ml-1.5">{color.name}</span>
+                        </div>
                       </div>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                      <span className="text-xs font-medium text-blue-600 group-hover/btn:text-[#0A1B3D] transition-colors">
+                        Choose Shade →
+                      </span>
                     </button>
-
-                    {/* Color Picker Dropdown */}
-                    {colorPickers[product.id] && (
-                      <div className="absolute z-30 mt-1 w-full bg-white rounded-xl border border-slate-200 shadow-xl max-h-60 overflow-hidden flex flex-col">
-                        <div className="p-2 border-b border-slate-100">
-                          <input
-                            type="text"
-                            value={colorSearch}
-                            onChange={(e) => setColorSearch(e.target.value)}
-                            placeholder="Search BS code..."
-                            className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 outline-none focus:border-blue-400"
-                            autoFocus
-                          />
-                        </div>
-                        <div className="overflow-y-auto flex-1">
-                          <div className="grid grid-cols-4 gap-0.5 p-1">
-                            {filteredColors.slice(0, 40).map((c) => (
-                              <button
-                                key={c.code}
-                                onClick={() => {
-                                  setSelectedColors((prev) => ({ ...prev, [product.id]: c }));
-                                  setColorPickers((prev) => ({ ...prev, [product.id]: false }));
-                                  setColorSearch("");
-                                }}
-                                className="group/swatch flex flex-col items-center p-1 rounded hover:bg-slate-50 transition-colors"
-                                title={`${c.code} - ${c.name}`}
-                              >
-                                <div
-                                  className="w-full aspect-square rounded border border-slate-200 mb-0.5 transition-transform group-hover/swatch:scale-110"
-                                  style={{ backgroundColor: c.hex }}
-                                />
-                                <span className="font-mono text-[8px] text-slate-500 leading-none">{c.code}</span>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   {/* Price + Add to Cart */}
@@ -242,7 +208,7 @@ export default function ProductCatalog() {
                     </div>
                     <button
                       onClick={() => handleAddToCart(product, color, size)}
-                      className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 hover:shadow-[0_6px_16px_rgba(37,99,235,0.3)]"
+                      className="flex items-center gap-1.5 px-5 py-2.5 bg-[#0A1B3D] hover:bg-[#15294f] text-white text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 hover:shadow-[0_6px_16px_rgba(10,27,61,0.3)]"
                     >
                       <Plus className="w-4 h-4" />
                       Add
@@ -260,6 +226,112 @@ export default function ProductCatalog() {
           </div>
         )}
       </div>
+
+      {/* Spacious Shade Picker Modal (Path B) */}
+      {shadePickerOpen && (() => {
+        const activeProduct = PRODUCTS.find(p => p.id === shadePickerOpen)!;
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShadePickerOpen(null)}
+          >
+            <div
+              className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl animate-fade-up overflow-hidden flex flex-col"
+              style={{ maxHeight: "70vh" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="p-5 border-b border-slate-100 bg-[#0A1B3D] flex-shrink-0">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                      <Droplets className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-lg text-white">
+                        Choose Shade
+                      </h3>
+                      <p className="text-xs text-blue-200">
+                        for {activeProduct.name} — {getSizeForProduct(shadePickerOpen).label}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShadePickerOpen(null)}
+                    className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/70 transition-colors"
+                  >
+                    <Check className="w-5 h-5 rotate-45" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Search Bar */}
+              <div className="p-4 border-b border-slate-100 bg-slate-50 flex-shrink-0">
+                <input
+                  type="text"
+                  value={shadeSearch}
+                  onChange={(e) => setShadeSearch(e.target.value)}
+                  placeholder="Search by BS code (e.g. 10 B 17) or name (e.g. Mistletoe, Sky Blue)..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700 bg-white"
+                  autoFocus
+                />
+                <div className="flex items-center justify-between mt-1.5 px-1">
+                  <span className="text-[10px] font-mono text-slate-400">
+                    {filteredShades.length} shades available
+                  </span>
+                </div>
+              </div>
+
+              {/* Shade Grid - 350-500px tall */}
+              <div className="overflow-y-auto flex-1 p-4" style={{ maxHeight: "380px" }}>
+                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
+                  {filteredShades.map((c) => {
+                    const isSelected = selectedColors[shadePickerOpen!]?.code === c.code;
+                    return (
+                      <button
+                        key={c.code}
+                        onClick={() => {
+                          setSelectedColors((prev) => ({
+                            ...prev,
+                            [shadePickerOpen!]: c,
+                          }));
+                          setShadePickerOpen(null);
+                          setShadeSearch("");
+                        }}
+                        className={`group relative rounded-lg overflow-hidden border-2 transition-all duration-200 hover:shadow-md ${
+                          isSelected
+                            ? "border-[#0A1B3D] ring-2 ring-blue-200"
+                            : "border-slate-100 hover:border-slate-300"
+                        }`}
+                      >
+                        <div
+                          className="h-12 w-full transition-transform group-hover:scale-105"
+                          style={{ backgroundColor: c.hex }}
+                        />
+                        <div className="p-1 text-left">
+                          <div className="font-mono text-[9px] font-semibold text-slate-600 leading-none">{c.code}</div>
+                          <div className="text-[9px] text-slate-400 truncate leading-tight mt-0.5">{c.name}</div>
+                        </div>
+                        {isSelected && (
+                          <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#0A1B3D] flex items-center justify-center">
+                            <Check className="w-2.5 h-2.5 text-white" />
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {filteredShades.length === 0 && (
+                <div className="p-8 text-center">
+                  <p className="text-slate-400 text-sm">No shades match your search.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })()}
     </section>
   );
 }

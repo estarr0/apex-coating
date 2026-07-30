@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ROOM_SCENES, FINISHES } from "@/lib/products";
 import { BS4800_COLORS, BSColor } from "@/lib/bs4800";
-import { Check, Palette, Eye } from "lucide-react";
+import { Check, Palette, Eye, ShoppingCart } from "lucide-react";
+import OrderThisShadeModal from "./OrderThisShadeModal";
 
 export default function ColorVisualizer() {
   const [activeRoom, setActiveRoom] = useState(ROOM_SCENES[0]);
@@ -9,6 +10,7 @@ export default function ColorVisualizer() {
   const [activeFinish, setActiveFinish] = useState("matte");
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [colorSearch, setColorSearch] = useState("");
+  const [orderShade, setOrderShade] = useState<BSColor | null>(null);
 
   const filteredColors = BS4800_COLORS.filter((c) => {
     if (!colorSearch.trim()) return true;
@@ -144,6 +146,14 @@ export default function ColorVisualizer() {
                       {selectedColor.hex.toUpperCase()}
                     </div>
                   </div>
+                  {/* Order This Shade Button */}
+                  <button
+                    onClick={() => setOrderShade(selectedColor)}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#0A1B3D] hover:bg-[#15294f] text-white text-sm font-semibold rounded-xl transition-all duration-200 active:scale-[0.98]"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    Order This Shade
+                  </button>
                   <button
                     onClick={() => {
                       setSelectedColor(null);
@@ -215,7 +225,7 @@ export default function ColorVisualizer() {
                   type="text"
                   value={colorSearch}
                   onChange={(e) => setColorSearch(e.target.value)}
-                  placeholder="Search by code or name..."
+                  placeholder="Search by code (e.g. 10 B 17) or name (e.g. Mistletoe)..."
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
                 />
               </div>
@@ -245,6 +255,15 @@ export default function ColorVisualizer() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Order This Shade Modal (Path A from visualizer) */}
+        {orderShade && (
+          <OrderThisShadeModal
+            color={orderShade}
+            onClose={() => setOrderShade(null)}
+            source="visualizer"
+          />
         )}
       </div>
     </section>

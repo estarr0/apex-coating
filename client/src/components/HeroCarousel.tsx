@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowRight, Palette, Shield, Paintbrush as Roller, Clock, Leaf } from "lucide-react";
+import { ArrowRight, Palette, Palette as Mixer } from "lucide-react";
 
 interface HeroCarouselProps {
   onNavigate: (section: string) => void;
@@ -10,8 +10,8 @@ const slides = [
     image: "/manus-storage/hero-paint-facade_529dd26e.jpg",
     title: "Color Engineered for East Africa",
     subtitle: "Premium coatings that withstand the harshest climates while delivering uncompromising quality.",
-    cta1: "Explore BS 4800 Swatches",
-    cta1Target: "shade-card",
+    cta1: "Interactive Color Visualizer",
+    cta1Target: "visualizer",
     cta2: "Request Instant Quote",
     cta2Target: "contact",
   },
@@ -19,10 +19,10 @@ const slides = [
     image: "/manus-storage/hero-color-palette_52df31ee.jpg",
     title: "Every Shade. Every Surface. Every Standard.",
     subtitle: "The complete BS 4800 color collection at your fingertips. Find your perfect shade.",
-    cta1: "Explore BS 4800 Swatches",
-    cta1Target: "shade-card",
-    cta2: "Visualize in Your Room",
-    cta2Target: "visualizer",
+    cta1: "Interactive Color Visualizer",
+    cta1Target: "visualizer",
+    cta2: "Custom Paint Mixer",
+    cta2Target: "mixer",
   },
   {
     image: "/manus-storage/hero-paint-application_3efc0a71.jpg",
@@ -35,7 +35,7 @@ const slides = [
   },
 ];
 
-// Apex Coating logo SVG matching the actual brand
+// Apex Coating logo SVG
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 120 100" className={className} fill="none">
     <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
@@ -177,7 +177,7 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
         </button>
       </div>
 
-      {/* Brand Emblem Strip — Now with actual logos */}
+      {/* Brand Emblem Marquee Strip */}
       <div className="bg-white border-b border-slate-100">
         <div className="container py-5">
           <div className="flex items-center justify-center gap-4 md:gap-6 lg:gap-10 flex-wrap">
@@ -206,50 +206,46 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
               <div className="hidden sm:block">
                 <div className="text-xs font-semibold text-slate-700">BS 4800</div>
-                <div className="text-[10px] text-slate-400">Certified Colors</div>
+                <div className="text-[10px] text-slate-400">Standard Certified</div>
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* East Africa */}
+            {/* Computerised */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
-                <span className="text-xs font-bold text-emerald-600">EA</span>
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
+                </svg>
               </div>
               <div className="hidden sm:block">
-                <div className="text-xs font-semibold text-slate-700">East Africa</div>
-                <div className="text-[10px] text-slate-400">Wide Distribution</div>
+                <div className="text-xs font-semibold text-slate-700">Computerised</div>
+                <div className="text-[10px] text-slate-400">Colour Matching</div>
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* 10-Year Guarantee */}
+            {/* Unlimited Custom */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
-                <span className="text-xs font-bold text-amber-600">10Y</span>
+                <Mixer className="w-5 h-5 text-amber-600" />
               </div>
               <div className="hidden sm:block">
-                <div className="text-xs font-semibold text-slate-700">10-Year</div>
-                <div className="text-[10px] text-slate-400">Color Guarantee</div>
+                <div className="text-xs font-semibold text-slate-700">Unlimited</div>
+                <div className="text-[10px] text-slate-400">Custom Shades</div>
               </div>
             </div>
-          </div>
-
-          {/* Tagline strip matching the brand image */}
-          <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-6 md:gap-12 flex-wrap">
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-[#0A1B3D]" />
-              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Superior Protection</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Roller className="w-4 h-4 text-[#0A1B3D]" />
-              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Excellent Finish</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#0A1B3D]" />
-              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Long Lasting Durability</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Leaf className="w-4 h-4 text-[#0A1B3D]" />
-              <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Environment Friendly</span>
+            <div className="w-px h-8 bg-slate-200" />
+            {/* Premium Kenyan Quality */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-red-600" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </div>
+              <div className="hidden sm:block">
+                <div className="text-xs font-semibold text-slate-700">Premium</div>
+                <div className="text-[10px] text-slate-400">Kenyan Quality</div>
+              </div>
             </div>
           </div>
         </div>
@@ -257,5 +253,3 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
     </section>
   );
 }
-
-

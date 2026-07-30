@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import { Search, ShoppingCart, Menu, X, ChevronDown, Phone } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 interface NavbarProps {
@@ -7,21 +7,19 @@ interface NavbarProps {
   onNavigate: (section: string) => void;
 }
 
-// Apex Coating logo matching the actual brand: triangular geometric with APEX letters, green/red/blue diamonds
+// Apex Coating logo SVG matching the actual brand
 const ApexLogoSVG = ({ size = "w-12 h-12" }: { size?: string }) => (
   <svg viewBox="0 0 120 100" className={size} fill="none">
-    {/* APEX triangular logo */}
     <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
     <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
     <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
-    {/* Colored diamonds at bottom */}
     <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
     <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
     <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
   </svg>
 );
 
-// Premier Coat oval badge matching the actual brand
+// Premier Coat oval badge SVG
 const PremierCoatBadge = ({ size = "h-12" }: { size?: string }) => (
   <svg viewBox="0 0 120 80" className={size}>
     <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
@@ -100,13 +98,13 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                   className="font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none transition-colors"
                   style={{ color: brandTextColor }}
                 >
-                  Apex Coating
+                  Apex Coating E.A Ltd
                 </div>
                 <div
-                  className="text-[9px] tracking-widest uppercase leading-none mt-0.5 transition-colors"
-                  style={{ color: brandSubTextColor }}
+                  className="text-[8px] tracking-wider italic leading-none mt-0.5 transition-colors"
+                  style={{ color: scrolled ? "#2E8B3E" : "#4ade80" }}
                 >
-                  E.A Ltd
+                  Colours true to Nature
                 </div>
               </div>
             </button>
@@ -136,7 +134,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
           </div>
 
           {/* Desktop Nav Items */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-4">
             {/* Category Dropdown */}
             <div ref={categoryRef} className="relative">
               <button
@@ -170,7 +168,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 scrolled ? "text-slate-700" : "text-blue-100"
               }`}
             >
-              Color Palette
+              BS 4800 Swatches
             </button>
             <button
               onClick={() => handleNav("visualizer")}
@@ -200,6 +198,17 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 </button>
               </div>
             </form>
+
+            {/* Contact Placeholder */}
+            <a
+              href="tel:+254700000000"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors ${
+                scrolled ? "border-slate-200 text-slate-600 hover:bg-slate-50" : "border-white/20 text-blue-100 hover:bg-white/10"
+              }`}
+            >
+              <Phone className="w-3.5 h-3.5" />
+              <span className="text-xs font-medium">Call Us</span>
+            </a>
 
             {/* Cart */}
             <button
@@ -268,7 +277,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 onClick={() => handleNav("shade-card")}
                 className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg"
               >
-                Color Palette
+                BS 4800 Swatches
               </button>
               <button
                 onClick={() => handleNav("visualizer")}

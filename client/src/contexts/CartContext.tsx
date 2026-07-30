@@ -12,6 +12,7 @@ export interface CartItem {
   bsCode: string;
   colorName: string;
   colorHex: string;
+  finishType?: string; // e.g. "Plastic Emulsion", "Gloss Enamel", etc.
 }
 
 interface CartContextType {
@@ -33,7 +34,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setCartOpen] = useState(false);
 
   const addItem = useCallback((item: Omit<CartItem, "id" | "quantity">) => {
-    const id = `${item.productId}-${item.sizeLabel}-${item.bsCode}`;
+    const id = `${item.productId}-${item.sizeLabel}-${item.bsCode}-${item.finishType || ""}`;
     setItems((prev) => {
       const existing = prev.find((i) => i.id === id);
       if (existing) {

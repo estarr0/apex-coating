@@ -1,8 +1,7 @@
 import { useState, useMemo } from "react";
-import { Search, Plus, X, Hash } from "lucide-react";
+import { Search, X, Hash, ShoppingCart, Plus } from "lucide-react";
 import { BS4800_COLORS, SHADE_FAMILIES, BSColor } from "@/lib/bs4800";
-import { useCart } from "@/contexts/CartContext";
-import { PRODUCTS } from "@/lib/products";
+import OrderThisShadeModal from "./OrderThisShadeModal";
 
 interface ShadeCardProps {
   externalSearch?: string;
@@ -12,7 +11,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
   const [search, setSearch] = useState("");
   const [activeFamily, setActiveFamily] = useState("All");
   const [selectedColor, setSelectedColor] = useState<BSColor | null>(null);
-  const { addItem } = useCart();
+  const [orderShade, setOrderShade] = useState<BSColor | null>(null);
 
   const effectiveSearch = externalSearch || search;
 
@@ -26,26 +25,12 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
       result = result.filter(
         (c) =>
           c.code.toLowerCase().includes(q) ||
-          c.name.toLowerCase().includes(q)
+          c.name.toLowerCase().includes(q) ||
+          c.family.toLowerCase().includes(q)
       );
     }
     return result;
   }, [activeFamily, effectiveSearch]);
-
-  const handleAddToCart = (color: BSColor) => {
-    const product = PRODUCTS[0];
-    addItem({
-      productId: product.id,
-      productName: product.name,
-      productImage: product.image,
-      sizeLabel: "1L",
-      sizeVolume: "1 Litre",
-      price: product.sizes[0].price,
-      bsCode: color.code,
-      colorName: color.name,
-      colorHex: color.hex,
-    });
-  };
 
   return (
     <section id="shade-card" className="py-20 lg:py-28 bg-white relative">
@@ -62,20 +47,20 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
             The Complete Shade Card
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-base">
-            Explore {BS4800_COLORS.length} British Standard colors. Search by code, filter by family, and add any shade directly to your cart.
+            Explore {BS4800_COLORS.length} British Standard colors. Search by BS code or color name, filter by family, and order any shade with your preferred finish.
           </p>
         </div>
 
         {/* Search & Filter */}
         <div className="mb-8 space-y-4">
-          <div className="max-w-md mx-auto">
+          <div className="max-w-lg mx-auto">
             <div className="flex items-center rounded-xl overflow-hidden border border-slate-200 bg-white swatch-shadow focus-within:border-[#0A1B3D] transition-colors">
               <Search className="w-4 h-4 text-slate-400 ml-4" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by BS code (e.g. 00 E 55) or name..."
+                placeholder="Search by BS code (e.g. 10 B 17) or name (e.g. Mistletoe, Sky Blue)..."
                 className="flex-1 px-3 py-3 text-sm bg-transparent outline-none text-slate-700"
               />
               {search && (
@@ -104,7 +89,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
           </div>
         </div>
 
-        {/* Results count with technical styling */}
+        {/* Results count */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="font-mono text-xs text-slate-400">
             {filteredColors.length} shades
@@ -139,16 +124,16 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
                   {color.name}
                 </div>
               </div>
-              {/* Quick Add Button */}
+              {/* Order Button */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleAddToCart(color);
+                  setOrderShade(color);
                 }}
                 className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#0A1B3D] hover:text-white active:scale-90 shadow-sm"
-                title="Add to cart"
+                title="Order this shade"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <ShoppingCart className="w-3 h-3" />
               </button>
             </div>
           ))}
@@ -162,7 +147,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
       </div>
 
       {/* Color Detail Modal */}
-      {selectedColor && (
+      {selectedColor && !orderShade && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
           onClick={() => setSelectedColor(null)}
@@ -194,7 +179,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
               <h3 className="font-display font-bold text-xl text-slate-800 mb-4">
                 {selectedColor.name}
               </h3>
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
                   <div className="text-[9px] font-mono text-slate-400 uppercase tracking-wider mb-1">HEX</div>
                   <div className="font-mono text-sm font-semibold text-slate-800">
@@ -214,17 +199,26 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
               </div>
               <button
                 onClick={() => {
-                  handleAddToCart(selectedColor);
+                  setOrderShade(selectedColor);
                   setSelectedColor(null);
                 }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#0A1B3D] hover:bg-[#15294f] text-white font-semibold rounded-xl transition-all duration-200 active:scale-[0.98]"
               >
-                <Plus className="w-4 h-4" />
-                Add Color to Cart
+                <ShoppingCart className="w-4 h-4" />
+                Order This Shade
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Order This Shade Modal (Path A) */}
+      {orderShade && (
+        <OrderThisShadeModal
+          color={orderShade}
+          onClose={() => setOrderShade(null)}
+          source="shade-card"
+        />
       )}
     </section>
   );
