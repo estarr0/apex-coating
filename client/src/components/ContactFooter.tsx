@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, Droplets } from "lucide-react";
 
 export default function ContactFooter() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -19,100 +19,88 @@ export default function ContactFooter() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Left: Info */}
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-4">
-                <span className="text-xs font-mono text-blue-600 tracking-wider uppercase">
-                  Get In Touch
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A1B3D]/5 border border-[#0A1B3D]/10 mb-4">
+                <span className="font-mono text-[10px] text-[#0A1B3D] tracking-widest uppercase">
+                  Contact & Inquiry
                 </span>
               </div>
               <h2 className="font-display font-bold text-3xl md:text-4xl text-[#0A1B3D] mb-4">
                 Request a Custom Quote
               </h2>
               <p className="text-slate-600 text-lg mb-8">
-                Need a bulk order, custom color match, or project consultation? Our team is ready to help you find the perfect coating solution.
+                Need a bulk order, custom color match, or project consultation? Our team is ready to help.
               </p>
 
               <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-white" />
+                {[
+                  { icon: MapPin, label: "Head Office", value: "Industrial Area, Mombasa Road, Nairobi, Kenya" },
+                  { icon: Phone, label: "Phone / WhatsApp", value: "+254 700 000 000" },
+                  { icon: Mail, label: "Email", value: "sales@apexcoating.co.ke" },
+                  { icon: Clock, label: "Business Hours", value: "Mon - Sat: 8:00 AM - 6:00 PM" },
+                ].map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4.5 h-4.5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-0.5">{label}</div>
+                      <div className="text-sm font-medium text-slate-700">{value}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-medium text-slate-800">Head Office</div>
-                    <div className="text-sm text-slate-500">Industrial Area, Mombasa Road, Nairobi, Kenya</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-slate-800">Phone / WhatsApp</div>
-                    <div className="text-sm text-slate-500">+254 700 000 000</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-slate-800">Email</div>
-                    <div className="text-sm text-slate-500">sales@apexcoating.co.ke</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-slate-800">Business Hours</div>
-                    <div className="text-sm text-slate-500">Mon - Sat: 8:00 AM - 6:00 PM | Sun: Closed</div>
-                  </div>
-                </div>
+                ))}
+              </div>
+
+              {/* Product line accent strip */}
+              <div className="mt-8 flex gap-1">
+                {["#2563EB", "#0A1B3D", "#DC2626", "#16A34A", "#CA8A04", "#7C3AED"].map((color) => (
+                  <div key={color} className="flex-1 h-1.5 rounded-full" style={{ backgroundColor: color }} />
+                ))}
               </div>
             </div>
 
             {/* Right: Form */}
-            <div className="bg-white rounded-2xl p-8 swatch-shadow-lg">
+            <div className="bg-white rounded-2xl p-8 swatch-shadow-lg border border-slate-100">
+              <div className="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-1">REF: Q-2026</div>
               <h3 className="font-display font-bold text-xl text-[#0A1B3D] mb-6">
                 Send Us a Message
               </h3>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 mb-1 block">Full Name</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Full Name</label>
                   <input
                     type="text"
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-blue-400 text-sm text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] focus:ring-1 focus:ring-[#0A1B3D]/10 text-sm text-slate-700 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 mb-1 block">Email</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Email</label>
                   <input
                     type="email"
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-blue-400 text-sm text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] focus:ring-1 focus:ring-[#0A1B3D]/10 text-sm text-slate-700 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 mb-1 block">Message</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Message</label>
                   <textarea
                     required
                     rows={4}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Tell us about your project..."
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-blue-400 text-sm text-slate-700 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] focus:ring-1 focus:ring-[#0A1B3D]/10 text-sm text-slate-700 resize-none transition-all"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-200 active:scale-[0.98] hover:shadow-[0_8px_24px_rgba(37,99,235,0.3)]"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0A1B3D] hover:bg-[#15294f] text-white font-semibold rounded-xl transition-all duration-200 active:scale-[0.98] hover:shadow-[0_8px_24px_rgba(10,27,61,0.2)]"
                 >
                   <Send className="w-4 h-4" />
                   Send Request
@@ -124,33 +112,46 @@ export default function ContactFooter() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0A1B3D] text-white py-12">
-        <div className="container">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+      <footer className="bg-[#0A1B3D] text-white relative overflow-hidden">
+        {/* Paint drop accent in footer corner */}
+        <div className="absolute -bottom-8 -right-8 w-40 h-40 opacity-5">
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <path d="M50 5 C65 25, 85 45, 85 60 C85 76 68 90 50 90 C32 90 15 76 15 60 C15 45 35 25 50 5Z" fill="white" />
+          </svg>
+        </div>
+
+        <div className="container py-14">
+          <div className="grid md:grid-cols-4 gap-8 mb-10">
             {/* Brand */}
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <svg viewBox="0 0 40 40" className="w-9 h-9">
-                  <path d="M20 4 L36 34 L4 34 Z" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinejoin="round" />
-                  <circle cx="20" cy="14" r="3" fill="#60A5FA" />
-                  <path d="M20 17 L20 34" stroke="#60A5FA" strokeWidth="2" />
+              <div className="flex items-center gap-2.5 mb-4">
+                <svg viewBox="0 0 48 48" className="w-9 h-9">
+                  <path d="M24 4 C28 10, 32 14, 32 20 C32 24.4 28.4 28 24 28 C19.6 28 16 24.4 16 20 C16 14 20 10 24 4Z" fill="#60A5FA" opacity="0.9" />
+                  <path d="M24 10 L42 42 L6 42 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" opacity="0.4" />
+                  <text x="24" y="36" textAnchor="middle" fill="white" fontSize="9" fontWeight="800">A</text>
                 </svg>
                 <div>
-                  <div className="font-display font-bold text-lg">APEX</div>
-                  <div className="text-[10px] tracking-widest uppercase text-blue-200">Coating EA</div>
+                  <div className="font-display font-extrabold text-base tracking-tight">APEX COATING</div>
+                  <div className="text-[9px] tracking-widest uppercase text-blue-300/60">E.A Ltd</div>
                 </div>
               </div>
-              <p className="text-sm text-blue-200 leading-relaxed">
+              <p className="text-sm text-blue-200/60 leading-relaxed">
                 Premium industrial and decorative coatings engineered for East Africa. Every shade, every surface, every standard.
               </p>
+              {/* Color strip */}
+              <div className="flex gap-0.5 mt-4">
+                {["#2563EB", "#0A1B3D", "#DC2626", "#16A34A", "#CA8A04", "#7C3AED"].map((color) => (
+                  <div key={color} className="w-5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
+                ))}
+              </div>
             </div>
 
             {/* Products */}
             <div>
-              <h4 className="font-display font-semibold text-sm uppercase tracking-wider text-blue-300 mb-4">
-                Products
+              <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">
+                Product Lines
               </h4>
-              <ul className="space-y-2 text-sm text-blue-200">
+              <ul className="space-y-2 text-sm text-blue-200/70">
                 <li><a href="#products" className="hover:text-white transition-colors">WeatherShield Exterior</a></li>
                 <li><a href="#products" className="hover:text-white transition-colors">Silk Emulsion</a></li>
                 <li><a href="#products" className="hover:text-white transition-colors">Industrial Primer</a></li>
@@ -162,10 +163,10 @@ export default function ContactFooter() {
 
             {/* Resources */}
             <div>
-              <h4 className="font-display font-semibold text-sm uppercase tracking-wider text-blue-300 mb-4">
+              <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">
                 Resources
               </h4>
-              <ul className="space-y-2 text-sm text-blue-200">
+              <ul className="space-y-2 text-sm text-blue-200/70">
                 <li><a href="#shade-card" className="hover:text-white transition-colors">BS 4800 Shade Card</a></li>
                 <li><a href="#visualizer" className="hover:text-white transition-colors">Color Visualizer</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Request a Quote</a></li>
@@ -176,10 +177,10 @@ export default function ContactFooter() {
 
             {/* Contact */}
             <div>
-              <h4 className="font-display font-semibold text-sm uppercase tracking-wider text-blue-300 mb-4">
+              <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">
                 Contact
               </h4>
-              <ul className="space-y-2 text-sm text-blue-200">
+              <ul className="space-y-2 text-sm text-blue-200/70">
                 <li>Industrial Area, Mombasa Road</li>
                 <li>Nairobi, Kenya</li>
                 <li>+254 700 000 000</li>
@@ -189,10 +190,10 @@ export default function ContactFooter() {
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-blue-300">
+            <p className="text-xs text-blue-300/50">
               © {new Date().getFullYear()} Apex Coating East Africa Ltd. All rights reserved.
             </p>
-            <div className="flex gap-6 text-xs text-blue-300">
+            <div className="flex gap-6 text-xs text-blue-300/50">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
               <a href="#" className="hover:text-white transition-colors">Warranty</a>

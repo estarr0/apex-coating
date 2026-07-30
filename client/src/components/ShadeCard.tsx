@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Plus, X } from "lucide-react";
+import { Search, Plus, X, Hash } from "lucide-react";
 import { BS4800_COLORS, SHADE_FAMILIES, BSColor } from "@/lib/bs4800";
 import { useCart } from "@/contexts/CartContext";
 import { PRODUCTS } from "@/lib/products";
@@ -33,7 +33,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
   }, [activeFamily, effectiveSearch]);
 
   const handleAddToCart = (color: BSColor) => {
-    const product = PRODUCTS[0]; // Default to WeatherShield for color cart
+    const product = PRODUCTS[0];
     addItem({
       productId: product.id,
       productName: product.name,
@@ -48,28 +48,29 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
   };
 
   return (
-    <section id="shade-card" className="py-20 lg:py-28 bg-slate-50">
+    <section id="shade-card" className="py-20 lg:py-28 bg-white relative">
       <div className="container">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-4">
-            <span className="text-xs font-mono text-blue-600 tracking-wider uppercase">
-              BS 4800 Standard
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A1B3D]/5 border border-[#0A1B3D]/10 mb-4">
+            <Hash className="w-3 h-3 text-[#0A1B3D]" />
+            <span className="font-mono text-[10px] text-[#0A1B3D] tracking-widest uppercase">
+              BS 4800 Standard Collection
             </span>
           </div>
           <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-[#0A1B3D] mb-4">
             The Complete Shade Card
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-            Explore the full British Standard BS 4800 color collection. Search by code, filter by family, and add any shade directly to your cart.
+          <p className="text-slate-500 max-w-2xl mx-auto text-base">
+            Explore {BS4800_COLORS.length} British Standard colors. Search by code, filter by family, and add any shade directly to your cart.
           </p>
         </div>
 
         {/* Search & Filter */}
         <div className="mb-8 space-y-4">
           <div className="max-w-md mx-auto">
-            <div className="flex items-center rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm focus-within:border-blue-400 transition-colors">
-              <Search className="w-5 h-5 text-slate-400 ml-4" />
+            <div className="flex items-center rounded-xl overflow-hidden border border-slate-200 bg-white swatch-shadow focus-within:border-[#0A1B3D] transition-colors">
+              <Search className="w-4 h-4 text-slate-400 ml-4" />
               <input
                 type="text"
                 value={search}
@@ -86,15 +87,15 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
           </div>
 
           {/* Family Filter Pills */}
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-1.5">
             {SHADE_FAMILIES.map((family) => (
               <button
                 key={family}
                 onClick={() => setActiveFamily(family)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 active:scale-95 ${
+                className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                   activeFamily === family
-                    ? "bg-[#0A1B3D] text-white shadow-md"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+                    ? "bg-[#0A1B3D] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 {family}
@@ -103,32 +104,38 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
           </div>
         </div>
 
-        {/* Results count */}
-        <div className="text-center mb-6">
-          <span className="text-sm text-slate-500 font-mono">
-            {filteredColors.length} shades {activeFamily !== "All" && `in ${activeFamily}`}
+        {/* Results count with technical styling */}
+        <div className="flex items-center justify-center gap-2 mb-6">
+          <span className="font-mono text-xs text-slate-400">
+            {filteredColors.length} shades
           </span>
+          {activeFamily !== "All" && (
+            <>
+              <span className="text-slate-300">|</span>
+              <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">{activeFamily}</span>
+            </>
+          )}
         </div>
 
         {/* Swatch Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3">
           {filteredColors.map((color) => (
             <div
               key={color.code}
-              className="group relative bg-white rounded-xl overflow-hidden swatch-shadow hover:swatch-shadow-lg transition-all duration-200 cursor-pointer"
+              className="group relative bg-white rounded-lg overflow-hidden swatch-shadow hover:swatch-shadow-lg transition-all duration-200 cursor-pointer border border-slate-100"
               onClick={() => setSelectedColor(color)}
             >
               {/* Color Swatch */}
               <div
-                className="h-24 md:h-28 w-full transition-transform duration-200 group-hover:scale-105"
+                className="h-20 md:h-24 w-full transition-transform duration-200 group-hover:scale-105"
                 style={{ backgroundColor: color.hex }}
               />
               {/* Info */}
-              <div className="p-2.5 md:p-3">
-                <div className="font-mono text-[10px] md:text-xs text-slate-500 mb-0.5">
+              <div className="p-2">
+                <div className="font-mono text-[9px] text-slate-400 mb-0.5">
                   {color.code}
                 </div>
-                <div className="text-xs md:text-sm font-medium text-slate-800 truncate">
+                <div className="text-[11px] font-medium text-slate-700 truncate">
                   {color.name}
                 </div>
               </div>
@@ -138,10 +145,10 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
                   e.stopPropagation();
                   handleAddToCart(color);
                 }}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-blue-600 hover:text-white active:scale-90"
+                className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#0A1B3D] hover:text-white active:scale-90 shadow-sm"
                 title="Add to cart"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
           ))}
@@ -166,7 +173,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
           >
             {/* Full Color Preview */}
             <div
-              className="h-48 w-full relative"
+              className="h-44 w-full relative"
               style={{ backgroundColor: selectedColor.hex }}
             >
               <button
@@ -178,7 +185,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
             </div>
             {/* Details */}
             <div className="p-6">
-              <div className="font-mono text-xs text-slate-500 mb-1">
+              <div className="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">
                 BS 4800
               </div>
               <div className="font-mono text-lg font-semibold text-[#0A1B3D] mb-1">
@@ -187,31 +194,32 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
               <h3 className="font-display font-bold text-xl text-slate-800 mb-4">
                 {selectedColor.name}
               </h3>
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-slate-50 rounded-lg p-3">
-                  <div className="text-xs text-slate-500 mb-1">HEX</div>
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                  <div className="text-[9px] font-mono text-slate-400 uppercase tracking-wider mb-1">HEX</div>
                   <div className="font-mono text-sm font-semibold text-slate-800">
                     {selectedColor.hex.toUpperCase()}
                   </div>
                 </div>
-                <div className="bg-slate-50 rounded-lg p-3">
-                  <div className="text-xs text-slate-500 mb-1">RGB</div>
+                <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                  <div className="text-[9px] font-mono text-slate-400 uppercase tracking-wider mb-1">RGB</div>
                   <div className="font-mono text-sm font-semibold text-slate-800">
                     {selectedColor.r}, {selectedColor.g}, {selectedColor.b}
                   </div>
                 </div>
               </div>
-              <div className="text-sm text-slate-600 mb-6">
-                <span className="font-medium">Family:</span> {selectedColor.family}
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider">Family:</span>
+                <span className="text-xs font-medium text-slate-600">{selectedColor.family}</span>
               </div>
               <button
                 onClick={() => {
                   handleAddToCart(selectedColor);
                   setSelectedColor(null);
                 }}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-200 active:scale-[0.98] hover:shadow-[0_8px_24px_rgba(37,99,235,0.3)]"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#0A1B3D] hover:bg-[#15294f] text-white font-semibold rounded-xl transition-all duration-200 active:scale-[0.98]"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-4 h-4" />
                 Add Color to Cart
               </button>
             </div>

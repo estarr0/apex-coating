@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Search, ShoppingCart, Menu, X, Palette } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, ShoppingCart, Menu, X, ChevronDown, Droplets } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 interface NavbarProps {
@@ -11,6 +11,8 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const categoryRef = useRef<HTMLDivElement>(null);
   const { itemCount, setCartOpen } = useCart();
 
   useEffect(() => {
@@ -19,11 +21,22 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
+        setCategoryOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   const categories = [
-    { label: "Decorative", section: "products" },
-    { label: "Industrial", section: "products" },
-    { label: "Automotive", section: "products" },
-    { label: "Wood Finishes", section: "products" },
+    { label: "Decorative & Specialty", section: "products", sub: "Emulsions, Enamels, Varnishes" },
+    { label: "Seraphic Glues", section: "products", sub: "Industrial Adhesives" },
+    { label: "Industrial & Heavy Duty", section: "products", sub: "Epoxy, Chlorinated Rubber" },
+    { label: "Thinners & Spirits", section: "products", sub: "Solvents" },
+    { label: "Wall Finishes & Coatings", section: "products", sub: "Putty, Sealers, Textured" },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -37,6 +50,17 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
     setMobileOpen(false);
   };
 
+  // Apex logo SVG with paint-drop accent
+  const ApexLogo = ({ size = "w-9 h-9", textColor }: { size?: string; textColor: string }) => (
+    <svg viewBox="0 0 48 48" className={size}>
+      {/* Paint drop accent */}
+      <path d="M24 4 C28 10, 32 14, 32 20 C32 24.4 28.4 28 24 28 C19.6 28 16 24.4 16 20 C16 14 20 10 24 4Z" fill={scrolled ? "#2563EB" : "#60A5FA"} opacity="0.9" />
+      {/* Apex triangle frame */}
+      <path d="M24 10 L42 42 L6 42 Z" fill="none" stroke={textColor} strokeWidth="2" strokeLinejoin="round" opacity="0.6" />
+      <text x="24" y="36" textAnchor="middle" fill={textColor} fontSize="10" fontWeight="800" fontFamily="system-ui">A</text>
+    </svg>
+  );
+
   return (
     <>
       <header
@@ -46,49 +70,87 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             : "bg-[#0A1B3D]"
         }`}
       >
-        <nav className="container flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <button
-            onClick={() => handleNav("hero")}
-            className="flex items-center gap-2 group"
-          >
-            <div className="relative w-10 h-10 flex items-center justify-center">
-              <svg viewBox="0 0 40 40" className="w-full h-full">
-                <path d="M20 4 L36 34 L4 34 Z" fill="none" stroke={scrolled ? "#0A1B3D" : "#FFFFFF"} strokeWidth="2.5" strokeLinejoin="round" />
-                <circle cx="20" cy="14" r="3" fill={scrolled ? "#2563EB" : "#60A5FA"} />
-                <path d="M20 17 L20 34" stroke={scrolled ? "#2563EB" : "#60A5FA"} strokeWidth="2" />
-              </svg>
-            </div>
-            <div className="hidden sm:block text-left">
-              <div className={`font-display font-bold text-lg leading-none ${scrolled ? "text-[#0A1B3D]" : "text-white"}`}>
-                APEX
+        <nav className="container flex items-center justify-between h-16 lg:h-[72px]">
+          {/* Dual Branding */}
+          <div className="flex items-center gap-3 lg:gap-5">
+            {/* Apex Logo */}
+            <button
+              onClick={() => handleNav("hero")}
+              className="flex items-center gap-2.5 group"
+            >
+              <ApexLogo size="w-10 h-10 lg:w-11 lg:h-11" textColor={scrolled ? "#0A1B3D" : "#FFFFFF"} />
+              <div className="hidden sm:block text-left">
+                <div className={`font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none ${scrolled ? "text-[#0A1B3D]" : "text-white"}`}>
+                  APEX COATING
+                </div>
+                <div className={`text-[9px] tracking-widest uppercase ${scrolled ? "text-slate-500" : "text-blue-200/80"}`}>
+                  E.A Ltd
+                </div>
               </div>
-              <div className={`text-[10px] tracking-widest uppercase ${scrolled ? "text-slate-500" : "text-blue-200"}`}>
-                Coating EA
-              </div>
-            </div>
-          </button>
+            </button>
 
-          {/* Desktop Categories */}
-          <div className="hidden lg:flex items-center gap-6">
-            {categories.map((cat) => (
+            {/* Divider */}
+            <div className={`w-px h-9 mx-1 ${scrolled ? "bg-slate-200" : "bg-white/20"}`} />
+
+            {/* Premier Coat Badge */}
+            <button
+              onClick={() => handleNav("hero")}
+              className="flex items-center gap-2"
+            >
+              <div className="w-9 h-13 flex items-center justify-center">
+                <div className={`w-8 h-11 rounded-[50%] border-[1.5px] flex flex-col items-center justify-center px-1 ${scrolled ? "border-[#0A1B3D]" : "border-white/50"}`}>
+                  <span className={`text-[6px] font-extrabold leading-[1.1] tracking-wider text-center ${scrolled ? "text-[#0A1B3D]" : "text-white/90"}`}>
+                    PREMIER<br />COAT
+                  </span>
+                </div>
+              </div>
+              <div className="hidden sm:block text-left">
+                <div className={`text-[11px] font-bold leading-none ${scrolled ? "text-slate-700" : "text-white/90"}`}>
+                  Premier Coat
+                </div>
+                <div className={`text-[9px] ${scrolled ? "text-slate-400" : "text-blue-200/60"}`}>
+                  by Apex
+                </div>
+              </div>
+            </button>
+          </div>
+
+          {/* Desktop Nav Items */}
+          <div className="hidden lg:flex items-center gap-5">
+            {/* Category Dropdown */}
+            <div ref={categoryRef} className="relative">
               <button
-                key={cat.label}
-                onClick={() => handleNav(cat.section)}
-                className={`text-sm font-medium transition-colors hover:text-blue-500 ${
+                onClick={() => setCategoryOpen(!categoryOpen)}
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
                   scrolled ? "text-slate-700" : "text-blue-100"
                 }`}
               >
-                {cat.label}
+                Products
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${categoryOpen ? "rotate-180" : ""}`} />
               </button>
-            ))}
+              {categoryOpen && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.label}
+                      onClick={() => { handleNav(cat.section); setCategoryOpen(false); }}
+                      className="w-full text-left px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                    >
+                      <div className="text-sm font-medium text-slate-700">{cat.label}</div>
+                      <div className="text-xs text-slate-400">{cat.sub}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => handleNav("shade-card")}
               className={`text-sm font-medium transition-colors hover:text-blue-500 ${
                 scrolled ? "text-slate-700" : "text-blue-100"
               }`}
             >
-              Color Selector
+              Color Palette
             </button>
             <button
               onClick={() => handleNav("visualizer")}
@@ -98,11 +160,9 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             >
               Visualizer
             </button>
-          </div>
 
-          {/* Search + Cart */}
-          <div className="flex items-center gap-3">
-            <form onSubmit={handleSearch} className="hidden md:flex items-center">
+            {/* Search */}
+            <form onSubmit={handleSearch} className="flex items-center">
               <div className={`flex items-center rounded-full overflow-hidden border transition-all ${
                 scrolled ? "border-slate-200 bg-white" : "border-white/20 bg-white/10"
               }`}>
@@ -111,7 +171,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search BS code..."
-                  className={`w-32 lg:w-40 px-3 py-1.5 text-sm bg-transparent outline-none ${
+                  className={`w-32 xl:w-40 px-3 py-1.5 text-sm bg-transparent outline-none ${
                     scrolled ? "text-slate-700 placeholder:text-slate-400" : "text-white placeholder:text-blue-200"
                   }`}
                 />
@@ -121,16 +181,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               </div>
             </form>
 
-            <button
-              onClick={() => handleNav("shade-card")}
-              className={`hidden md:flex p-2 rounded-full transition-colors ${
-                scrolled ? "text-slate-700 hover:bg-slate-100" : "text-blue-100 hover:bg-white/10"
-              }`}
-              title="Color Selector"
-            >
-              <Palette className="w-5 h-5" />
-            </button>
-
+            {/* Cart */}
             <button
               onClick={() => setCartOpen(true)}
               className={`relative p-2 rounded-full transition-colors ${
@@ -144,12 +195,24 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 </span>
               )}
             </button>
+          </div>
 
+          {/* Mobile Controls */}
+          <div className="flex lg:hidden items-center gap-2">
+            <button
+              onClick={() => setCartOpen(true)}
+              className={`relative p-2 rounded-full ${scrolled ? "text-slate-700" : "text-white"}`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`lg:hidden p-2 rounded-full ${
-                scrolled ? "text-slate-700" : "text-white"
-              }`}
+              className={`p-2 rounded-full ${scrolled ? "text-slate-700" : "text-white"}`}
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -185,7 +248,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 onClick={() => handleNav("shade-card")}
                 className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg"
               >
-                Color Selector
+                Color Palette
               </button>
               <button
                 onClick={() => handleNav("visualizer")}

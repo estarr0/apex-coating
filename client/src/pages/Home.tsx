@@ -18,7 +18,9 @@ export default function Home() {
     }
     const el = document.getElementById(section);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      const navHeight = 72;
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
     }
   }, []);
 
