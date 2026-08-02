@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, ShoppingCart, Menu, X, ChevronDown, Phone } from "lucide-react";
+import { Search, ShoppingCart, Menu, X, ChevronDown, Phone, Sun, Moon } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -36,6 +37,8 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
   const [categoryOpen, setCategoryOpen] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
   const { itemCount, setCartOpen } = useCart();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -72,22 +75,25 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
     setMobileOpen(false);
   };
 
-  const brandTextColor = scrolled ? "#0A1B3D" : "#FFFFFF";
-  const brandSubTextColor = scrolled ? "#64748B" : "rgba(191,219,254,0.8)";
+  const brandTextColor = scrolled ? (isDark ? "#E2E8F0" : "#0A1B3D") : "#FFFFFF";
+  const brandSubTextColor = scrolled ? (isDark ? "#64748B" : "#64748B") : "rgba(191,219,254,0.8)";
+  const navTextColor = scrolled ? (isDark ? "#CBD5E1" : "#334155") : "rgba(191,219,254,0.9)";
+  const searchBorderColor = scrolled ? (isDark ? "border-slate-700" : "border-slate-200") : "border-white/20";
+  const searchBg = scrolled ? (isDark ? "bg-slate-800" : "bg-white") : "bg-white/10";
+  const searchInputColor = scrolled ? (isDark ? "text-slate-200 placeholder:text-slate-500" : "text-slate-700 placeholder:text-slate-400") : "text-white placeholder:text-blue-200";
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-lg shadow-[0_2px_20px_rgba(10,27,61,0.08)]"
+            ? (isDark ? "bg-slate-900/95 backdrop-blur-lg shadow-[0_2px_20px_rgba(0,0,0,0.3)]" : "bg-white/95 backdrop-blur-lg shadow-[0_2px_20px_rgba(10,27,61,0.08)]")
             : "bg-[#0A1B3D]"
         }`}
       >
         <nav className="container flex items-center justify-between h-16 lg:h-[72px]">
           {/* Dual Branding */}
           <div className="flex items-center gap-2 lg:gap-4">
-            {/* Apex Logo + Text */}
             <button
               onClick={() => handleNav("hero")}
               className="flex items-center gap-2 group"
@@ -109,10 +115,8 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               </div>
             </button>
 
-            {/* Divider */}
-            <div className={`w-px h-9 mx-1 transition-colors ${scrolled ? "bg-slate-200" : "bg-white/20"}`} />
+            <div className={`w-px h-9 mx-1 transition-colors ${scrolled ? (isDark ? "bg-slate-700" : "bg-slate-200") : "bg-white/20"}`} />
 
-            {/* Premier Coat Badge */}
             <button
               onClick={() => handleNav("hero")}
               className="flex items-center gap-2"
@@ -120,12 +124,12 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               <PremierCoatBadge size="h-11" />
               <div className="hidden sm:block">
                 <div
-                  className={`text-[11px] font-bold leading-none transition-colors ${scrolled ? "text-[#2D1B69]" : "text-white/90"}`}
+                  className={`text-[11px] font-bold leading-none transition-colors ${scrolled ? (isDark ? "text-blue-400" : "text-[#2D1B69]") : "text-white/90"}`}
                 >
                   Premier Coat
                 </div>
                 <div
-                  className={`text-[9px] transition-colors ${scrolled ? "text-slate-400" : "text-blue-200/60"}`}
+                  className={`text-[9px] transition-colors ${scrolled ? (isDark ? "text-slate-500" : "text-slate-400") : "text-blue-200/60"}`}
                 >
                   by Apex
                 </div>
@@ -135,27 +139,26 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
           {/* Desktop Nav Items */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Category Dropdown */}
             <div ref={categoryRef} className="relative">
               <button
                 onClick={() => setCategoryOpen(!categoryOpen)}
                 className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                  scrolled ? "text-slate-700" : "text-blue-100"
+                  scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-[#0A1B3D]") : "text-blue-100 hover:text-white"
                 }`}
               >
                 Products
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${categoryOpen ? "rotate-180" : ""}`} />
               </button>
               {categoryOpen && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                <div className={`absolute top-full left-0 mt-2 w-64 rounded-xl shadow-xl py-2 z-50 ${isDark ? "bg-slate-800 border border-slate-700" : "bg-white border border-slate-100"}`}>
                   {categories.map((cat) => (
                     <button
                       key={cat.label}
                       onClick={() => { handleNav(cat.section); setCategoryOpen(false); }}
-                      className="w-full text-left px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                      className={`w-full text-left px-4 py-2.5 transition-colors ${isDark ? "hover:bg-slate-700" : "hover:bg-slate-50"}`}
                     >
-                      <div className="text-sm font-medium text-slate-700">{cat.label}</div>
-                      <div className="text-xs text-slate-400">{cat.sub}</div>
+                      <div className={`text-sm font-medium ${isDark ? "text-slate-200" : "text-slate-700"}`}>{cat.label}</div>
+                      <div className={`text-xs ${isDark ? "text-slate-500" : "text-slate-400"}`}>{cat.sub}</div>
                     </button>
                   ))}
                 </div>
@@ -164,36 +167,40 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
             <button
               onClick={() => handleNav("shade-card")}
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                scrolled ? "text-slate-700" : "text-blue-100"
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
               }`}
             >
               BS 4800 Swatches
             </button>
             <button
               onClick={() => handleNav("visualizer")}
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                scrolled ? "text-slate-700" : "text-blue-100"
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
               }`}
             >
               Visualizer
             </button>
+            <button
+              onClick={() => handleNav("mixer")}
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
+              }`}
+            >
+              Color Mixer
+            </button>
 
             {/* Search */}
             <form onSubmit={handleSearch} className="flex items-center">
-              <div className={`flex items-center rounded-full overflow-hidden border transition-all ${
-                scrolled ? "border-slate-200 bg-white" : "border-white/20 bg-white/10"
-              }`}>
+              <div className={`flex items-center rounded-full overflow-hidden border transition-all ${searchBorderColor} ${searchBg}`}>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search BS code..."
-                  className={`w-32 xl:w-40 px-3 py-1.5 text-sm bg-transparent outline-none ${
-                    scrolled ? "text-slate-700 placeholder:text-slate-400" : "text-white placeholder:text-blue-200"
-                  }`}
+                  className={`w-32 xl:w-40 px-3 py-1.5 text-sm bg-transparent outline-none ${searchInputColor}`}
                 />
-                <button type="submit" className={`px-2.5 ${scrolled ? "text-slate-500" : "text-blue-200"}`}>
+                <button type="submit" className={`px-2.5 ${scrolled ? (isDark ? "text-slate-400" : "text-slate-500") : "text-blue-200"}`}>
                   <Search className="w-4 h-4" />
                 </button>
               </div>
@@ -203,18 +210,29 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             <a
               href="tel:+254XXXXXXXXX"
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors ${
-                scrolled ? "border-slate-200 text-slate-600 hover:bg-slate-50" : "border-white/20 text-blue-100 hover:bg-white/10"
+                scrolled ? (isDark ? "border-slate-700 text-slate-400 hover:bg-slate-800" : "border-slate-200 text-slate-600 hover:bg-slate-50") : "border-white/20 text-blue-100 hover:bg-white/10"
               }`}
             >
               <Phone className="w-3.5 h-3.5" />
               <span className="text-xs font-medium">Call Us</span>
             </a>
 
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                scrolled ? (isDark ? "text-amber-400 hover:bg-slate-800" : "text-slate-600 hover:bg-slate-100") : "text-blue-100 hover:bg-white/10"
+              }`}
+              aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+
             {/* Cart */}
             <button
               onClick={() => setCartOpen(true)}
               className={`relative p-2 rounded-full transition-colors ${
-                scrolled ? "text-slate-700 hover:bg-slate-100" : "text-blue-100 hover:bg-white/10"
+                scrolled ? (isDark ? "text-slate-300 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-100") : "text-blue-100 hover:bg-white/10"
               }`}
             >
               <ShoppingCart className="w-5 h-5" />
@@ -228,9 +246,19 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
           {/* Mobile Controls */}
           <div className="flex lg:hidden items-center gap-2">
+            {/* Mobile Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                scrolled ? (isDark ? "text-amber-400" : "text-slate-600") : "text-white"
+              }`}
+              aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             <button
               onClick={() => setCartOpen(true)}
-              className={`relative p-2 rounded-full ${scrolled ? "text-slate-700" : "text-white"}`}
+              className={`relative p-2 rounded-full ${scrolled ? (isDark ? "text-slate-300" : "text-slate-700") : "text-white"}`}
             >
               <ShoppingCart className="w-5 h-5" />
               {itemCount > 0 && (
@@ -241,7 +269,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`p-2 rounded-full ${scrolled ? "text-slate-700" : "text-white"}`}
+              className={`p-2 rounded-full ${scrolled ? (isDark ? "text-slate-300" : "text-slate-700") : "text-white"}`}
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -250,17 +278,17 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden bg-white border-t border-slate-100 shadow-lg">
+          <div className={`lg:hidden border-t shadow-lg transition-colors duration-300 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-100"}`}>
             <div className="container py-4 space-y-3">
-              <form onSubmit={handleSearch} className="flex items-center rounded-full overflow-hidden border border-slate-200 bg-slate-50">
+              <form onSubmit={handleSearch} className={`flex items-center rounded-full overflow-hidden border ${isDark ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"}`}>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search BS code..."
-                  className="flex-1 px-4 py-2 text-sm bg-transparent outline-none text-slate-700"
+                  className={`flex-1 px-4 py-2 text-sm bg-transparent outline-none ${isDark ? "text-slate-200 placeholder:text-slate-500" : "text-slate-700"}`}
                 />
-                <button type="submit" className="px-3 text-slate-500">
+                <button type="submit" className={`px-3 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
                   <Search className="w-4 h-4" />
                 </button>
               </form>
@@ -268,22 +296,36 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                 <button
                   key={cat.label}
                   onClick={() => handleNav(cat.section)}
-                  className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg"
+                  className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
                   {cat.label}
                 </button>
               ))}
               <button
                 onClick={() => handleNav("shade-card")}
-                className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg"
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
               >
                 BS 4800 Swatches
               </button>
               <button
                 onClick={() => handleNav("visualizer")}
-                className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg"
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
               >
-                Visualizer
+                Color Visualizer
+              </button>
+              <button
+                onClick={() => handleNav("mixer")}
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                Color Mixer
               </button>
             </div>
           </div>

@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { ArrowRight, Palette, Palette as Mixer } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { ArrowLeft, ArrowRight, Palette, Palette as Mixer } from "lucide-react";
 
 interface HeroCarouselProps {
   onNavigate: (section: string) => void;
@@ -19,8 +19,8 @@ const slides = [
     image: "/manus-storage/hero-color-palette_52df31ee.jpg",
     title: "Every Shade. Every Surface. Every Standard.",
     subtitle: "The complete BS 4800 color collection at your fingertips. Find your perfect shade.",
-    cta1: "Interactive Color Visualizer",
-    cta1Target: "visualizer",
+    cta1: "Explore BS 4800 Swatches",
+    cta1Target: "shades",
     cta2: "Custom Paint Mixer",
     cta2Target: "mixer",
   },
@@ -35,7 +35,6 @@ const slides = [
   },
 ];
 
-// Apex Coating logo SVG
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 120 100" className={className} fill="none">
     <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
@@ -47,7 +46,6 @@ const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-// Premier Coat oval badge SVG
 const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 120 80" className={className}>
     <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
@@ -59,122 +57,193 @@ const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
 
 export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
   const [current, setCurrent] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const goTo = useCallback((index: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrent(index);
+    setTimeout(() => setIsTransitioning(false), 800);
+  }, [isTransitioning]);
 
   const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % slides.length);
-  }, []);
+    goTo((current + 1) % slides.length);
+  }, [current, goTo]);
 
   const prev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+    goTo((current - 1 + slides.length) % slides.length);
+  }, [current, goTo]);
 
+  // Autoplay
   useEffect(() => {
-    const timer = setInterval(next, 5000);
-    return () => clearInterval(timer);
+    autoplayRef.current = setInterval(next, 5000);
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+    };
   }, [next]);
+
+  // Touch / Swipe support
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+    // Restart autoplay
+    autoplayRef.current = setInterval(next, 5000);
+  };
+
+  // Mouse drag support for desktop
+  const [isDragging, setIsDragging] = useState(false);
+  const mouseStartX = useRef(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    setIsDragging(true);
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const diff = mouseStartX.current - e.clientX;
+    if (Math.abs(diff) > 80) {
+      if (diff > 0) next();
+      else prev();
+    }
+    autoplayRef.current = setInterval(next, 5000);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      autoplayRef.current = setInterval(next, 5000);
+    }
+  };
 
   return (
     <section id="hero" className="relative">
-      {/* Hero Carousel */}
-      <div className="h-screen min-h-[600px] max-h-[900px] overflow-hidden bg-[#0A1B3D]">
-        {/* Slides */}
-        {slides.map((slide, idx) => (
-          <div
-            key={idx}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              idx === current ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <div
-              className={`absolute inset-0 bg-cover bg-center ${idx === current ? "animate-ken-burns" : ""}`}
-              style={{ backgroundImage: `url(${slide.image})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A1B3D]/90 via-[#0A1B3D]/60 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1B3D]/80 via-transparent to-transparent" />
-          </div>
-        ))}
+      {/* Hero Carousel - Owl-style horizontal sliding */}
+      <div
+        className="h-screen min-h-[600px] max-h-[900px] overflow-hidden bg-[#0A1B3D] relative select-none"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        style={{ cursor: isDragging ? "grabbing" : "grab" }}
+      >
+        {/* Horizontal Sliding Track */}
+        <div className="absolute inset-0 flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
+          {slides.map((slide, idx) => (
+            <div key={idx} className="relative flex-shrink-0 w-full h-full">
+              {/* Background Image with Ken Burns */}
+              <div
+                className={`absolute inset-0 bg-cover bg-center ${idx === current ? "animate-ken-burns" : ""}`}
+                style={{ backgroundImage: `url(${slide.image})` }}
+              />
+              {/* Gradient Overlays for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0A1B3D]/90 via-[#0A1B3D]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1B3D]/80 via-transparent to-transparent" />
+            </div>
+          ))}
+        </div>
 
-        {/* Content */}
-        <div className="relative h-full flex items-center">
-          <div className="container">
+        {/* Content Layer (slides horizontally with the track) */}
+        <div className="absolute inset-0 flex items-center pointer-events-none">
+          <div className="container pointer-events-none">
             <div className="max-w-2xl">
-              {slides.map((slide, idx) => (
-                <div
-                  key={idx}
-                  className={`transition-all duration-700 ${
-                    idx === current
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-8 absolute pointer-events-none"
-                  }`}
-                >
-                  {idx === current && (
-                    <>
-                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-overlay mb-6">
-                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                        <span className="text-xs font-mono text-white tracking-wider uppercase">
-                          Apex Coating East Africa Ltd
-                        </span>
-                      </div>
-                      <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6">
-                        {slide.title}
-                      </h1>
-                      <p className="text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
-                        {slide.subtitle}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        <button
-                          onClick={() => onNavigate(slide.cta1Target)}
-                          className="group inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-[0_8px_24px_rgba(37,99,235,0.4)] active:scale-[0.97]"
-                        >
-                          <Palette className="w-4 h-4" />
-                          {slide.cta1}
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                        <button
-                          onClick={() => onNavigate(slide.cta2Target)}
-                          className="group inline-flex items-center gap-2 px-6 py-3 glass-overlay text-white font-semibold rounded-lg transition-all duration-200 hover:bg-white/25 active:scale-[0.97]"
-                        >
-                          {slide.cta2}
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))}
+              {/* We render all slides in a flex track matching the image slides */}
+              <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
+                {slides.map((slide, idx) => (
+                  <div key={idx} className="flex-shrink-0 w-full">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-overlay mb-6 pointer-events-auto">
+                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                      <span className="text-xs font-mono text-white tracking-wider uppercase">
+                        Apex Coating East Africa Ltd
+                      </span>
+                    </div>
+                    <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6">
+                      {slide.title}
+                    </h1>
+                    <p className="text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
+                      {slide.subtitle}
+                    </p>
+                    <div className="flex flex-wrap gap-4 pointer-events-auto">
+                      <button
+                        onClick={() => onNavigate(slide.cta1Target)}
+                        className="group inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-[0_8px_24px_rgba(37,99,235,0.4)] active:scale-[0.97]"
+                      >
+                        <Palette className="w-4 h-4" />
+                        {slide.cta1}
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                      <button
+                        onClick={() => onNavigate(slide.cta2Target)}
+                        className="group inline-flex items-center gap-2 px-6 py-3 glass-overlay text-white font-semibold rounded-lg transition-all duration-200 hover:bg-white/25 active:scale-[0.97]"
+                      >
+                        {slide.cta2}
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-3 z-10">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrent(idx)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                idx === current ? "w-10 bg-white" : "w-3 bg-white/40 hover:bg-white/60"
-              }`}
-              aria-label={`Slide ${idx + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Arrow Controls */}
+        {/* Left Arrow - Visible on all screen sizes */}
         <button
           onClick={prev}
-          className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 items-center justify-center rounded-full glass-overlay text-white hover:bg-white/25 transition-all active:scale-95"
+          className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/30 transition-all duration-200 active:scale-95 shadow-lg"
           aria-label="Previous slide"
         >
-          <ArrowRight className="w-5 h-5 rotate-180" />
+          <ArrowLeft className="w-5 h-5" />
         </button>
+
+        {/* Right Arrow - Visible on all screen sizes */}
         <button
           onClick={next}
-          className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 items-center justify-center rounded-full glass-overlay text-white hover:bg-white/25 transition-all active:scale-95"
+          className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/30 transition-all duration-200 active:scale-95 shadow-lg"
           aria-label="Next slide"
         >
           <ArrowRight className="w-5 h-5" />
         </button>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-2.5 z-20">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goTo(idx)}
+              className={`transition-all duration-300 rounded-full ${
+                idx === current
+                  ? "w-10 h-2.5 bg-white shadow-md"
+                  : "w-2.5 h-2.5 bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Slide Counter */}
+        <div className="absolute bottom-8 right-4 md:right-8 z-20 text-white/60 text-xs font-mono">
+          {String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+        </div>
       </div>
 
       {/* Brand Emblem Marquee Strip */}

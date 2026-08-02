@@ -1,20 +1,31 @@
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { formatKES } from "@/lib/products";
-import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets } from "lucide-react";
+import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets, Truck, Store, MapPin } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const WHATSAPP_NUMBER = "254XXXXXXXXX"; // TODO: Replace with real WhatsApp number
 const SALES_EMAIL = "sales@apexcoating.co.ke"; // TODO: Replace with real sales email
 
+const STORE_LOCATIONS = [
+  "Industrial Area, Mombasa Road, Nairobi",
+  "Nyali Road, Mombasa",
+  "Ogongo Street, Kisumu",
+  "Kenyatta Highway, Nakuru",
+  "Tom Mboya Street, Eldoret",
+];
+
 export default function CartDrawer() {
   const { items, isCartOpen, setCartOpen, removeItem, updateQuantity, subtotal, clearCart } = useCart();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const [emailForm, setEmailForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    location: "",
-  });
+  const [deliveryMethod, setDeliveryMethod] = useState<"doorstep" | "pickup" | null>(null);
+  const [selectedStore, setSelectedStore] = useState("");
+  const [emailForm, setEmailForm] = useState({ name: "", phone: "", email: "", location: "" });
+
+  const deliveryFee = deliveryMethod === "doorstep" ? Math.round(subtotal * 0.05) : 0;
+  const totalWithDelivery = subtotal + deliveryFee;
 
   const handleWhatsAppCheckout = () => {
     let message = "🧱 *APEX COATING EAST AFRICA LTD*\n📦 *ORDER REQUEST*\n\n";
@@ -27,8 +38,18 @@ export default function CartDrawer() {
       message += `   Subtotal: ${formatKES(item.price * item.quantity)}\n\n`;
     });
     message += `━━━━━━━━━━━━━━━\n`;
-    message += `*TOTAL: ${formatKES(subtotal)}*\n\n`;
-    message += `Please confirm availability and delivery terms.`;
+    message += `*Subtotal: ${formatKES(subtotal)}*\n`;
+    if (deliveryMethod === "doorstep") {
+      message += `*Delivery Fee: ${formatKES(deliveryFee)}*\n`;
+      message += `*TOTAL: ${formatKES(totalWithDelivery)}*\n`;
+      message += `\n🚚 Doorstep Delivery\n`;
+    } else if (deliveryMethod === "pickup") {
+      message += `*TOTAL: ${formatKES(subtotal)}*\n`;
+      message += `\n🏪 Store Pickup: ${selectedStore}\n`;
+    } else {
+      message += `*TOTAL: ${formatKES(subtotal)}*\n`;
+    }
+    message += `\nPlease confirm availability and delivery terms.`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, "_blank");
@@ -36,7 +57,6 @@ export default function CartDrawer() {
 
   const handleEmailCheckout = () => {
     const subject = `Order Request - Apex Coating East Africa Ltd`;
-
     let body = `Dear Apex Coating Team,\n\n`;
     body += `I would like to place the following order:\n\n`;
     body += `CUSTOMER DETAILS:\n`;
@@ -54,9 +74,13 @@ export default function CartDrawer() {
       body += `   Price: ${formatKES(item.price * item.quantity)}\n\n`;
     });
     body += `TOTAL ESTIMATED: ${formatKES(subtotal)}\n\n`;
-    body += `Please confirm availability, delivery, and payment terms.\n\n`;
-    body += `Thank you.`;
-
+    if (deliveryMethod === "doorstep") {
+      body += `DELIVERY: Doorstep Delivery (est. ${formatKES(deliveryFee)})\n`;
+      body += `GRAND TOTAL: ${formatKES(totalWithDelivery)}\n\n`;
+    } else if (deliveryMethod === "pickup") {
+      body += `DELIVERY: Store Pickup at ${selectedStore}\n\n`;
+    }
+    body += `Please confirm availability, delivery, and payment terms.\n\nThank you.`;
     const mailto = `mailto:${SALES_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
     setShowEmailModal(false);
@@ -64,33 +88,36 @@ export default function CartDrawer() {
 
   if (!isCartOpen) return null;
 
+  const headerBg = isDark ? "bg-slate-800 border-slate-700" : "bg-[#0A1B3D]";
+  const bodyBg = isDark ? "bg-slate-900" : "bg-white";
+  const cardBg = isDark ? "bg-slate-800 border-slate-700" : "bg-white border-slate-100";
+  const footerBg = isDark ? "bg-slate-800 border-slate-700" : "border-slate-100";
+  const footerGradient = isDark ? "from-slate-800 to-slate-900" : "from-white to-slate-50";
+  const itemBg = isDark ? "bg-slate-800 border-slate-700" : "bg-white border-slate-100";
+  const itemHoverBorder = isDark ? "hover:border-slate-600" : "hover:border-slate-200";
+  const nameColor = isDark ? "text-slate-100" : "text-slate-800";
+  const subColor = isDark ? "text-slate-400" : "text-slate-500";
+  const accentText = isDark ? "text-blue-400" : "text-[#0A1B3D]";
+
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
-        onClick={() => setCartOpen(false)}
-      />
+      <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" onClick={() => setCartOpen(false)} />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-white shadow-2xl animate-slide-in-right flex flex-col">
+      <div className={`fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg shadow-2xl animate-slide-in-right flex flex-col transition-colors duration-500 ${bodyBg}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-[#0A1B3D]">
+        <div className={`flex items-center justify-between p-5 border-b ${headerBg}`}>
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
               <ShoppingBag className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="font-display font-bold text-lg text-white leading-tight">
-                Your Cart
-              </h2>
+              <h2 className="font-display font-bold text-lg text-white leading-tight">Your Cart</h2>
               <span className="text-xs text-blue-300 font-medium">{items.length} item{items.length !== 1 ? "s" : ""}</span>
             </div>
           </div>
-          <button
-            onClick={() => setCartOpen(false)}
-            className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-white/80 transition-colors"
-          >
+          <button onClick={() => setCartOpen(false)} className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-white/80 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -99,57 +126,32 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto p-5">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-20">
-              <div className="w-24 h-24 rounded-2xl bg-slate-50 flex items-center justify-center mb-5">
-                <ShoppingBag className="w-12 h-12 text-slate-300" />
+              <div className={`w-24 h-24 rounded-2xl flex items-center justify-center mb-5 ${isDark ? "bg-slate-800" : "bg-slate-50"}`}>
+                <ShoppingBag className={`w-12 h-12 ${isDark ? "text-slate-600" : "text-slate-300"}`} />
               </div>
-              <p className="text-slate-600 font-semibold text-lg mb-1">Your cart is empty</p>
-              <p className="text-sm text-slate-400 mb-6 max-w-xs">
+              <p className={`font-semibold text-lg mb-1 ${isDark ? "text-slate-200" : "text-slate-600"}`}>Your cart is empty</p>
+              <p className={`text-sm mb-6 max-w-xs ${isDark ? "text-slate-500" : "text-slate-400"}`}>
                 Select a shade from the BS 4800 card or browse products to add items.
               </p>
-              <button
-                onClick={() => setCartOpen(false)}
-                className="px-6 py-3 bg-[#0A1B3D] hover:bg-[#15294f] text-white text-sm font-semibold rounded-xl transition-colors"
-              >
+              <button onClick={() => setCartOpen(false)} className="px-6 py-3 bg-[#0A1B3D] hover:bg-[#15294f] text-white text-sm font-semibold rounded-xl transition-colors">
                 Browse Products
               </button>
             </div>
           ) : (
             <div className="space-y-3">
               {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="relative bg-white border border-slate-150 rounded-xl p-3.5 hover:border-slate-200 transition-colors"
-                  style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
-                >
+                <div key={item.id} className={`relative rounded-xl p-3.5 transition-colors ${itemBg} border ${itemHoverBorder}`} style={{ boxShadow: isDark ? "0 1px 3px rgba(0,0,0,0.2)" : "0 1px 3px rgba(0,0,0,0.04)" }}>
                   <div className="flex gap-3">
-                    {/* Product image */}
                     <div className="w-[68px] h-[68px] rounded-lg overflow-hidden bg-slate-50 flex-shrink-0 border border-slate-100">
-                      <img
-                        src={item.productImage}
-                        alt={item.productName}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={item.productImage} alt={item.productName} className="w-full h-full object-cover" />
                     </div>
-
-                    {/* Details */}
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-bold text-slate-800 leading-tight">
-                        {item.productName}
-                      </div>
-                      {/* Shade line */}
+                      <div className={`text-sm font-bold leading-tight ${nameColor}`}>{item.productName}</div>
                       <div className="flex items-center gap-1.5 mt-1">
-                        <div
-                          className="w-3 h-3 rounded-full border border-slate-200 shadow-sm"
-                          style={{ backgroundColor: item.colorHex }}
-                        />
-                        <span className="font-mono text-[11px] font-semibold text-slate-700">
-                          {item.bsCode}
-                        </span>
-                        <span className="text-[11px] text-slate-500 truncate">
-                          {item.colorName}
-                        </span>
+                        <div className="w-3 h-3 rounded-full border border-slate-200 shadow-sm" style={{ backgroundColor: item.colorHex }} />
+                        <span className="font-mono text-[11px] font-semibold text-slate-700">{item.bsCode}</span>
+                        <span className={`text-[11px] truncate ${isDark ? "text-slate-400" : "text-slate-500"}`}>{item.colorName}</span>
                       </div>
-                      {/* Finish + Size */}
                       <div className="flex items-center gap-2 mt-1">
                         {item.finishType && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-blue-50 rounded text-[10px] font-medium text-blue-700">
@@ -157,52 +159,30 @@ export default function CartDrawer() {
                             {item.finishType}
                           </span>
                         )}
-                        <span className="text-[11px] text-slate-400">
-                          {item.sizeVolume}
-                        </span>
+                        <span className={`text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>{item.sizeVolume}</span>
                       </div>
-                      {/* Qty + Total */}
                       <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-6 h-6 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors"
-                          >
-                            <Minus className="w-3 h-3 text-slate-500" />
+                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${isDark ? "bg-slate-700 border border-slate-600 hover:bg-slate-600" : "bg-slate-50 border border-slate-200 hover:bg-slate-100"}`}>
+                            <Minus className={`w-3 h-3 ${isDark ? "text-slate-400" : "text-slate-500"}`} />
                           </button>
-                          <span className="text-sm font-semibold text-slate-700 w-6 text-center">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-6 h-6 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors"
-                          >
-                            <Plus className="w-3 h-3 text-slate-500" />
+                          <span className={`text-sm font-semibold w-6 text-center ${isDark ? "text-slate-200" : "text-slate-700"}`}>{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${isDark ? "bg-slate-700 border border-slate-600 hover:bg-slate-600" : "bg-slate-50 border border-slate-200 hover:bg-slate-100"}`}>
+                            <Plus className={`w-3 h-3 ${isDark ? "text-slate-400" : "text-slate-500"}`} />
                           </button>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-bold text-[#0A1B3D]">
-                            {formatKES(item.price * item.quantity)}
-                          </div>
+                          <div className={`text-sm font-bold ${accentText}`}>{formatKES(item.price * item.quantity)}</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  {/* Remove button */}
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors"
-                    title="Remove"
-                  >
+                  <button onClick={() => removeItem(item.id)} className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors" title="Remove">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))}
-
-              <button
-                onClick={clearCart}
-                className="text-xs text-slate-400 hover:text-red-500 transition-colors mt-2"
-              >
+              <button onClick={clearCart} className={`text-xs ${isDark ? "text-slate-500 hover:text-red-400" : "text-slate-400 hover:text-red-500"} transition-colors mt-2`}>
                 Clear all items
               </button>
             </div>
@@ -211,15 +191,84 @@ export default function CartDrawer() {
 
         {/* Footer with Checkout */}
         {items.length > 0 && (
-          <div className="border-t border-slate-100 p-5 space-y-3 bg-gradient-to-b from-white to-slate-50">
+          <div className={`border-t p-5 space-y-3 bg-gradient-to-b ${footerBg} ${footerGradient} transition-colors`}>
             {/* Subtotal */}
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-500">Subtotal</span>
-              <span className="font-display font-bold text-2xl text-[#0A1B3D]">
-                {formatKES(subtotal)}
-              </span>
+              <span className={`text-sm ${subColor}`}>Subtotal</span>
+              <span className={`font-display font-bold text-2xl ${accentText}`}>{formatKES(subtotal)}</span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
+
+            {/* Delivery Checkpoint Selector */}
+            <div className={`rounded-xl p-4 border transition-colors ${cardBg}`}>
+              <h4 className={`text-xs font-semibold mb-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>Delivery Option</h4>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <button
+                  onClick={() => { setDeliveryMethod("doorstep"); setSelectedStore(""); }}
+                  className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-lg border text-center transition-all duration-200 ${
+                    deliveryMethod === "doorstep"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : isDark ? "border-slate-600 text-slate-400 hover:border-slate-500" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                  }`}
+                >
+                  <Truck className="w-4 h-4" />
+                  <span className="text-xs font-medium">Doorstep Delivery</span>
+                  <span className="text-[10px] opacity-70">~5% shipping fee</span>
+                </button>
+                <button
+                  onClick={() => { setDeliveryMethod("pickup"); }}
+                  className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-lg border text-center transition-all duration-200 ${
+                    deliveryMethod === "pickup"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : isDark ? "border-slate-600 text-slate-400 hover:border-slate-500" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                  }`}
+                >
+                  <Store className="w-4 h-4" />
+                  <span className="text-xs font-medium">Store Pickup</span>
+                  <span className="text-[10px] opacity-70">Free — select location</span>
+                </button>
+              </div>
+
+              {/* Store Location Dropdown (only for pickup) */}
+              {deliveryMethod === "pickup" && (
+                <div className="space-y-2">
+                  <label className={`text-[10px] font-medium ${isDark ? "text-slate-400" : "text-slate-500"}`}>Select Nearest Stockist</label>
+                  <select
+                    value={selectedStore}
+                    onChange={(e) => setSelectedStore(e.target.value)}
+                    className={`w-full px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${
+                      isDark ? "border-slate-600 bg-slate-700 text-slate-200 focus:border-blue-500" : "border-slate-200 bg-white text-slate-700 focus:border-[#0A1B3D]"
+                    }`}
+                  >
+                    <option value="">Choose a location...</option>
+                    {STORE_LOCATIONS.map((loc) => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </select>
+                  <p className={`text-[10px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>
+                    <MapPin className="w-3 h-3 inline mr-1" />
+                    Free pickup at your nearest authorized stockist
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Delivery fee line */}
+            {deliveryMethod === "doorstep" && (
+              <div className="flex items-center justify-between">
+                <span className={`text-sm ${subColor}`}>Est. Delivery Fee</span>
+                <span className={`text-sm font-medium ${accentText}`}>{formatKES(deliveryFee)}</span>
+              </div>
+            )}
+
+            {/* Grand Total */}
+            {deliveryMethod && (
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                <span className={`text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>Grand Total</span>
+                <span className={`font-display font-bold text-xl ${accentText}`}>{formatKES(totalWithDelivery)}</span>
+              </div>
+            )}
+
+            <p className={`text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"} leading-relaxed`}>
               Final pricing confirmed upon order verification. Delivery fees calculated based on location.
             </p>
 
@@ -246,79 +295,35 @@ export default function CartDrawer() {
 
       {/* Email Modal */}
       {showEmailModal && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
-          onClick={() => setShowEmailModal(false)}
-        >
-          <div
-            className="bg-white rounded-2xl max-w-md w-full shadow-2xl animate-fade-up overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setShowEmailModal(false)}>
+          <div className={`rounded-2xl max-w-md w-full shadow-2xl animate-fade-up overflow-hidden transition-colors ${isDark ? "bg-slate-800" : "bg-white"}`} onClick={(e) => e.stopPropagation()}>
             <div className="p-5 border-b border-slate-100 bg-[#0A1B3D]">
-              <h3 className="font-display font-bold text-lg text-white">
-                Request Official Quote
-              </h3>
-              <p className="text-xs text-blue-200 mt-1">
-                We'll send your order details to {SALES_EMAIL}
-              </p>
+              <h3 className="font-display font-bold text-lg text-white">Request Official Quote</h3>
+              <p className="text-xs text-blue-200 mt-1">We'll send your order details to {SALES_EMAIL}</p>
             </div>
             <div className="p-5 space-y-3">
               <div>
-                <label className="text-xs font-medium text-slate-500 mb-1 block">Full Name</label>
-                <input
-                  type="text"
-                  value={emailForm.name}
-                  onChange={(e) => setEmailForm({ ...emailForm, name: e.target.value })}
-                  placeholder="John Doe"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
-                />
+                <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Full Name</label>
+                <input type="text" value={emailForm.name} onChange={(e) => setEmailForm({ ...emailForm, name: e.target.value })} placeholder="John Doe" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 mb-1 block">Phone</label>
-                  <input
-                    type="tel"
-                    value={emailForm.phone}
-                    onChange={(e) => setEmailForm({ ...emailForm, phone: e.target.value })}
-                    placeholder="+254 7XX XXX XXX"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
-                  />
+                  <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Phone</label>
+                  <input type="tel" value={emailForm.phone} onChange={(e) => setEmailForm({ ...emailForm, phone: e.target.value })} placeholder="+254 7XX XXX XXX" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 mb-1 block">Email</label>
-                  <input
-                    type="email"
-                    value={emailForm.email}
-                    onChange={(e) => setEmailForm({ ...emailForm, email: e.target.value })}
-                    placeholder="john@example.com"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
-                  />
+                  <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Email</label>
+                  <input type="email" value={emailForm.email} onChange={(e) => setEmailForm({ ...emailForm, email: e.target.value })} placeholder="john@example.com" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-500 mb-1 block">Location</label>
-                <input
-                  type="text"
-                  value={emailForm.location}
-                  onChange={(e) => setEmailForm({ ...emailForm, location: e.target.value })}
-                  placeholder="Nairobi, Kenya"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
-                />
+                <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Location</label>
+                <input type="text" value={emailForm.location} onChange={(e) => setEmailForm({ ...emailForm, location: e.target.value })} placeholder="Nairobi, Kenya" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
               </div>
             </div>
-            <div className="p-5 border-t border-slate-100 flex gap-3">
-              <button
-                onClick={() => setShowEmailModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEmailCheckout}
-                className="flex-1 py-2.5 rounded-xl bg-[#0A1B3D] text-white text-sm font-semibold hover:bg-[#15294f] transition-colors"
-              >
-                Send Order
-              </button>
+            <div className={`p-5 border-t flex gap-3 ${isDark ? "border-slate-700" : "border-slate-100"}`}>
+              <button onClick={() => setShowEmailModal(false)} className={`flex-1 py-2.5 rounded-xl border text-sm font-medium transition-colors ${isDark ? "border-slate-600 text-slate-400 hover:bg-slate-700" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}>Cancel</button>
+              <button onClick={handleEmailCheckout} className="flex-1 py-2.5 rounded-xl bg-[#0A1B3D] text-white text-sm font-semibold hover:bg-[#15294f] transition-colors">Send Order</button>
             </div>
           </div>
         </div>

@@ -1,52 +1,25 @@
 import { Shield, Award, Truck, Leaf, Factory, Clock } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const features = [
-  {
-    icon: Shield,
-    title: "10-Year Guarantee",
-    code: "WS-2026",
-    description: "WeatherShield exterior range backed by our decade-long color and performance guarantee.",
-  },
-  {
-    icon: Award,
-    title: "BS 4800 Certified",
-    code: "BS-4800:92",
-    description: "Full compliance with British Standard 4800 color specifications for consistent, accurate shades.",
-  },
-  {
-    icon: Factory,
-    title: "Industrial Grade",
-    code: "IG-HD-01",
-    description: "Heavy-duty formulations trusted by East Africa's leading industrial and commercial projects.",
-  },
-  {
-    icon: Leaf,
-    title: "Eco-Conscious",
-    code: "ECO-LOW-VOC",
-    description: "Low-VOC formulations and RoofGuard thermal-reflective technology for sustainable building.",
-  },
-  {
-    icon: Truck,
-    title: "East Africa Wide",
-    code: "DIST-5N",
-    description: "Distribution network across Kenya, Uganda, Tanzania, Rwanda, and Ethiopia.",
-  },
-  {
-    icon: Clock,
-    title: "Fast Turnaround",
-    code: "SLA-48H",
-    description: "Custom color mixing and order fulfillment within 48 hours across the region.",
-  },
+  { icon: Shield, title: "10-Year Guarantee", code: "WS-2026", description: "WeatherShield exterior range backed by our decade-long color and performance guarantee." },
+  { icon: Award, title: "BS 4800 Certified", code: "BS-4800:92", description: "Full compliance with British Standard 4800 color specifications for consistent, accurate shades." },
+  { icon: Factory, title: "Industrial Grade", code: "IG-HD-01", description: "Heavy-duty formulations trusted by East Africa's leading industrial and commercial projects." },
+  { icon: Leaf, title: "Eco-Conscious", code: "ECO-LOW-VOC", description: "Low-VOC formulations and RoofGuard thermal-reflective technology for sustainable building." },
+  { icon: Truck, title: "East Africa Wide", code: "DIST-5N", description: "Distribution network across Kenya, Uganda, Tanzania, Rwanda, and Ethiopia." },
+  { icon: Clock, title: "Fast Turnaround", code: "SLA-48H", description: "Custom color mixing and order fulfillment within 48 hours across the region." },
 ];
 
 export default function Features() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
-    <section className="py-20 lg:py-24 bg-[#0A1B3D] relative overflow-hidden">
+    <section className={`py-20 lg:py-24 relative overflow-hidden transition-colors duration-500 ${isDark ? "bg-slate-950" : "bg-[#0A1B3D]"}`}>
       {/* Decorative paint-drop accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-80 h-80 bg-blue-500/8 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-400/6 rounded-full blur-3xl" />
-        {/* Subtle grid lines */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
@@ -75,7 +48,6 @@ export default function Features() {
               key={feat.title}
               className="group relative p-6 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-300"
             >
-              {/* Technical code label */}
               <div className="absolute top-4 right-4 font-mono text-[9px] text-blue-400/50 tracking-wider">
                 {feat.code}
               </div>
@@ -84,19 +56,14 @@ export default function Features() {
                   <feat.icon className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-display font-semibold text-base text-white mb-1.5">
-                    {feat.title}
-                  </h3>
-                  <p className="text-sm text-blue-200/60 leading-relaxed">
-                    {feat.description}
-                  </p>
+                  <h3 className="font-display font-semibold text-base text-white mb-1.5">{feat.title}</h3>
+                  <p className="text-sm text-blue-200/60 leading-relaxed">{feat.description}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom accent strip */}
         <div className="mt-12 flex items-center justify-center gap-8">
           {["WeatherShield", "Silk Emulsion", "Industrial Primer", "Gloss Enamel", "Wood Finish", "RoofGuard"].map((line) => (
             <span key={line} className="font-mono text-[10px] text-blue-300/30 tracking-wider uppercase hidden lg:block">
