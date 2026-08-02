@@ -1,4 +1,12 @@
 // Apex Coating & Premier Coat — Complete Price List (Effective July 2026)
+//
+// PRODUCT IMAGE RULES:
+// - Images use swap-friendly filenames (e.g. "gloss_enamel.jpg", "synthetic_varnish.png")
+// - Fixed aspect ratios in UI so users can swap photos without breaking layout
+//
+// NO COLOR SELECTION FOR:
+// - Seraphic Glues, Spray Adhesives, Thinners, Solvents, Retarders, chemical cleaners
+// - These products only allow volume/size variations (no shade picker)
 
 export interface ProductSize {
   label: string;
@@ -17,7 +25,14 @@ export interface Product {
   defaultColor: string;
   features: string[];
   badge?: string;
+  noColorSelection?: boolean; // Chemical products — no shade picker
 }
+
+// Categories that are purely chemical — never show color selection
+const NO_COLOR_CATEGORIES = new Set([
+  "Seraphic Glues",
+  "Thinners & Spirits",
+]);
 
 export const PRODUCTS: Product[] = [
   // --- DECORATIVE & SPECIALTY RANGE ---
@@ -59,7 +74,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "High-gloss solvent-based enamel for wood and metal surfaces. Delivers a durable, mirror-like finish with excellent adhesion.",
-    image: "/manus-storage/product-bucket-gloss_56387446.jpg",
+    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4500 },
       { label: "4L", volume: "4 Litre", price: 900 },
@@ -76,7 +91,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium gloss finish for interior and exterior woodwork, doors, and trim. Superior flow and leveling for a professional finish.",
-    image: "/manus-storage/product-bucket-gloss_56387446.jpg",
+    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4850 },
       { label: "4L", volume: "4 Litre", price: 1250 },
@@ -93,7 +108,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Clear protective varnish for wood surfaces. Enhances natural grain while providing UV and moisture protection.",
-    image: "/manus-storage/product-bucket-wood_797fac2f.jpg",
+    image: "/manus-storage/synthetic_varnish_0091a0db.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6000 },
       { label: "4L", volume: "4 Litre", price: 1300 },
@@ -202,6 +217,7 @@ export const PRODUCTS: Product[] = [
   },
 
   // --- SERAPHIC GLUES ---
+  // NO COLOR SELECTION: These are chemical adhesives with fixed transparent/amber appearance
   {
     id: "seraphic-101",
     name: "Seraphic 101 Special in Plastics",
@@ -218,6 +234,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Plastic Bonding", "Strong Tack", "Industrial"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-202",
@@ -234,6 +251,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["PVC Bonding", "Watertight", "Professional"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-103",
@@ -251,6 +269,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Leather Bonding", "Contact Adhesive", "Flexible Bond"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-3260",
@@ -264,6 +283,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Multi-Purpose", "General Bonding"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-915",
@@ -278,6 +298,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["High Performance", "Extended Open Time"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-professional",
@@ -295,6 +316,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Contact Adhesive", "Professional", "Multi-Substrate"],
+    noColorSelection: true,
   },
   {
     id: "seraphic-trade",
@@ -311,6 +333,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Trade Grade", "Economical", "Reliable"],
+    noColorSelection: true,
   },
 
   // --- INDUSTRIAL & HEAVY DUTY RANGE ---
@@ -441,13 +464,15 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Road Marking", "Viscosity Control"],
+    noColorSelection: true,
   },
 
   // --- THINNERS & SPIRITS ---
+  // NO COLOR SELECTION: These are solvents with fixed transparent/amber liquid appearance
   {
     id: "turpentine",
     name: "Turpentine",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Natural turpentine solvent for thinning oil-based paints, varnishes, and enamels. Cleans brushes and equipment effectively.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -460,11 +485,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Natural", "Oil Paint Thinner", "Brush Cleaner"],
+    noColorSelection: true,
   },
   {
     id: "nc-thinner",
     name: "NC Thinner",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Nitrocellulose thinner for lacquers and NC wood finishes. Controls viscosity for optimal spray application.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -476,11 +502,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["NC Lacquer", "Spray Application"],
+    noColorSelection: true,
   },
   {
     id: "std-thinner",
     name: "Std Thinner",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Standard industrial thinner for general-purpose paint thinning. Compatible with most solvent-based coatings.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -492,11 +519,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["General Purpose", "Solvent Based"],
+    noColorSelection: true,
   },
   {
     id: "white-spirit",
     name: "Special White Spirit",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "High-purity white spirit for thinning gloss enamels, varnishes, and cleaning. Low odour formulation for indoor use.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -509,11 +537,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["High Purity", "Low Odour", "Indoor Safe"],
+    noColorSelection: true,
   },
   {
     id: "fast-dry-thinner",
     name: "Fast Dry Thinner",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Fast-evaporating thinner for quick-drying industrial coatings. Reduces drying time significantly.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -522,11 +551,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Fast Evaporating", "Quick Dry"],
+    noColorSelection: true,
   },
   {
     id: "epoxy-thinner",
     name: "Epoxy Thinner",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Specialized thinner for 2-pack epoxy systems. Controls viscosity for proper mixing ratio and application.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -535,11 +565,12 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Epoxy Compatible", "Viscosity Control"],
+    noColorSelection: true,
   },
   {
     id: "high-gloss-thinner",
     name: "High Gloss Thinner",
-    category: "Thinnners & Spirits",
+    category: "Thinners & Spirits",
     subcategory: "Thinnners",
     description: "Formulated specifically for high-gloss enamel and lacquer coatings. Maintains gloss level while controlling application viscosity.",
     image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
@@ -550,6 +581,7 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "00 A 01",
     features: ["Gloss Maintenance", "Enamel Thinner"],
+    noColorSelection: true,
   },
 
   // --- WALL FINISHES, COATINGS & PUTTY ---
@@ -674,7 +706,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Decorative",
     description: "High-gloss paint in metal bucket packaging. Cost-effective packaging for contractors and large-scale projects.",
-    image: "/manus-storage/product-bucket-gloss_56387446.jpg",
+    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
     sizes: [
       { label: "20KG", volume: "20 KG", price: 4700 },
     ],
@@ -720,4 +752,9 @@ export const FINISHES = [
 
 export function formatKES(amount: number): string {
   return "KES " + amount.toLocaleString("en-KE");
+}
+
+// Helper: check if a product is a chemical product (no color selection)
+export function isNoColorProduct(product: Product): boolean {
+  return product.noColorSelection === true;
 }

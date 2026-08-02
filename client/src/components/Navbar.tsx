@@ -201,7 +201,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
             {/* Contact Placeholder */}
             <a
-              href="tel:+254700000000"
+              href="tel:+254XXXXXXXXX"
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors ${
                 scrolled ? "border-slate-200 text-slate-600 hover:bg-slate-50" : "border-white/20 text-blue-100 hover:bg-white/10"
               }`}

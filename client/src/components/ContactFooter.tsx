@@ -8,7 +8,7 @@ export default function ContactFooter() {
     e.preventDefault();
     const subject = `Custom Quote Request - ${form.name}`;
     const body = `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`;
-    window.location.href = `mailto:sales@apexcoating.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:sales@apexcoating.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; // TODO: Replace email with real address
   };
 
   return (
@@ -34,7 +34,7 @@ export default function ContactFooter() {
               <div className="space-y-4">
                 {[
                   { icon: MapPin, label: "Head Office", value: "Industrial Area, Mombasa Road, Nairobi, Kenya" },
-                  { icon: Phone, label: "Phone / WhatsApp", value: "+254 700 000 000" },
+                  { icon: Phone, label: "Phone / WhatsApp", value: "+254 7XX XXX XXX" /* TODO: Replace with real number */ },
                   { icon: Mail, label: "Email", value: "sales@apexcoating.co.ke" },
                   { icon: Clock, label: "Business Hours", value: "Mon - Sat: 8:00 AM - 6:00 PM" },
                 ].map(({ icon: Icon, label, value }) => (
@@ -194,7 +194,7 @@ export default function ContactFooter() {
               <ul className="space-y-2 text-sm text-blue-200/70">
                 <li>Industrial Area, Mombasa Road</li>
                 <li>Nairobi, Kenya</li>
-                <li>+254 700 000 000</li>
+                <li>{"+254 7XX XXX XXX" /* TODO: Replace with real number */}</li>
                 <li>sales@apexcoating.co.ke</li>
               </ul>
             </div>

@@ -3,8 +3,8 @@ import { useCart } from "@/contexts/CartContext";
 import { formatKES } from "@/lib/products";
 import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets } from "lucide-react";
 
-const WHATSAPP_NUMBER = "254700000000";
-const SALES_EMAIL = "sales@apexcoating.co.ke";
+const WHATSAPP_NUMBER = "254XXXXXXXXX"; // TODO: Replace with real WhatsApp number
+const SALES_EMAIL = "sales@apexcoating.co.ke"; // TODO: Replace with real sales email
 
 export default function CartDrawer() {
   const { items, isCartOpen, setCartOpen, removeItem, updateQuantity, subtotal, clearCart } = useCart();
@@ -280,7 +280,7 @@ export default function CartDrawer() {
                     type="tel"
                     value={emailForm.phone}
                     onChange={(e) => setEmailForm({ ...emailForm, phone: e.target.value })}
-                    placeholder="+254 700 000 000"
+                    placeholder="+254 7XX XXX XXX"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0A1B3D] text-sm text-slate-700"
                   />
                 </div>

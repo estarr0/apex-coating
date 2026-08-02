@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { PRODUCTS, PRODUCT_CATEGORIES, formatKES } from "@/lib/products";
+import { PRODUCTS, PRODUCT_CATEGORIES, formatKES, isNoColorProduct } from "@/lib/products";
 import { BS4800_COLORS, BSColor } from "@/lib/bs4800";
 import { useCart } from "@/contexts/CartContext";
-import { Plus, Check, Package, Tag, Droplets } from "lucide-react";
+import { Plus, Check, Package, Tag, Droplets, FlaskConical } from "lucide-react";
 
 export default function ProductCatalog() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -56,6 +56,9 @@ export default function ProductCatalog() {
     });
   };
 
+  // For chemical products: default color (no user selection needed)
+  const DEFAULT_COLOR: BSColor = { code: "—", name: "Standard", hex: "#8B7355", r: 139, g: 115, b: 85, family: "Browns" };
+
   return (
     <section id="products" className="py-20 lg:py-28 bg-slate-50">
       <div className="container">
@@ -97,7 +100,8 @@ export default function ProductCatalog() {
         {/* Product Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => {
-            const color = getColorForProduct(product.id);
+            const noColor = isNoColorProduct(product);
+            const color = noColor ? DEFAULT_COLOR : getColorForProduct(product.id);
             const size = getSizeForProduct(product.id);
 
             return (
@@ -118,16 +122,27 @@ export default function ProductCatalog() {
                       {product.badge}
                     </div>
                   )}
-                  {/* Color indicator */}
-                  <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-sm">
-                    <div
-                      className="w-3 h-3 rounded-full border border-slate-200"
-                      style={{ backgroundColor: color.hex }}
-                    />
-                    <span className="font-mono text-[10px] text-slate-600">
-                      {color.code}
-                    </span>
-                  </div>
+                  {/* Color indicator — only for non-chemical products */}
+                  {!noColor && (
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-sm">
+                      <div
+                        className="w-3 h-3 rounded-full border border-slate-200"
+                        style={{ backgroundColor: color.hex }}
+                      />
+                      <span className="font-mono text-[10px] text-slate-600">
+                        {color.code}
+                      </span>
+                    </div>
+                  )}
+                  {/* Chemical product badge */}
+                  {noColor && (
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 backdrop-blur-sm shadow-sm border border-amber-200">
+                      <FlaskConical className="w-3 h-3 text-amber-600" />
+                      <span className="font-mono text-[10px] text-amber-700 font-semibold">
+                        Chemical
+                      </span>
+                    </div>
+                  )}
                   {/* Price badge */}
                   <div className="absolute bottom-3 right-3 px-3 py-1 rounded-lg bg-[#0A1B3D] text-white">
                     <span className="font-display font-bold text-sm">{formatKES(size.price)}</span>
@@ -147,7 +162,7 @@ export default function ProductCatalog() {
                     {product.description}
                   </p>
 
-                  {/* Size Selector */}
+                  {/* Size Selector — always shown */}
                   <div className="mb-3">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">
                       Container Size
@@ -171,32 +186,49 @@ export default function ProductCatalog() {
                     </div>
                   </div>
 
-                  {/* Choose Shade Button (Path B) */}
-                  <div className="mb-4">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">
-                      BS 4800 Shade
-                    </label>
-                    <button
-                      onClick={() => setShadePickerOpen(product.id)}
-                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border-2 border-slate-200 hover:border-[#0A1B3D] transition-all duration-200 bg-white group/btn"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div
-                          className="w-5 h-5 rounded-md border border-slate-200 shadow-sm"
-                          style={{ backgroundColor: color.hex }}
-                        />
-                        <div className="text-left">
-                          <span className="font-mono text-xs font-semibold text-slate-700">
-                            {color.code}
-                          </span>
-                          <span className="text-[10px] text-slate-400 ml-1.5">{color.name}</span>
+                  {/* Choose Shade Button (Path B) — ONLY for non-chemical products */}
+                  {!noColor && (
+                    <div className="mb-4">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">
+                        BS 4800 Shade
+                      </label>
+                      <button
+                        onClick={() => setShadePickerOpen(product.id)}
+                        className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border-2 border-slate-200 hover:border-[#0A1B3D] transition-all duration-200 bg-white group/btn"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div
+                            className="w-5 h-5 rounded-md border border-slate-200 shadow-sm"
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <div className="text-left">
+                            <span className="font-mono text-xs font-semibold text-slate-700">
+                              {color.code}
+                            </span>
+                            <span className="text-[10px] text-slate-400 ml-1.5">{color.name}</span>
+                          </div>
                         </div>
+                        <span className="text-xs font-medium text-blue-600 group-hover/btn:text-[#0A1B3D] transition-colors">
+                          Choose Shade →
+                        </span>
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Chemical product info — no shade selection */}
+                  {noColor && (
+                    <div className="mb-4 p-3 rounded-xl bg-amber-50/50 border border-amber-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <FlaskConical className="w-3.5 h-3.5 text-amber-600" />
+                        <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">
+                          Chemical Product
+                        </span>
                       </div>
-                      <span className="text-xs font-medium text-blue-600 group-hover/btn:text-[#0A1B3D] transition-colors">
-                        Choose Shade →
-                      </span>
-                    </button>
-                  </div>
+                      <p className="text-[11px] text-amber-600/80 leading-relaxed">
+                        Standard formulation — no color selection required. Select container size above.
+                      </p>
+                    </div>
+                  )}
 
                   {/* Price + Add to Cart */}
                   <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-100">
@@ -227,8 +259,8 @@ export default function ProductCatalog() {
         )}
       </div>
 
-      {/* Spacious Shade Picker Modal (Path B) */}
-      {shadePickerOpen && (() => {
+      {/* Spacious Shade Picker Modal (Path B) — only for non-chemical products */}
+      {shadePickerOpen && !isNoColorProduct(PRODUCTS.find(p => p.id === shadePickerOpen)!) && (() => {
         const activeProduct = PRODUCTS.find(p => p.id === shadePickerOpen)!;
         return (
           <div
@@ -282,7 +314,7 @@ export default function ProductCatalog() {
                 </div>
               </div>
 
-              {/* Shade Grid - 350-500px tall */}
+              {/* Shade Grid */}
               <div className="overflow-y-auto flex-1 p-4" style={{ maxHeight: "380px" }}>
                 <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
                   {filteredShades.map((c) => {
