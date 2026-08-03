@@ -37,6 +37,7 @@ const NO_COLOR_PRODUCT_IDS = new Set([
   "seraphic-101",
   "seraphic-202",
   "seraphic-103",
+  "seraphic-199",
   "seraphic-3260",
   "seraphic-915",
   "seraphic-professional",
@@ -76,7 +77,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium water-based interior emulsion with excellent coverage and washability. Ideal for walls and ceilings in residential and commercial spaces.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
+    image: "/manus-storage/texstar_coat_b6415fa7.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 2700 },
       { label: "10L", volume: "10 Litre", price: 1300 },
@@ -107,7 +108,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "High-gloss solvent-based enamel for wood and metal surfaces. Delivers a durable, mirror-like finish with excellent adhesion.",
-    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
+    image: "/manus-storage/gloss_enamel_set_0c1e11f1.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4500 },
       { label: "4L", volume: "4 Litre", price: 900 },
@@ -124,7 +125,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium gloss finish for interior and exterior woodwork, doors, and trim. Superior flow and leveling for a professional finish.",
-    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
+    image: "/manus-storage/gloss_enamel_set_0c1e11f1.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4850 },
       { label: "4L", volume: "4 Litre", price: 1250 },
@@ -261,7 +262,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Specialized adhesive formulated for bonding plastic materials. Strong initial tack and permanent bond for industrial applications.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_101_7b9d98c3.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8650 },
       { label: "5L", volume: "5 Litre", price: 1950 },
@@ -279,7 +280,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Professional grade PVC pipe cement for plumbing and drainage systems. Creates solvent-welded joints that are watertight and permanent.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_202_43800c70.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "1L", volume: "1 Litre", price: 630 },
@@ -296,7 +297,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Contact adhesive for leather, rubber, and fabric bonding. Used in footwear manufacturing and upholstery industries.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_103_65cd48f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8700 },
       { label: "5L", volume: "5 Litre", price: 2000 },
@@ -309,12 +310,28 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   {
+    id: "seraphic-199",
+    name: "Seraphic 199 Professional White Wood Glue",
+    category: "Seraphic Glues",
+    subcategory: "Adhesives",
+    description: "Professional-grade white wood glue for woodworking, furniture assembly, and carpentry. The professionals' choice for strong wood bonds.",
+    image: "/manus-storage/serafric_199_328dcc83.png",
+    sizes: [
+      { label: "1kg", volume: "1 kg", price: 280 },
+      { label: "1/2kg", volume: "1/2 kg", price: 150 },
+      { label: "1/4kg", volume: "1/4 kg", price: 90 },
+    ],
+    defaultColor: "00 A 01",
+    features: ["Wood Bonding", "Professional Grade", "White Glue"],
+    noColorSelection: true,
+  },
+  {
     id: "seraphic-3260",
     name: "Seraphic 3260 mm",
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Multi-purpose industrial adhesive for general bonding applications. Suitable for wood, metal, and composite materials.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_101_7b9d98c3.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 1600 },
     ],
@@ -328,7 +345,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "High-performance industrial adhesive for demanding bonding applications. Professional grade with extended open time.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_103_65cd48f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "4L", volume: "4 Litre", price: 2000 },
@@ -343,7 +360,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Professional-grade contact adhesive for industrial and commercial use. Superior bonding strength for a wide range of substrates.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_101_7b9d98c3.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8000 },
       { label: "4L", volume: "4 Litre", price: 1800 },
@@ -361,7 +378,7 @@ export const PRODUCTS: Product[] = [
     category: "Seraphic Glues",
     subcategory: "Adhesives",
     description: "Economical trade-grade adhesive for everyday bonding needs. Reliable performance at competitive pricing.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/serafric_103_65cd48f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5000 },
       { label: "1L", volume: "1 Litre", price: 210 },
