@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import Features from "@/components/Features";
-import ProductCollage from "@/components/ProductCollage";
 import ShadeCard from "@/components/ShadeCard";
 import ColorVisualizer from "@/components/ColorVisualizer";
 import CustomPaintMixer from "@/components/CustomPaintMixer";
@@ -87,7 +86,6 @@ export default function Home() {
         </section>
 
         <Features />
-        <ProductCollage />
         <ShadeCard externalSearch={searchQuery} />
         <ColorVisualizer />
         <CustomPaintMixer />

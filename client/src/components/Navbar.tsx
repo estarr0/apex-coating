@@ -10,7 +10,7 @@ interface NavbarProps {
 
 // Apex Coating high-res logo image
 const ApexLogo = ({ size = "h-12" }: { size?: string }) => (
-  <img src="/manus-storage/logo-apex-hires_3c8d4d75.png" alt="Apex Coating Logo" className={`${size} object-contain`} />
+  <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating Logo" className={`${size} object-contain`} />
 );
 
 // Premier Coat oval badge image

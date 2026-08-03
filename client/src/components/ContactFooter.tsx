@@ -146,7 +146,7 @@ export default function ContactFooter() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2.5 mb-4">
-                <img src="/manus-storage/logo-apex-hires_3c8d4d75.png" alt="Apex Coating" className="h-12 w-auto object-contain" />
+                <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating" className="h-12 w-auto object-contain" />
                 <div>
                   <div className="font-display font-extrabold text-base tracking-tight text-white">Apex Coating</div>
                   <div className="text-[9px] tracking-widest uppercase text-blue-300/60">E.A Ltd</div>
