@@ -108,8 +108,8 @@ export default function ProductCollage() {
         <div className={`relative rounded-2xl overflow-hidden mb-12 border ${isDark ? "border-slate-700" : "border-slate-200"} shadow-lg`}>
           <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden">
             <img
-              src="/manus-storage/product-showcase-banner_c3b496c3.jpg"
-              alt="Apex Coating Product Showcase — All Product Lines"
+              src="/manus-storage/dual-brand-banner_3672e58c.png"
+              alt="Apex Coating E.A Ltd & Premier Coat — Dual Brand Showcase"
               className="w-full h-full object-cover"
               loading="eager"
             />

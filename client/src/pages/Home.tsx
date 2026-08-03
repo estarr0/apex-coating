@@ -37,8 +37,8 @@ export default function Home() {
           <div className="container">
             <div className="rounded-2xl overflow-hidden swatch-shadow-lg">
               <img
-                src="/manus-storage/brand-banner_e008b465.png"
-                alt="Apex Coating & Premier Coat — Two Brands. One Commitment. Quality. Protection. Lasting Beauty."
+                src="/manus-storage/dual-brand-banner_3672e58c.png"
+                alt="Apex Coating E.A Ltd & Premier Coat — Two Brands. One Commitment. Quality. Protection. Lasting Beauty."
                 className="w-full h-auto object-cover"
               />
             </div>

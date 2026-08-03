@@ -46,24 +46,13 @@ const slides = [
   },
 ];
 
+// Hi-res logo images instead of inline SVGs
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 120 100" className={className} fill="none">
-    <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
-    <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
-    <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
-    <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
-    <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
-    <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
-  </svg>
+  <img src="/manus-storage/logo-apex-hires_3c8d4d75.png" alt="Apex Coating" className={`${className} object-contain`} />
 );
 
 const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 120 80" className={className}>
-    <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
-    <text x="60" y="32" textAnchor="middle" fill="white" fontSize="16" fontWeight="900" fontFamily="Arial, sans-serif" letterSpacing="2">PREMIER</text>
-    <path d="M15 40 Q60 32 105 40" fill="none" stroke="#D42020" strokeWidth="3" />
-    <text x="60" y="58" textAnchor="middle" fill="white" fontSize="16" fontStyle="italic" fontWeight="700" fontFamily="Georgia, serif">Coat</text>
-  </svg>
+  <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat" className={`${className} object-contain`} />
 );
 
 export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
