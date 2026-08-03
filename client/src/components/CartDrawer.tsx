@@ -4,8 +4,8 @@ import { formatKES } from "@/lib/products";
 import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets, Truck, Store, MapPin } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const WHATSAPP_NUMBER = "254XXXXXXXXX"; // TODO: Replace with real WhatsApp number
-const SALES_EMAIL = "sales@apexcoating.co.ke"; // TODO: Replace with real sales email
+const WHATSAPP_NUMBER = "254722252134";
+const SALES_EMAIL = "sales@apexcoating.co.ke";
 
 const STORE_LOCATIONS = [
   "Industrial Area, Mombasa Road, Nairobi",
@@ -309,7 +309,7 @@ export default function CartDrawer() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Phone</label>
-                  <input type="tel" value={emailForm.phone} onChange={(e) => setEmailForm({ ...emailForm, phone: e.target.value })} placeholder="+254 7XX XXX XXX" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
+                  <input type="tel" value={emailForm.phone} onChange={(e) => setEmailForm({ ...emailForm, phone: e.target.value })} placeholder="+254 722 252 134" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
                 </div>
                 <div>
                   <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Email</label>

@@ -47,7 +47,7 @@ export default function ContactFooter() {
               <div className="space-y-4">
                 {[
                   { icon: MapPin, label: "Head Office", value: "Industrial Area, Mombasa Road, Nairobi, Kenya" },
-                  { icon: Phone, label: "Phone / WhatsApp", value: "+254 7XX XXX XXX" },
+                  { icon: Phone, label: "Phone / WhatsApp", value: "+254 722 252 134" },
                   { icon: Mail, label: "Email", value: "sales@apexcoating.co.ke" },
                   { icon: Clock, label: "Business Hours", value: "Mon - Sat: 8:00 AM - 6:00 PM" },
                 ].map(({ icon: Icon, label, value }) => (
@@ -146,16 +146,9 @@ export default function ContactFooter() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2.5 mb-4">
-                <svg viewBox="0 0 120 100" className="w-12 h-10">
-                  <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
-                  <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
-                  <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
-                  <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
-                  <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
-                  <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
-                </svg>
+                <img src="/manus-storage/logo-apex-hires_3c8d4d75.png" alt="Apex Coating" className="h-12 w-auto object-contain" />
                 <div>
-                  <div className="font-display font-extrabold text-base tracking-tight">Apex Coating</div>
+                  <div className="font-display font-extrabold text-base tracking-tight text-white">Apex Coating</div>
                   <div className="text-[9px] tracking-widest uppercase text-blue-300/60">E.A Ltd</div>
                 </div>
               </div>
@@ -200,7 +193,7 @@ export default function ContactFooter() {
               <ul className="space-y-2 text-sm text-blue-200/70">
                 <li>Industrial Area, Mombasa Road</li>
                 <li>Nairobi, Kenya</li>
-                <li>+254 7XX XXX XXX</li>
+                <li>+254 722 252 134</li>
                 <li>sales@apexcoating.co.ke</li>
               </ul>
             </div>

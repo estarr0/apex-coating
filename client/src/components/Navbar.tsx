@@ -8,26 +8,14 @@ interface NavbarProps {
   onNavigate: (section: string) => void;
 }
 
-// Apex Coating logo SVG matching the actual brand
-const ApexLogoSVG = ({ size = "w-12 h-12" }: { size?: string }) => (
-  <svg viewBox="0 0 120 100" className={size} fill="none">
-    <path d="M60 5 L95 45 L80 45 L60 18 L40 45 L25 45 Z" fill="#1B5299" />
-    <path d="M30 45 L45 70 L15 70 Z" fill="#1B5299" />
-    <path d="M90 45 L105 70 L75 70 Z" fill="#1B5299" />
-    <path d="M60 72 L72 85 L60 98 L48 85 Z" fill="#1B5299" />
-    <path d="M35 72 L48 85 L35 98 L22 85 Z" fill="#2E8B3E" />
-    <path d="M85 72 L98 85 L85 98 L72 85 Z" fill="#D42020" />
-  </svg>
+// Apex Coating high-res logo image
+const ApexLogo = ({ size = "h-12" }: { size?: string }) => (
+  <img src="/manus-storage/logo-apex-hires_3c8d4d75.png" alt="Apex Coating Logo" className={`${size} object-contain`} />
 );
 
-// Premier Coat oval badge SVG
+// Premier Coat oval badge image
 const PremierCoatBadge = ({ size = "h-12" }: { size?: string }) => (
-  <svg viewBox="0 0 120 80" className={size}>
-    <ellipse cx="60" cy="40" rx="58" ry="36" fill="#2D1B69" />
-    <text x="60" y="32" textAnchor="middle" fill="white" fontSize="16" fontWeight="900" fontFamily="Arial, sans-serif" letterSpacing="2">PREMIER</text>
-    <path d="M15 40 Q60 32 105 40" fill="none" stroke="#D42020" strokeWidth="3" />
-    <text x="60" y="58" textAnchor="middle" fill="white" fontSize="16" fontStyle="italic" fontWeight="700" fontFamily="Georgia, serif">Coat</text>
-  </svg>
+  <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat Logo" className={`${size} object-contain`} />
 );
 
 export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
@@ -98,7 +86,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               onClick={() => handleNav("hero")}
               className="flex items-center gap-2 group"
             >
-              <ApexLogoSVG size="w-10 h-9 lg:w-12 lg:h-10" />
+              <ApexLogo size="h-10 lg:h-12" />
               <div className="hidden sm:block">
                 <div
                   className="font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none transition-colors"
@@ -208,7 +196,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
             {/* Contact Placeholder */}
             <a
-              href="tel:+254XXXXXXXXX"
+              href="tel:+254722252134"
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors ${
                 scrolled ? (isDark ? "border-slate-700 text-slate-400 hover:bg-slate-800" : "border-slate-200 text-slate-600 hover:bg-slate-50") : "border-white/20 text-blue-100 hover:bg-white/10"
               }`}
