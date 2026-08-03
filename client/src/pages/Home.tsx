@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import Features from "@/components/Features";
+import ProductCollage from "@/components/ProductCollage";
 import ShadeCard from "@/components/ShadeCard";
 import ColorVisualizer from "@/components/ColorVisualizer";
 import CustomPaintMixer from "@/components/CustomPaintMixer";
@@ -42,18 +43,19 @@ export default function Home() {
               />
             </div>
             {/* Trust badges row below the banner */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
               {[
+                { label: "Superior Protection", icon: "shield" },
+                { label: "Excellent Finish", icon: "paint" },
+                { label: "Long Lasting Durability", icon: "clock" },
+                { label: "Environmentally Friendly", icon: "leaf" },
                 { label: "Trusted Quality", icon: "star" },
-                { label: "Wide Range of Colours", icon: "paint" },
-                { label: "Customer Satisfaction Guaranteed", icon: "check" },
-                { label: "A Product of Apex Coating E.A Ltd", icon: "brand" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 px-4 py-3 bg-slate-50 rounded-lg border border-slate-100">
+                <div key={item.label} className="flex items-center gap-3 px-3 py-3 bg-slate-50 rounded-lg border border-slate-100">
                   <div className="w-8 h-8 rounded-lg bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    {item.icon === "star" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-amber-400 fill-current">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    {item.icon === "shield" && (
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-blue-400 fill-current">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
                       </svg>
                     )}
                     {item.icon === "paint" && (
@@ -61,18 +63,23 @@ export default function Home() {
                         <path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z" />
                       </svg>
                     )}
-                    {item.icon === "check" && (
+                    {item.icon === "clock" && (
                       <svg viewBox="0 0 24 24" className="w-4 h-4 text-emerald-400 fill-current">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
                       </svg>
                     )}
-                    {item.icon === "brand" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-slate-600 fill-current">
-                        <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
+                    {item.icon === "leaf" && (
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-emerald-400 fill-current">
+                        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
+                      </svg>
+                    )}
+                    {item.icon === "star" && (
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-amber-400 fill-current">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                     )}
                   </div>
-                  <span className="text-xs font-semibold text-slate-700">{item.label}</span>
+                  <span className="text-[11px] font-semibold text-slate-700 leading-tight">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -80,6 +87,7 @@ export default function Home() {
         </section>
 
         <Features />
+        <ProductCollage />
         <ShadeCard externalSearch={searchQuery} />
         <ColorVisualizer />
         <CustomPaintMixer />

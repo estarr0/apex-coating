@@ -785,17 +785,27 @@ export const PRODUCT_CATEGORIES = [
 export const ROOM_SCENES = [
   {
     id: "living",
-    name: "Modern Living Room",
+    name: "Living Room",
     image: "/manus-storage/room-living_915e7a0d.jpg",
   },
   {
+    id: "bedroom",
+    name: "Bedroom",
+    image: "/manus-storage/room-living_915e7a0d.jpg",
+  },
+  {
+    id: "kitchen",
+    name: "Kitchen",
+    image: "/manus-storage/room-office_8d7e7cab.jpg",
+  },
+  {
     id: "office",
-    name: "Commercial Office",
+    name: "Office",
     image: "/manus-storage/room-office_8d7e7cab.jpg",
   },
   {
     id: "exterior",
-    name: "Exterior Facade",
+    name: "Exterior",
     image: "/manus-storage/room-exterior_897ac90f.jpg",
   },
 ];

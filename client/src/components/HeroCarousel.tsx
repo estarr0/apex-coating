@@ -1,5 +1,13 @@
+/**
+ * Hero Carousel — Single-slide full-width Owl-style layout
+ * - Strictly ONE slide at a time across all screen sizes
+ * - Full-bleed background image per slide
+ * - Single headline, concise subtext, tag badge, primary/secondary CTAs
+ * - Sleek circular floating Left/Right arrows on screen edges
+ * - Smooth CSS transitions, touch/swipe support, bottom pagination dots
+ */
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ArrowLeft, ArrowRight, Palette, Palette as Mixer } from "lucide-react";
+import { ArrowLeft, ArrowRight, Palette } from "lucide-react";
 
 interface HeroCarouselProps {
   onNavigate: (section: string) => void;
@@ -8,6 +16,7 @@ interface HeroCarouselProps {
 const slides = [
   {
     image: "/manus-storage/hero-paint-facade_529dd26e.jpg",
+    tag: "APEX COATING EAST AFRICA LTD",
     title: "Color Engineered for East Africa",
     subtitle: "Premium coatings that withstand the harshest climates while delivering uncompromising quality.",
     cta1: "Interactive Color Visualizer",
@@ -17,6 +26,7 @@ const slides = [
   },
   {
     image: "/manus-storage/hero-color-palette_52df31ee.jpg",
+    tag: "APEX COATING EAST AFRICA LTD",
     title: "Every Shade. Every Surface. Every Standard.",
     subtitle: "The complete BS 4800 color collection at your fingertips. Find your perfect shade.",
     cta1: "Explore BS 4800 Swatches",
@@ -26,6 +36,7 @@ const slides = [
   },
   {
     image: "/manus-storage/hero-paint-application_3efc0a71.jpg",
+    tag: "APEX COATING EAST AFRICA LTD",
     title: "Industrial Grade. Consumer Friendly.",
     subtitle: "From heavy-duty industrial primers to luxurious silk emulsions — one trusted source.",
     cta1: "View Products",
@@ -66,7 +77,7 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrent(index);
-    setTimeout(() => setIsTransitioning(false), 800);
+    setTimeout(() => setIsTransitioning(false), 600);
   }, [isTransitioning]);
 
   const next = useCallback(() => {
@@ -77,18 +88,28 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
     goTo((current - 1 + slides.length) % slides.length);
   }, [current, goTo]);
 
-  // Autoplay
+  // Autoplay — pause on hover/touch, resume after 8s
   useEffect(() => {
-    autoplayRef.current = setInterval(next, 5000);
+    autoplayRef.current = setInterval(next, 6000);
     return () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current);
     };
   }, [next]);
 
-  // Touch / Swipe support
+  const pauseAutoplay = () => {
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+  };
+
+  const resumeAutoplay = () => {
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+    autoplayRef.current = setInterval(next, 6000);
+  };
+
+  // Touch / Swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
-    if (autoplayRef.current) clearInterval(autoplayRef.current);
+    touchEndX.current = e.touches[0].clientX;
+    pauseAutoplay();
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -101,156 +122,118 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
       if (diff > 0) next();
       else prev();
     }
-    // Restart autoplay
-    autoplayRef.current = setInterval(next, 5000);
+    resumeAutoplay();
   };
 
-  // Mouse drag support for desktop
-  const [isDragging, setIsDragging] = useState(false);
-  const mouseStartX = useRef(0);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    mouseStartX.current = e.clientX;
-    setIsDragging(true);
-    if (autoplayRef.current) clearInterval(autoplayRef.current);
-  };
-
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    setIsDragging(false);
-    const diff = mouseStartX.current - e.clientX;
-    if (Math.abs(diff) > 80) {
-      if (diff > 0) next();
-      else prev();
-    }
-    autoplayRef.current = setInterval(next, 5000);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging) {
-      setIsDragging(false);
-      autoplayRef.current = setInterval(next, 5000);
-    }
-  };
+  const slide = slides[current];
 
   return (
     <section id="hero" className="relative">
-      {/* Hero Carousel - Owl-style horizontal sliding */}
+      {/* ── SINGLE-SLIDE HERO (strictly 1 slide visible) ── */}
       <div
-        className="h-screen min-h-[600px] max-h-[900px] overflow-hidden bg-[#0A1B3D] relative select-none"
+        className="relative w-full h-screen min-h-[600px] max-h-[900px] overflow-hidden bg-[#0A1B3D]"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        onMouseEnter={pauseAutoplay}
+        onMouseLeave={resumeAutoplay}
       >
-        {/* Horizontal Sliding Track */}
-        <div className="absolute inset-0 flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
-          {slides.map((slide, idx) => (
-            <div key={idx} className="relative flex-shrink-0 w-full h-full">
-              {/* Background Image with Ken Burns */}
-              <div
-                className={`absolute inset-0 bg-cover bg-center ${idx === current ? "animate-ken-burns" : ""}`}
-                style={{ backgroundImage: `url(${slide.image})` }}
-              />
-              {/* Gradient Overlays for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0A1B3D]/90 via-[#0A1B3D]/60 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1B3D]/80 via-transparent to-transparent" />
-            </div>
-          ))}
-        </div>
+        {/* Full-bleed background image — single slide with crossfade */}
+        <div
+          key={current}
+          className="absolute inset-0 bg-cover bg-center animate-fade-in"
+          style={{ backgroundImage: `url(${slide.image})` }}
+        />
+        {/* Gradient overlays for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1B3D]/85 via-[#0A1B3D]/55 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1B3D]/70 via-transparent to-[#0A1B3D]/30" />
 
-        {/* Content Layer (slides horizontally with the track) */}
-        <div className="absolute inset-0 flex items-center pointer-events-none">
-          <div className="container pointer-events-none">
-            <div className="max-w-2xl">
-              {/* We render all slides in a flex track matching the image slides */}
-              <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
-                {slides.map((slide, idx) => (
-                  <div key={idx} className="flex-shrink-0 w-full">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-overlay mb-6 pointer-events-auto">
-                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                      <span className="text-xs font-mono text-white tracking-wider uppercase">
-                        Apex Coating East Africa Ltd
-                      </span>
-                    </div>
-                    <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6">
-                      {slide.title}
-                    </h1>
-                    <p className="text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
-                      {slide.subtitle}
-                    </p>
-                    <div className="flex flex-wrap gap-4 pointer-events-auto">
-                      <button
-                        onClick={() => onNavigate(slide.cta1Target)}
-                        className="group inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-[0_8px_24px_rgba(37,99,235,0.4)] active:scale-[0.97]"
-                      >
-                        <Palette className="w-4 h-4" />
-                        {slide.cta1}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                      <button
-                        onClick={() => onNavigate(slide.cta2Target)}
-                        className="group inline-flex items-center gap-2 px-6 py-3 glass-overlay text-white font-semibold rounded-lg transition-all duration-200 hover:bg-white/25 active:scale-[0.97]"
-                      >
-                        {slide.cta2}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+        {/* ── Content — single headline, subtext, tag badge, CTAs ── */}
+        <div className="absolute inset-0 flex items-center z-10">
+          <div className="container">
+            <div key={current} className="max-w-2xl animate-fade-slide-up">
+              {/* Tag Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-xs font-mono text-white tracking-wider uppercase">
+                  {slide.tag}
+                </span>
+              </div>
+
+              {/* Single Headline */}
+              <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.05] mb-6 drop-shadow-lg">
+                {slide.title}
+              </h1>
+
+              {/* Concise Subtext */}
+              <p className="text-base sm:text-lg text-blue-100/90 mb-8 max-w-lg leading-relaxed">
+                {slide.subtitle}
+              </p>
+
+              {/* Primary + Secondary CTAs */}
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => onNavigate(slide.cta1Target)}
+                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-[0_8px_28px_rgba(37,99,235,0.45)] active:scale-[0.97]"
+                >
+                  <Palette className="w-4 h-4" />
+                  {slide.cta1}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button
+                  onClick={() => onNavigate(slide.cta2Target)}
+                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold rounded-xl border border-white/15 transition-all duration-200 active:scale-[0.97]"
+                >
+                  {slide.cta2}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Left Arrow - Visible on all screen sizes */}
+        {/* ── Sleek circular floating arrows ── */}
         <button
-          onClick={prev}
-          className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/30 transition-all duration-200 active:scale-95 shadow-lg"
+          onClick={() => { pauseAutoplay(); prev(); resumeAutoplay(); }}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/25 transition-all duration-200 active:scale-90 shadow-xl"
           aria-label="Previous slide"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
-
-        {/* Right Arrow - Visible on all screen sizes */}
         <button
-          onClick={next}
-          className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white hover:bg-white/30 transition-all duration-200 active:scale-95 shadow-lg"
+          onClick={() => { pauseAutoplay(); next(); resumeAutoplay(); }}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/25 transition-all duration-200 active:scale-90 shadow-xl"
           aria-label="Next slide"
         >
           <ArrowRight className="w-5 h-5" />
         </button>
 
-        {/* Pagination Dots */}
-        <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-2.5 z-20">
+        {/* ── Bottom pagination dots ── */}
+        <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-3 z-20">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => goTo(idx)}
-              className={`transition-all duration-300 rounded-full ${
+              className={`transition-all duration-400 rounded-full ${
                 idx === current
-                  ? "w-10 h-2.5 bg-white shadow-md"
-                  : "w-2.5 h-2.5 bg-white/40 hover:bg-white/60"
+                  ? "w-12 h-2.5 bg-white shadow-lg"
+                  : "w-2.5 h-2.5 bg-white/35 hover:bg-white/60"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
 
-        {/* Slide Counter */}
-        <div className="absolute bottom-8 right-4 md:right-8 z-20 text-white/60 text-xs font-mono">
+        {/* Slide counter */}
+        <div className="absolute bottom-8 right-4 md:right-8 z-20 text-white/50 text-xs font-mono tracking-wider">
           {String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
         </div>
       </div>
 
-      {/* Brand Emblem Marquee Strip */}
+      {/* ── Brand Emblem Marquee Strip ── */}
       <div className="bg-white border-b border-slate-100">
         <div className="container py-5">
           <div className="flex items-center justify-center gap-4 md:gap-6 lg:gap-10 flex-wrap">
-            {/* Apex Coating Logo */}
             <div className="flex items-center gap-3">
               <ApexLogoSVG className="w-12 h-10" />
               <div className="hidden sm:block">
@@ -259,7 +242,6 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* Premier Coat Badge */}
             <div className="flex items-center gap-3">
               <PremierCoatBadge className="h-10" />
               <div className="hidden sm:block">
@@ -268,7 +250,6 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* BS 4800 */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
                 <span className="text-xs font-mono font-bold text-blue-600">BS</span>
@@ -279,7 +260,6 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* Computerised */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2">
@@ -293,10 +273,9 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* Unlimited Custom */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
-                <Mixer className="w-5 h-5 text-amber-600" />
+                <Palette className="w-5 h-5 text-amber-600" />
               </div>
               <div className="hidden sm:block">
                 <div className="text-xs font-semibold text-slate-700">Unlimited</div>
@@ -304,7 +283,6 @@ export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {
               </div>
             </div>
             <div className="w-px h-8 bg-slate-200" />
-            {/* Premium Kenyan Quality */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 text-red-600" fill="currentColor">

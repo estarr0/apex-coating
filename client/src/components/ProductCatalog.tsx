@@ -95,7 +95,7 @@ export default function ProductCatalog() {
             Complete Price List
           </h2>
           <p className={`${subText} max-w-2xl mx-auto text-base`}>
-            42+ products across 5 categories. Hardcoded pricing effective July 2026. Select your size, choose your BS 4800 shade, and add to cart.
+            42+ products across 5 categories. Hardcoded pricing effective July 2026. Select your size, choose your BS 4800 shade where available, and add to cart.
           </p>
         </div>
 
@@ -376,8 +376,16 @@ function CoverageCalculatorModal({ product, onClose }: { product: typeof PRODUCT
   const h = parseFloat(height) || 0;
   const totalArea = w * h;
   const totalLitersNeeded = Math.ceil((totalArea * coats) / coveragePerLiter);
-  const baseVolumeLiters = 1; // base pricing unit is 1L
-  const totalCost = totalLitersNeeded * (product.sizes[0].price / baseVolumeLiters);
+
+  // Find the best size to recommend (smallest size >= totalLitersNeeded, or largest available)
+  const bestSize = [...product.sizes].sort((a, b) => a.price - b.price).find(s => {
+    const vol = parseFloat(s.label);
+    return !isNaN(vol) && vol >= totalLitersNeeded;
+  }) || product.sizes[product.sizes.length - 1];
+  const bestVol = parseFloat(bestSize.label) || 1;
+  // Price per liter from the selected size
+  const pricePerLiter = bestSize.price / bestVol;
+  const totalCost = totalLitersNeeded * pricePerLiter;
 
   const modalBg = isDark ? "bg-slate-800" : "bg-white";
   const titleColor = isDark ? "text-white" : "text-[#0A1B3D]";
