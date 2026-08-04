@@ -46,7 +46,7 @@ export default function ContactFooter() {
 
               <div className="space-y-4">
                 {[
-                  { icon: MapPin, label: "Head Office", value: "Industrial Area, Losengatani Road, Nairobi, Kenya" },
+                  { icon: MapPin, label: "Head Office", value: "Industrial Area, Lusingeti Road, Nairobi, Kenya" },
                   { icon: Phone, label: "Phone / WhatsApp", value: "+254 722 252 134" },
                   { icon: Mail, label: "Email", value: "sales@apexcoating.co.ke" },
                   { icon: Clock, label: "Business Hours", value: "Mon - Sat: 7:30 AM - 5:30 PM" },
@@ -193,7 +193,7 @@ export default function ContactFooter() {
             <div>
               <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-blue-200/70">
-                <li>Industrial Area, Losengatani Road</li>
+                <li>Industrial Area, Lusingeti Road</li>
                 <li>Nairobi, Kenya</li>
                 <li>+254 722 252 134</li>
                 <li>sales@apexcoating.co.ke</li>
