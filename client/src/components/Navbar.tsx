@@ -46,7 +46,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
   const categories = [
     { label: "Decorative & Specialty", section: "products", sub: "Emulsions, Enamels, Varnishes" },
-    { label: "Seraphic Glues", section: "products", sub: "Industrial Adhesives" },
+    { label: "Serafric Glues", section: "products", sub: "Industrial Adhesives" },
     { label: "Industrial & Heavy Duty", section: "products", sub: "Epoxy, Chlorinated Rubber" },
     { label: "Thinners & Spirits", section: "products", sub: "Solvents" },
     { label: "Wall Finishes & Coatings", section: "products", sub: "Putty, Sealers, Textured" },

@@ -5,7 +5,7 @@
 // - Fixed aspect ratios in UI so users can swap photos without breaking layout
 //
 // NO COLOR SELECTION FOR:
-// - Seraphic Glues, Spray Adhesives, Thinners, Solvents, Retarders, chemical cleaners
+// - Serafric Glues, Spray Adhesives, Thinners, Solvents, Retarders, chemical cleaners
 // - Fixed-color products (QAD Black, Bituminous Black, Silver Aluminium)
 // - Textured, base & preparation coatings (Wall Master, Ruff & Tuff, Metal Putty, etc.)
 // - Road marking products
@@ -33,15 +33,13 @@ export interface Product {
 
 // Set of product IDs that have NO color selection (fixed formula or chemical products)
 const NO_COLOR_PRODUCT_IDS = new Set([
-  // --- SERAPHIC GLUES (all) ---
-  "seraphic-101",
-  "seraphic-202",
-  "seraphic-103",
-  "seraphic-199",
-  "seraphic-3260",
-  "seraphic-915",
-  "seraphic-professional",
-  "seraphic-trade",
+  // --- SERAFRIC GLUES (all) ---
+  "serafric-101",
+  "serafric-202",
+  "serafric-103",
+  "serafric-199",
+  "serafric-professional",
+  "serafric-trade",
 
   // --- ALL THINNERS & SOLVENTS ---
   "turpentine",
@@ -254,12 +252,12 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
 
-  // --- SERAPHIC GLUES ---
+  // --- SERAFRIC GLUES ---
   // NO COLOR SELECTION: Chemical adhesives with fixed transparent/amber appearance
   {
-    id: "seraphic-101",
-    name: "Seraphic 101 Special in Plastics",
-    category: "Seraphic Glues",
+    id: "serafric-101",
+    name: "Serafric 101 Special in Plastics",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Specialized adhesive formulated for bonding plastic materials. Strong initial tack and permanent bond for industrial applications.",
     image: "/manus-storage/serafric_101_7b9d98c3.png",
@@ -275,9 +273,9 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   {
-    id: "seraphic-202",
-    name: "Seraphic 202 PVC Pipe Glue",
-    category: "Seraphic Glues",
+    id: "serafric-202",
+    name: "Serafric 202 PVC Pipe Glue",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Professional grade PVC pipe cement for plumbing and drainage systems. Creates solvent-welded joints that are watertight and permanent.",
     image: "/manus-storage/serafric_202_43800c70.png",
@@ -292,9 +290,9 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   {
-    id: "seraphic-103",
-    name: "Seraphic 103 Leather Glue",
-    category: "Seraphic Glues",
+    id: "serafric-103",
+    name: "Serafric 103 Leather Glue",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Contact adhesive for leather, rubber, and fabric bonding. Used in footwear manufacturing and upholstery industries.",
     image: "/manus-storage/serafric_103_65cd48f5.png",
@@ -310,9 +308,9 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   {
-    id: "seraphic-199",
-    name: "Seraphic 199 Professional White Wood Glue",
-    category: "Seraphic Glues",
+    id: "serafric-199",
+    name: "Serafric 199 Professional White Wood Glue",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Professional-grade white wood glue for woodworking, furniture assembly, and carpentry. The professionals' choice for strong wood bonds.",
     image: "/manus-storage/serafric_199_328dcc83.png",
@@ -325,39 +323,11 @@ export const PRODUCTS: Product[] = [
     features: ["Wood Bonding", "Professional Grade", "White Glue"],
     noColorSelection: true,
   },
+  // Serafric 3260 mm and 915 removed — awaiting correct product images
   {
-    id: "seraphic-3260",
-    name: "Seraphic 3260 mm",
-    category: "Seraphic Glues",
-    subcategory: "Adhesives",
-    description: "Multi-purpose industrial adhesive for general bonding applications. Suitable for wood, metal, and composite materials.",
-    image: "/manus-storage/serafric_101_7b9d98c3.png",
-    sizes: [
-      { label: "20L", volume: "20 Litre", price: 1600 },
-    ],
-    defaultColor: "00 A 01",
-    features: ["Multi-Purpose", "General Bonding"],
-    noColorSelection: true,
-  },
-  {
-    id: "seraphic-915",
-    name: "Seraphic 915",
-    category: "Seraphic Glues",
-    subcategory: "Adhesives",
-    description: "High-performance industrial adhesive for demanding bonding applications. Professional grade with extended open time.",
-    image: "/manus-storage/serafric_103_65cd48f5.png",
-    sizes: [
-      { label: "20L", volume: "20 Litre", price: 9500 },
-      { label: "4L", volume: "4 Litre", price: 2000 },
-    ],
-    defaultColor: "00 A 01",
-    features: ["High Performance", "Extended Open Time"],
-    noColorSelection: true,
-  },
-  {
-    id: "seraphic-professional",
-    name: "Seraphic Professional",
-    category: "Seraphic Glues",
+    id: "serafric-professional",
+    name: "Serafric Professional",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Professional-grade contact adhesive for industrial and commercial use. Superior bonding strength for a wide range of substrates.",
     image: "/manus-storage/serafric_101_7b9d98c3.png",
@@ -373,9 +343,9 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   {
-    id: "seraphic-trade",
-    name: "Seraphic Trade",
-    category: "Seraphic Glues",
+    id: "serafric-trade",
+    name: "Serafric Trade",
+    category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Economical trade-grade adhesive for everyday bonding needs. Reliable performance at competitive pricing.",
     image: "/manus-storage/serafric_103_65cd48f5.png",
@@ -793,7 +763,7 @@ export const PRODUCTS: Product[] = [
 export const PRODUCT_CATEGORIES = [
   "All",
   "Decorative & Specialty",
-  "Seraphic Glues",
+  "Serafric Glues",
   "Industrial & Heavy Duty",
   "Thinners & Spirits",
   "Wall Finishes & Coatings",
@@ -841,7 +811,7 @@ export function formatKES(amount: number): string {
 
 // Helper: check if a product is a fixed-color or chemical product (no shade picker)
 // Strictly restricted per business rules:
-// - All Seraphic Glues
+// - All Serafric Glues
 // - All Thinners & Solvents
 // - Fixed-color products (QAD Black, Bituminous Black, Silver Aluminium)
 // - Textured/base/preparation coatings (Wall Master, Metal Putty, Crack Filler, Concrete Sealer, PU Clear)
