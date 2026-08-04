@@ -179,15 +179,11 @@ export const BS4800_COLORS: BSColor[] = [
   c("#481848", "24 C 35", "Grape", "Pastels & Warm Earth"),
   c("#280828", "24 C 37", "Eggplant", "Pastels & Warm Earth"),
 
-  // Official Premier Coating Named Shades (per brief)
-  c("#f0e6d3", "10 C 31", "Ivory", "Whites & Off-Whites"),
+  // Official Premier Coating Named Shades (per brief) — non-duplicate additions only
   c("#70706e", "10 A 11", "Slate Grey", "Deep Industrial Darks"),
-  c("#a8d088", "10 B 17", "Mistletoe", "Fresh Greens & Blues"),
   c("#9b8a72", "04 B 21", "Toadstool", "Pastels & Warm Earth"),
-  c("#c8b898", "10 C 39", "Panatella", "Pastels & Warm Earth"),
   c("#b89868", "08 C 37", "Rawhide", "Pastels & Warm Earth"),
   c("#f5f2ec", "00 A 04", "Soft White", "Whites & Off-Whites"),
-  c("#c0d0e8", "18 C 33", "Powder Blue", "Fresh Greens & Blues"),
   c("#c8b0c8", "22 C 27", "Lilac Haze", "Pastels & Warm Earth"),
 ];
 

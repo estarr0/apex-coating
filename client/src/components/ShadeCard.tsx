@@ -127,11 +127,11 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
 
         {/* Swatch Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-3">
-          {filteredColors.map((color) => {
-            const isFav = favorites.has(`${color.family}|${color.code}`);
+          {filteredColors.map((color, idx) => {
+            const isFav = favorites.has(`${color.family}|${color.code}|${idx}`);
             return (
               <div
-                key={`${color.family}|${color.code}|${color.name}`}
+                key={`${color.family}|${color.code}|${color.name}|${idx}`}
                 className={`group relative rounded-lg overflow-hidden swatch-shadow hover:swatch-shadow-lg transition-all duration-200 cursor-pointer border ${swatchBorder} ${swatchBg}`}
                 onClick={() => setSelectedColor(color)}
               >
@@ -149,7 +149,7 @@ export default function ShadeCard({ externalSearch = "" }: ShadeCardProps) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleFavorite(`${color.family}|${color.code}`);
+                    toggleFavorite(`${color.family}|${color.code}|${idx}`);
                   }}
                   className={`absolute top-1.5 left-1.5 w-6 h-6 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 active:scale-90 ${
                     isFav

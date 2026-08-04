@@ -237,9 +237,9 @@ export default function ColorVisualizer() {
               </div>
               <div className="flex-1 overflow-y-auto p-5">
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {filteredColors.map((color) => (
+                  {filteredColors.map((color, idx) => (
                     <button
-                      key={color.code}
+                      key={`${color.code}|${color.name}|${idx}`}
                       onClick={() => { setSelectedColor(color); setShowColorPicker(false); setColorSearch(""); }}
                       className={`group rounded-lg overflow-hidden border transition-all duration-200 hover:shadow-md ${isDark ? "border-slate-600 hover:border-blue-500" : "border-slate-100 hover:border-[#0A1B3D]"}`}
                     >
