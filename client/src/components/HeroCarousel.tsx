@@ -46,13 +46,17 @@ const slides = [
   },
 ];
 
-// Hi-res logo images instead of inline SVGs
+// Hi-res logo images with frosted-glass backing for clean blending on the white emblem strip
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
-  <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating" className={`${className} object-contain`} />
+  <div className="flex items-center justify-center bg-white/90 rounded-lg shadow-sm overflow-hidden" style={{ padding: '2px 4px' }}>
+    <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating" className={`${className} object-contain rounded-sm`} />
+  </div>
 );
 
 const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
-  <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat" className={`${className} object-contain`} />
+  <div className="flex items-center justify-center bg-white/90 rounded-lg shadow-sm overflow-hidden" style={{ padding: '2px 4px' }}>
+    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat" className={`${className} object-contain rounded-sm`} />
+  </div>
 );
 
 export default function HeroCarousel({ onNavigate }: HeroCarouselProps) {

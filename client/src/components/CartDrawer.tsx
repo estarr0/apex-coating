@@ -8,7 +8,7 @@ const WHATSAPP_NUMBER = "254722252134";
 const SALES_EMAIL = "sales@apexcoating.co.ke";
 
 const STORE_LOCATIONS = [
-  "Industrial Area, Mombasa Road, Nairobi",
+  "Industrial Area, Losengatani Road, Nairobi",
   "Nyali Road, Mombasa",
   "Ogongo Street, Kisumu",
   "Kenyatta Highway, Nakuru",

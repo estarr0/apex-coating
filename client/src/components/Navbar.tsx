@@ -8,14 +8,20 @@ interface NavbarProps {
   onNavigate: (section: string) => void;
 }
 
-// Apex Coating high-res logo image
-const ApexLogo = ({ size = "h-12" }: { size?: string }) => (
-  <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating Logo" className={`${size} object-contain`} />
+// Apex Coating — logo rendered with bg-white rounded container so the JPEG blends cleanly
+// In the scrolled state (opaque nav), logos sit directly on white/dark bg
+// In the transparent hero state, logos get a frosted-glass backing
+const ApexLogo = ({ scrolled, size = "h-10 lg:h-12" }: { scrolled?: boolean; size?: string }) => (
+  <div className={`flex items-center justify-center rounded-lg overflow-hidden ${scrolled ? '' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`} style={{ width: 'auto', padding: '2px 4px' }}>
+    <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating Logo" className={`${size} object-contain rounded-sm`} />
+  </div>
 );
 
-// Premier Coat oval badge image
-const PremierCoatBadge = ({ size = "h-12" }: { size?: string }) => (
-  <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat Logo" className={`${size} object-contain`} />
+// Premier Coat badge — compact oval rendered on a frosted backing in transparent state
+const PremierCoatBadge = ({ scrolled, size = "h-9 lg:h-11" }: { scrolled?: boolean; size?: string }) => (
+  <div className={`flex items-center justify-center rounded-lg overflow-hidden ${scrolled ? '' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`} style={{ padding: '2px 4px' }}>
+    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat Logo" className={`${size} object-contain rounded-sm`} />
+  </div>
 );
 
 export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
@@ -80,13 +86,13 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
         }`}
       >
         <nav className="container flex items-center justify-between h-16 lg:h-[72px]">
-          {/* Dual Branding */}
-          <div className="flex items-center gap-2 lg:gap-4">
+          {/* Dual Branding — modern, premium logo treatment */}
+          <div className="flex items-center">
             <button
               onClick={() => handleNav("hero")}
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-3 group"
             >
-              <ApexLogo size="h-10 lg:h-12" />
+              <ApexLogo scrolled={scrolled} size="h-10 lg:h-12" />
               <div className="hidden sm:block">
                 <div
                   className="font-display font-extrabold text-sm lg:text-[15px] tracking-tight leading-none transition-colors"
@@ -103,13 +109,14 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               </div>
             </button>
 
-            <div className={`w-px h-9 mx-1 transition-colors ${scrolled ? (isDark ? "bg-slate-700" : "bg-slate-200") : "bg-white/20"}`} />
+            {/* Elegant divider between brands */}
+            <div className={`mx-3 lg:mx-4 transition-colors ${scrolled ? (isDark ? "bg-slate-700" : "bg-slate-200") : "bg-white/20"}`} style={{ width: 1, height: 32 }} />
 
             <button
               onClick={() => handleNav("hero")}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2.5"
             >
-              <PremierCoatBadge size="h-11" />
+              <PremierCoatBadge scrolled={scrolled} size="h-9 lg:h-11" />
               <div className="hidden sm:block">
                 <div
                   className={`text-[11px] font-bold leading-none transition-colors ${scrolled ? (isDark ? "text-blue-400" : "text-[#2D1B69]") : "text-white/90"}`}

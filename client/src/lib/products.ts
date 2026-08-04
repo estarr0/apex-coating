@@ -38,7 +38,6 @@ const NO_COLOR_PRODUCT_IDS = new Set([
   "serafric-202",
   "serafric-103",
   "serafric-199",
-  "serafric-professional",
   "serafric-trade",
 
   // --- ALL THINNERS & SOLVENTS ---
@@ -90,7 +89,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Economical interior emulsion suitable for walls and ceilings. Provides good coverage with a smooth finish at competitive prices.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 1500 },
       { label: "10L", volume: "10 Litre", price: 850 },
@@ -106,7 +105,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "High-gloss solvent-based enamel for wood and metal surfaces. Delivers a durable, mirror-like finish with excellent adhesion.",
-    image: "/manus-storage/premier-super-gloss_bf5a4331.jpeg",
+    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4500 },
       { label: "4L", volume: "4 Litre", price: 900 },
@@ -123,7 +122,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium gloss finish for interior and exterior woodwork, doors, and trim. Superior flow and leveling for a professional finish.",
-    image: "/manus-storage/premier-super-gloss_bf5a4331.jpeg",
+    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4850 },
       { label: "4L", volume: "4 Litre", price: 1250 },
@@ -158,7 +157,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Metallic silver aluminium paint — fixed metallic silver color. Heat reflective and corrosion resistant for metal surfaces.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6800 },
       { label: "4L", volume: "4 Litre", price: 1650 },
@@ -176,7 +175,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Exterior",
     description: "Versatile coating for roofs and floors. Provides waterproofing, UV resistance, and durable protection against weathering.",
-    image: "/manus-storage/product-bucket-roof_35f3cf0b.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4700 },
       { label: "4L", volume: "4 Litre", price: 1150 },
@@ -192,7 +191,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Two-component polyurethane clear coat — fixed clear formulation. Superior scratch and chemical resistance for wood surfaces.",
-    image: "/manus-storage/product-bucket-wood_797fac2f.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "4L", volume: "4 Litre", price: 2200 },
       { label: "1L", volume: "1 Litre", price: 520 },
@@ -208,7 +207,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Nitrocellulose-based wood finish in Cherry and Peach tones. Quick drying with excellent grain enhancement for furniture and joinery.",
-    image: "/manus-storage/product-bucket-wood_797fac2f.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "4L", volume: "4 Litre", price: 2400 },
@@ -225,7 +224,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Industrial",
     description: "Penetrating concrete sealer — fixed clear formulation. Protects against moisture, dust, and chemical attack on floors and walls.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5000 },
       { label: "4L", volume: "4 Litre", price: 1400 },
@@ -241,7 +240,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wall Finishes",
     description: "Ready-mix crack filler — fixed white/off-white color. Flexible formulation bridges hairline cracks for a smooth painting surface.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "21kg/2kg", volume: "21kg/2kg", price: 280 },
       { label: "1kg", volume: "1 kg", price: 140 },
@@ -324,31 +323,14 @@ export const PRODUCTS: Product[] = [
     noColorSelection: true,
   },
   // Serafric 3260 mm and 915 removed — awaiting correct product images
-  {
-    id: "serafric-professional",
-    name: "Serafric Professional",
-    category: "Serafric Glues",
-    subcategory: "Adhesives",
-    description: "Professional-grade contact adhesive for industrial and commercial use. Superior bonding strength for a wide range of substrates.",
-    image: "/manus-storage/serafric_101_7b9d98c3.png",
-    sizes: [
-      { label: "20L", volume: "20 Litre", price: 8000 },
-      { label: "4L", volume: "4 Litre", price: 1800 },
-      { label: "1L", volume: "1 Litre", price: 450 },
-      { label: "1/2L", volume: "1/2 Litre", price: 250 },
-      { label: "1/4L", volume: "1/4 Litre", price: 140 },
-    ],
-    defaultColor: "00 A 01",
-    features: ["Contact Adhesive", "Professional", "Multi-Substrate"],
-    noColorSelection: true,
-  },
+  // Serafric Professional removed — awaiting correct product image
   {
     id: "serafric-trade",
     name: "Serafric Trade",
     category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Economical trade-grade adhesive for everyday bonding needs. Reliable performance at competitive pricing.",
-    image: "/manus-storage/serafric_103_65cd48f5.png",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5000 },
       { label: "1L", volume: "1 Litre", price: 210 },
@@ -361,28 +343,14 @@ export const PRODUCTS: Product[] = [
   },
 
   // --- INDUSTRIAL & HEAVY DUTY RANGE ---
-  {
-    id: "2pack-epoxy",
-    name: "2-Pack Epoxy Paints (Main Colours)",
-    category: "Industrial & Heavy Duty",
-    subcategory: "Industrial",
-    description: "Two-component epoxy coating system for heavy-duty industrial applications. Exceptional chemical resistance, adhesion, and durability on metal and concrete.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
-    sizes: [
-      { label: "20L", volume: "20 Litre", price: 10000 },
-      { label: "4L", volume: "4 Litre", price: 2700 },
-    ],
-    defaultColor: "00 A 17",
-    features: ["2-Pack System", "Chemical Resistant", "Heavy Duty"],
-    badge: "Industrial",
-  },
+  // 2-Pack Epoxy Paints removed — awaiting correct product image
   {
     id: "epoxy-hardener",
     name: "Epoxy Hardener",
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Catalyst hardener for 2-pack epoxy paint systems. Must be used in correct ratio with epoxy base for proper curing.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "1L", volume: "1 Litre", price: 700 },
     ],
@@ -395,7 +363,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Quality anti-corrosive paint — always Black. Available in gloss and matte finishes for steel structures and machinery.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 14500 },
       { label: "4L", volume: "4 Litre", price: 2700 },
@@ -411,7 +379,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Aluminium-containing anti-corrosive primer/paint for metal surfaces. Provides barrier protection against rust and weathering.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "4L", volume: "4 Litre", price: 2700 },
       { label: "1L", volume: "1 Litre", price: 450 },
@@ -425,7 +393,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Chemical-resistant chlorinated rubber coating for industrial environments. Suitable for metal structures exposed to harsh conditions.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6800 },
       { label: "4L", volume: "4 Litre", price: 1400 },
@@ -440,7 +408,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Bituminous waterproofing paint — always Black. For underground structures, foundations, and metal surfaces. Excellent moisture barrier.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "4L", volume: "4 Litre", price: 3000 },
@@ -456,7 +424,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Fast-drying industrial coating in white and black. Ideal for machinery, equipment, and surfaces requiring quick turnaround.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "4L", volume: "4 Litre", price: 3000 },
@@ -470,7 +438,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Road Marking",
     description: "Specialized road marking paint — standard fixed formulation. High visibility and durability for traffic line marking and parking areas.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "4L", volume: "4 Litre", price: 2200 },
       { label: "1L", volume: "1 Litre", price: 530 },
@@ -485,7 +453,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Road Marking",
     description: "Specialized thinner for road marking paint — fixed transparent formulation. Ensures proper viscosity for spray application.",
-    image: "/manus-storage/product-bucket-primer_a7275955.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8400 },
     ],
@@ -502,7 +470,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Natural turpentine solvent — fixed transparent/amber liquid. For thinning oil-based paints, varnishes, and enamels.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4000 },
       { label: "5L", volume: "5 Litre", price: 1300 },
@@ -520,7 +488,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Nitrocellulose thinner — fixed transparent liquid. For lacquers and NC wood finishes. Controls viscosity for spray application.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 7600 },
       { label: "5L", volume: "5 Litre", price: 1400 },
@@ -537,7 +505,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Standard industrial thinner — fixed transparent liquid. For general-purpose paint thinning. Compatible with most solvent-based coatings.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5000 },
       { label: "5L", volume: "5 Litre", price: 1300 },
@@ -554,7 +522,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "High-purity white spirit — fixed transparent liquid. For thinning gloss enamels, varnishes, and cleaning. Low odour formulation.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4200 },
       { label: "5L", volume: "5 Litre", price: 1400 },
@@ -572,7 +540,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Fast-evaporating thinner — fixed transparent liquid. Reduces drying time significantly for industrial coatings.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "1L", volume: "1 Litre", price: 400 },
       { label: "1/2L", volume: "1/2 Litre", price: 220 },
@@ -587,7 +555,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Specialized thinner for 2-pack epoxy systems — fixed transparent liquid. Controls viscosity for proper mixing ratio and application.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "1L", volume: "1 Litre", price: 430 },
     ],
@@ -601,7 +569,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Formulated for high-gloss enamel and lacquer coatings — fixed transparent liquid. Maintains gloss level while controlling viscosity.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5800 },
       { label: "1L", volume: "1 Litre", price: 400 },
@@ -619,7 +587,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Premium acrylic-based interior emulsion with vinyl matt finish. Superior coverage, washability, and color retention for walls and ceilings.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8600 },
       { label: "10L", volume: "10 Litre", price: 4700 },
@@ -637,7 +605,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Exterior",
     description: "Silicon-based exterior weather shield coating. Provides superior waterproofing, UV resistance, and long-lasting color protection for external walls.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "10L", volume: "10 Litre", price: 5000 },
@@ -654,7 +622,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Decorative textured wall coating — fixed base formulation. Creates distinctive textured finishes that hide surface imperfections.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "30KG", volume: "30 KG", price: 4250 },
       { label: "20L", volume: "20 Litre", price: 4250 },
@@ -689,7 +657,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Flat matt finish emulsion with excellent opacity. Ideal for ceilings and walls where a non-reflective surface is required.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "10L", volume: "10 Litre", price: 5500 },
@@ -699,27 +667,14 @@ export const PRODUCTS: Product[] = [
     defaultColor: "00 A 01",
     features: ["Flat Matt", "High Opacity", "Ceiling & Walls"],
   },
-  {
-    id: "eggshell-gloss",
-    name: "Eggshell Gloss",
-    category: "Wall Finishes & Coatings",
-    subcategory: "Wall Finishes",
-    description: "Subtle low-sheen eggshell gloss finish for interior walls and ceilings. Provides a durable, washable surface with a soft lustre.",
-    image: "/manus-storage/product-bucket-white_bbbaee2c.jpg",
-    sizes: [
-      { label: "10L", volume: "10 Litre", price: 4000 },
-      { label: "4L", volume: "4 Litre", price: 1030 },
-    ],
-    defaultColor: "00 A 01",
-    features: ["Eggshell Sheen", "Washable", "Durable"],
-  },
+  // Eggshell Gloss removed — not an actual product
   {
     id: "metal-putty",
     name: "Metal Putty",
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Ready-to-use metal putty — fixed grey/metallic color. For filling cracks, holes, and surface defects on metal surfaces.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "40KG", volume: "40 KG", price: 1800 },
       { label: "20L", volume: "20 Litre", price: 10500 },
@@ -738,7 +693,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Fine finishing plaster for smooth wall preparation. Creates a perfectly flat surface ready for painting or wallpaper.",
-    image: "/manus-storage/product-bucket-navy_55f1ba7d.jpg",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "25KG", volume: "25 KG", price: 1200 },
     ],
