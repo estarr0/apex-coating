@@ -89,7 +89,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Economical interior emulsion suitable for walls and ceilings. Provides good coverage with a smooth finish at competitive prices.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/plastic-matt-emulsion_a13fa4a7.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 1500 },
       { label: "10L", volume: "10 Litre", price: 850 },
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "High-gloss solvent-based enamel for wood and metal surfaces. Delivers a durable, mirror-like finish with excellent adhesion.",
-    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
+    image: "/manus-storage/apex-automotive-finish_69d4c39d.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4500 },
       { label: "4L", volume: "4 Litre", price: 900 },
@@ -122,7 +122,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium gloss finish for interior and exterior woodwork, doors, and trim. Superior flow and leveling for a professional finish.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/premier-acrylic-matt_8e347575.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4850 },
       { label: "4L", volume: "4 Litre", price: 1250 },
@@ -157,7 +157,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Metallic silver aluminium paint — fixed metallic silver color. Heat reflective and corrosion resistant for metal surfaces.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/superdry-aluminium_cc1efc2d.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6800 },
       { label: "4L", volume: "4 Litre", price: 1650 },
@@ -191,7 +191,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Two-component polyurethane clear coat — fixed clear formulation. Superior scratch and chemical resistance for wood surfaces.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/polyurethane-wood-seal_839cc92a.png",
     sizes: [
       { label: "4L", volume: "4 Litre", price: 2200 },
       { label: "1L", volume: "1 Litre", price: 520 },
@@ -207,7 +207,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Nitrocellulose-based wood finish in Cherry and Peach tones. Quick drying with excellent grain enhancement for furniture and joinery.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/apex-wood-care-nitrocellulose_def3e7ae.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "4L", volume: "4 Litre", price: 2400 },
@@ -217,6 +217,42 @@ export const PRODUCTS: Product[] = [
     ],
     defaultColor: "10 B 33",
     features: ["NC Based", "Quick Dry", "Cherry & Peach"],
+  },
+  {
+    id: "nc-wood-finish-lacquer-clear",
+    name: "NC Wood Finish Lacquer (Clear)",
+    category: "Decorative & Specialty",
+    subcategory: "Wood Finishes",
+    description: "Nitrocellulose wood finish lacquer in clear finish. Quick drying with excellent grain enhancement for furniture and joinery.",
+    image: "/manus-storage/nc-wood-finish-clear_27526be9.png",
+    sizes: [
+      { label: "20L", volume: "20 Litre", price: 10000 },
+      { label: "4L", volume: "4 Litre", price: 2400 },
+      { label: "1L", volume: "1 Litre", price: 650 },
+      { label: "1/2L", volume: "1/2 Litre", price: 400 },
+      { label: "1/4L", volume: "1/4 Litre", price: 200 },
+    ],
+    defaultColor: "00 A 01",
+    features: ["NC Based", "Quick Dry", "Clear Finish"],
+    noColorSelection: true,
+  },
+  {
+    id: "nc-sanding-sealer",
+    name: "NC Sanding Sealer",
+    category: "Decorative & Specialty",
+    subcategory: "Wood Finishes",
+    description: "Nitrocellulose sanding sealer for wood surfaces. Prepares wood for top coats with excellent sealing and filling properties.",
+    image: "/manus-storage/nc-sanding-sealer_2882bfd3.png",
+    sizes: [
+      { label: "20L", volume: "20 Litre", price: 10000 },
+      { label: "4L", volume: "4 Litre", price: 2400 },
+      { label: "1L", volume: "1 Litre", price: 650 },
+      { label: "1/2L", volume: "1/2 Litre", price: 400 },
+      { label: "1/4L", volume: "1/4 Litre", price: 200 },
+    ],
+    defaultColor: "00 A 01",
+    features: ["NC Based", "Sanding Sealer", "Wood Preparation"],
+    noColorSelection: true,
   },
   {
     id: "concrete-sealer",
@@ -240,7 +276,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wall Finishes",
     description: "Ready-mix crack filler — fixed white/off-white color. Flexible formulation bridges hairline cracks for a smooth painting surface.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/apex-crack-filler_967ce386.png",
     sizes: [
       { label: "21kg/2kg", volume: "21kg/2kg", price: 280 },
       { label: "1kg", volume: "1 kg", price: 140 },
@@ -330,7 +366,7 @@ export const PRODUCTS: Product[] = [
     category: "Serafric Glues",
     subcategory: "Adhesives",
     description: "Economical trade-grade adhesive for everyday bonding needs. Reliable performance at competitive pricing.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/serafric-d3260mm-glue_3001652e.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5000 },
       { label: "1L", volume: "1 Litre", price: 210 },
@@ -363,7 +399,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Quality anti-corrosive paint — always Black. Available in gloss and matte finishes for steel structures and machinery.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/cr-black_c03cf7f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 14500 },
       { label: "4L", volume: "4 Litre", price: 2700 },
@@ -393,7 +429,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Chemical-resistant chlorinated rubber coating for industrial environments. Suitable for metal structures exposed to harsh conditions.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/cr-black_c03cf7f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6800 },
       { label: "4L", volume: "4 Litre", price: 1400 },
@@ -403,12 +439,27 @@ export const PRODUCTS: Product[] = [
     features: ["Chemical Resistant", "Industrial", "Metal Coating"],
   },
   {
+    id: "durax-gloss-enamel",
+    name: "Durax Gloss Enamel (Bituminous Black)",
+    category: "Industrial & Heavy Duty",
+    subcategory: "Industrial",
+    description: "High-gloss enamel paint by Durax. Available in Bituminous Black and other colors. Durable finish for metal and wood surfaces.",
+    image: "/manus-storage/durax-gloss-enamel-black_468831f5.png",
+    sizes: [
+      { label: "20L", volume: "20 Litre", price: 9500 },
+      { label: "4L", volume: "4 Litre", price: 3000 },
+      { label: "1L", volume: "1 Litre", price: 700 },
+    ],
+    defaultColor: "00 A 25",
+    features: ["High Gloss", "Durable", "Metal & Wood"],
+  },
+  {
     id: "bituminous-black",
     name: "Bituminous Black",
     category: "Industrial & Heavy Duty",
     subcategory: "Industrial",
     description: "Bituminous waterproofing paint — always Black. For underground structures, foundations, and metal surfaces. Excellent moisture barrier.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/durax-gloss-enamel-black_468831f5.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "4L", volume: "4 Litre", price: 3000 },
@@ -438,7 +489,7 @@ export const PRODUCTS: Product[] = [
     category: "Industrial & Heavy Duty",
     subcategory: "Road Marking",
     description: "Specialized road marking paint — standard fixed formulation. High visibility and durability for traffic line marking and parking areas.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/road-marking-yellow_9cab2c30.png",
     sizes: [
       { label: "4L", volume: "4 Litre", price: 2200 },
       { label: "1L", volume: "1 Litre", price: 530 },
@@ -587,7 +638,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Premium acrylic-based interior emulsion with vinyl matt finish. Superior coverage, washability, and color retention for walls and ceilings.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/premier-acrylic-matt_8e347575.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 8600 },
       { label: "10L", volume: "10 Litre", price: 4700 },
@@ -706,7 +757,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Decorative",
     description: "High-gloss paint in metal bucket packaging. Cost-effective packaging for contractors and large-scale projects.",
-    image: "/manus-storage/gloss_enamel_713fb19a.jpg",
+    image: "/manus-storage/superdry-aluminium_cc1efc2d.png",
     sizes: [
       { label: "20KG", volume: "20 KG", price: 4700 },
     ],
