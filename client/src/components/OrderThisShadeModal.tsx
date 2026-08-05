@@ -18,7 +18,7 @@ const FINISH_OPTIONS = [
   { id: "gloss-texstar", name: "Gloss Texstar", product: PRODUCTS.find(p => p.id === "gloss-texstar")! },
   { id: "vinyl-wall-sheen", name: "Vinyl Wall Sheen (Silk)", product: PRODUCTS.find(p => p.id === "vinyl-wall-sheen")! },
   { id: "acrylic-emulsion", name: "Acrylic Emulsion (Vinyl Matt)", product: PRODUCTS.find(p => p.id === "acrylic-emulsion")! },
-  { id: "weathershield", name: "Weathershield (Silicon Based)", product: PRODUCTS.find(p => p.id === "weathershield")! },
+  { id: "weathershield-silicon", name: "Weathershield (Silicon Based)", product: PRODUCTS.find(p => p.id === "weathershield-silicon")! },
   { id: "textured-wall-master", name: "Textured Wall Master / Ruff & Tuff", product: PRODUCTS.find(p => p.id === "textured-wall-master")! },
 ];
 

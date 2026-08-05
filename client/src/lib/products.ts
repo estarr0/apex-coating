@@ -89,7 +89,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Economical interior emulsion suitable for walls and ceilings. Provides good coverage with a smooth finish at competitive prices.",
-    image: "/manus-storage/plastic-matt-emulsion-v2_c5056ca1.png",
+    image: "/manus-storage/plastic-matt-emulsion-ripple-green_ecfabb8a.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 1500 },
       { label: "10L", volume: "10 Litre", price: 850 },
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "High-gloss solvent-based enamel for wood and metal surfaces. Delivers a durable, mirror-like finish with excellent adhesion.",
-    image: "/manus-storage/apex-automotive-finish_69d4c39d.png",
+    image: "/manus-storage/premier-coat-super-gloss-bw_aa87b7cb.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4500 },
       { label: "4L", volume: "4 Litre", price: 900 },
@@ -122,7 +122,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium gloss finish for interior and exterior woodwork, doors, and trim. Superior flow and leveling for a professional finish.",
-    image: "/manus-storage/texstar-coat-brick-red_a4a85d9d.png",
+    image: "/manus-storage/placeholder.jpg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4850 },
       { label: "4L", volume: "4 Litre", price: 1250 },
@@ -157,7 +157,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Metallic silver aluminium paint — fixed metallic silver color. Heat reflective and corrosion resistant for metal surfaces.",
-    image: "/manus-storage/superdry-aluminium-v2_3be53e07.png",
+    image: "/manus-storage/premier-coat-super-gloss-bw_aa87b7cb.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 6800 },
       { label: "4L", volume: "4 Litre", price: 1650 },
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Exterior",
     description: "Versatile coating for roofs and floors. Provides waterproofing, UV resistance, and durable protection against weathering.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/cr-black-v2_8fdb09d9.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 4700 },
       { label: "4L", volume: "4 Litre", price: 1150 },
@@ -606,7 +606,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Specialized thinner for 2-pack epoxy systems — fixed transparent liquid. Controls viscosity for proper mixing ratio and application.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/standard-thinner_9e3c46a7.png",
     sizes: [
       { label: "1L", volume: "1 Litre", price: 430 },
     ],
@@ -620,7 +620,7 @@ export const PRODUCTS: Product[] = [
     category: "Thinners & Spirits",
     subcategory: "Solvents",
     description: "Formulated for high-gloss enamel and lacquer coatings — fixed transparent liquid. Maintains gloss level while controlling viscosity.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/standard-thinner_9e3c46a7.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 5800 },
       { label: "1L", volume: "1 Litre", price: 400 },
@@ -656,7 +656,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Exterior",
     description: "Silicon-based exterior weather shield coating. Provides superior waterproofing, UV resistance, and long-lasting color protection for external walls.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/premier-coat-silicone-weathershield_b92ae862.png",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 9500 },
       { label: "10L", volume: "10 Litre", price: 5000 },
@@ -744,7 +744,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Wall Finishes",
     description: "Fine finishing plaster for smooth wall preparation. Creates a perfectly flat surface ready for painting or wallpaper.",
-    image: "/manus-storage/placeholder.jpg",
+    image: "/manus-storage/apex-skim-coat_1b530f72.png",
     sizes: [
       { label: "25KG", volume: "25 KG", price: 1200 },
     ],
@@ -757,7 +757,7 @@ export const PRODUCTS: Product[] = [
     category: "Wall Finishes & Coatings",
     subcategory: "Decorative",
     description: "High-gloss paint in metal bucket packaging. Cost-effective packaging for contractors and large-scale projects.",
-    image: "/manus-storage/superdry-aluminium-v2_3be53e07.png",
+    image: "/manus-storage/premier-coat-super-gloss-bw_aa87b7cb.png",
     sizes: [
       { label: "20KG", volume: "20 KG", price: 4700 },
     ],
