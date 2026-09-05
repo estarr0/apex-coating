@@ -1,31 +1,18 @@
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { formatKES } from "@/lib/products";
-import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets, Truck, Store, MapPin } from "lucide-react";
+import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const WHATSAPP_NUMBER = "254722252134";
 const SALES_EMAIL = "sales@apexcoating.co.ke";
-
-const STORE_LOCATIONS = [
-  "Industrial Area, Lusingeti Road, Nairobi",
-  "Nyali Road, Mombasa",
-  "Ogongo Street, Kisumu",
-  "Kenyatta Highway, Nakuru",
-  "Tom Mboya Street, Eldoret",
-];
 
 export default function CartDrawer() {
   const { items, isCartOpen, setCartOpen, removeItem, updateQuantity, subtotal, clearCart } = useCart();
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const [deliveryMethod, setDeliveryMethod] = useState<"doorstep" | "pickup" | null>(null);
-  const [selectedStore, setSelectedStore] = useState("");
-  const [emailForm, setEmailForm] = useState({ name: "", phone: "", email: "", location: "" });
-
-  const deliveryFee = deliveryMethod === "doorstep" ? Math.round(subtotal * 0.05) : 0;
-  const totalWithDelivery = subtotal + deliveryFee;
+  const [emailForm, setEmailForm] = useState({ name: "", phone: "", email: "" });
 
   const handleWhatsAppCheckout = () => {
     let message = "🧱 *APEX COATING EAST AFRICA LTD*\n📦 *ORDER REQUEST*\n\n";
@@ -38,18 +25,8 @@ export default function CartDrawer() {
       message += `   Subtotal: ${formatKES(item.price * item.quantity)}\n\n`;
     });
     message += `━━━━━━━━━━━━━━━\n`;
-    message += `*Subtotal: ${formatKES(subtotal)}*\n`;
-    if (deliveryMethod === "doorstep") {
-      message += `*Delivery Fee: ${formatKES(deliveryFee)}*\n`;
-      message += `*TOTAL: ${formatKES(totalWithDelivery)}*\n`;
-      message += `\n🚚 Doorstep Delivery\n`;
-    } else if (deliveryMethod === "pickup") {
-      message += `*TOTAL: ${formatKES(subtotal)}*\n`;
-      message += `\n🏪 Store Pickup: ${selectedStore}\n`;
-    } else {
-      message += `*TOTAL: ${formatKES(subtotal)}*\n`;
-    }
-    message += `\nPlease confirm availability and delivery terms.`;
+    message += `*ORDER TOTAL: ${formatKES(subtotal)}*\n`;
+    message += `\nPlease confirm availability, pricing, and fulfilment terms directly with our team.`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, "_blank");
@@ -62,8 +39,7 @@ export default function CartDrawer() {
     body += `CUSTOMER DETAILS:\n`;
     body += `Name: ${emailForm.name}\n`;
     body += `Phone: ${emailForm.phone}\n`;
-    body += `Email: ${emailForm.email}\n`;
-    body += `Location: ${emailForm.location}\n\n`;
+    body += `Email: ${emailForm.email}\n\n`;
     body += `ORDER ITEMS:\n`;
     items.forEach((item, idx) => {
       body += `${idx + 1}. ${item.productName}\n`;
@@ -73,14 +49,8 @@ export default function CartDrawer() {
       body += `   Qty: ${item.quantity}\n`;
       body += `   Price: ${formatKES(item.price * item.quantity)}\n\n`;
     });
-    body += `TOTAL ESTIMATED: ${formatKES(subtotal)}\n\n`;
-    if (deliveryMethod === "doorstep") {
-      body += `DELIVERY: Doorstep Delivery (est. ${formatKES(deliveryFee)})\n`;
-      body += `GRAND TOTAL: ${formatKES(totalWithDelivery)}\n\n`;
-    } else if (deliveryMethod === "pickup") {
-      body += `DELIVERY: Store Pickup at ${selectedStore}\n\n`;
-    }
-    body += `Please confirm availability, delivery, and payment terms.\n\nThank you.`;
+    body += `ORDER TOTAL: ${formatKES(subtotal)}\n\n`;
+    body += `Please confirm availability, pricing, and fulfilment terms.\n\nThank you.`;
     const mailto = `mailto:${SALES_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
     setShowEmailModal(false);
@@ -198,78 +168,8 @@ export default function CartDrawer() {
               <span className={`font-display font-bold text-2xl ${accentText}`}>{formatKES(subtotal)}</span>
             </div>
 
-            {/* Delivery Checkpoint Selector */}
-            <div className={`rounded-xl p-4 border transition-colors ${cardBg}`}>
-              <h4 className={`text-xs font-semibold mb-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>Delivery Option</h4>
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <button
-                  onClick={() => { setDeliveryMethod("doorstep"); setSelectedStore(""); }}
-                  className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-lg border text-center transition-all duration-200 ${
-                    deliveryMethod === "doorstep"
-                      ? "border-blue-500 bg-blue-50 text-blue-700"
-                      : isDark ? "border-slate-600 text-slate-400 hover:border-slate-500" : "border-slate-200 text-slate-600 hover:border-slate-300"
-                  }`}
-                >
-                  <Truck className="w-4 h-4" />
-                  <span className="text-xs font-medium">Doorstep Delivery</span>
-                  <span className="text-[10px] opacity-70">~5% shipping fee</span>
-                </button>
-                <button
-                  onClick={() => { setDeliveryMethod("pickup"); }}
-                  className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-lg border text-center transition-all duration-200 ${
-                    deliveryMethod === "pickup"
-                      ? "border-blue-500 bg-blue-50 text-blue-700"
-                      : isDark ? "border-slate-600 text-slate-400 hover:border-slate-500" : "border-slate-200 text-slate-600 hover:border-slate-300"
-                  }`}
-                >
-                  <Store className="w-4 h-4" />
-                  <span className="text-xs font-medium">Store Pickup</span>
-                  <span className="text-[10px] opacity-70">Free — select location</span>
-                </button>
-              </div>
-
-              {/* Store Location Dropdown (only for pickup) */}
-              {deliveryMethod === "pickup" && (
-                <div className="space-y-2">
-                  <label className={`text-[10px] font-medium ${isDark ? "text-slate-400" : "text-slate-500"}`}>Select Nearest Stockist</label>
-                  <select
-                    value={selectedStore}
-                    onChange={(e) => setSelectedStore(e.target.value)}
-                    className={`w-full px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${
-                      isDark ? "border-slate-600 bg-slate-700 text-slate-200 focus:border-blue-500" : "border-slate-200 bg-white text-slate-700 focus:border-[#0A1B3D]"
-                    }`}
-                  >
-                    <option value="">Choose a location...</option>
-                    {STORE_LOCATIONS.map((loc) => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
-                  <p className={`text-[10px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>
-                    <MapPin className="w-3 h-3 inline mr-1" />
-                    Free pickup at your nearest authorized stockist
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Delivery fee line */}
-            {deliveryMethod === "doorstep" && (
-              <div className="flex items-center justify-between">
-                <span className={`text-sm ${subColor}`}>Est. Delivery Fee</span>
-                <span className={`text-sm font-medium ${accentText}`}>{formatKES(deliveryFee)}</span>
-              </div>
-            )}
-
-            {/* Grand Total */}
-            {deliveryMethod && (
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                <span className={`text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>Grand Total</span>
-                <span className={`font-display font-bold text-xl ${accentText}`}>{formatKES(totalWithDelivery)}</span>
-              </div>
-            )}
-
             <p className={`text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"} leading-relaxed`}>
-              Final pricing confirmed upon order verification. Delivery fees calculated based on location.
+              Delivery and collection details will be confirmed directly with our team after you submit your order.
             </p>
 
             {/* Dual Checkout */}
@@ -315,10 +215,6 @@ export default function CartDrawer() {
                   <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Email</label>
                   <input type="email" value={emailForm.email} onChange={(e) => setEmailForm({ ...emailForm, email: e.target.value })} placeholder="john@example.com" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
                 </div>
-              </div>
-              <div>
-                <label className={`text-xs font-medium mb-1 block ${isDark ? "text-slate-400" : "text-slate-500"}`}>Location</label>
-                <input type="text" value={emailForm.location} onChange={(e) => setEmailForm({ ...emailForm, location: e.target.value })} placeholder="Nairobi, Kenya" className={`w-full px-4 py-2.5 rounded-xl border outline-none text-sm ${isDark ? "border-slate-600 bg-slate-700 text-slate-200 placeholder:text-slate-500 focus:border-blue-500" : "border-slate-200 text-slate-700 focus:border-[#0A1B3D]"}`} />
               </div>
             </div>
             <div className={`p-5 border-t flex gap-3 ${isDark ? "border-slate-700" : "border-slate-100"}`}>

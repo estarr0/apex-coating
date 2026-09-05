@@ -18,24 +18,24 @@ type WallMask = { wall: string; exclusions: string[] };
 
 const WALL_MASKS: Record<string, WallMask> = {
   living: {
-    wall: "M0 0H100V59L92 57L84 59L76 56L68 58L60 56L52 59L44 57L36 59L28 56L20 59L12 57L0 60Z",
-    exclusions: ["M70 14H96V49H70Z", "M0 43H24V66H0Z"],
+    wall: "M-2 -2H102V60L92 58L84 60L76 57L68 59L60 57L52 60L44 58L36 60L28 57L20 60L12 58L-2 61Z",
+    exclusions: ["M69 13H97V50H69Z", "M-2 42H25V67H-2Z"],
   },
   bedroom: {
-    wall: "M0 0H100V62L90 60L80 63L70 60L60 63L50 60L40 63L30 60L20 63L10 60L0 63Z",
-    exclusions: ["M7 16H31V46H7Z", "M36 43H69V69H36Z"],
+    wall: "M-2 -2H102V63L90 61L80 64L70 61L60 64L50 61L40 64L30 61L20 64L10 61L-2 64Z",
+    exclusions: ["M6 15H32V47H6Z", "M35 42H70V70H35Z"],
   },
   kitchen: {
-    wall: "M0 0H100V57L90 55L80 58L70 55L60 58L50 55L40 58L30 55L20 58L10 55L0 58Z",
-    exclusions: ["M8 14H33V42H8Z", "M53 30H100V62H53Z"],
+    wall: "M-2 -2H102V58L90 56L80 59L70 56L60 59L50 56L40 59L30 56L20 59L10 56L-2 59Z",
+    exclusions: ["M7 13H34V43H7Z", "M52 29H102V63H52Z"],
   },
   office: {
-    wall: "M0 0H100V57L90 55L80 58L70 55L60 58L50 55L40 58L30 55L20 58L10 55L0 58Z",
-    exclusions: ["M8 14H33V42H8Z", "M53 30H100V62H53Z"],
+    wall: "M-2 -2H102V58L90 56L80 59L70 56L60 59L50 56L40 59L30 56L20 59L10 56L-2 59Z",
+    exclusions: ["M7 13H34V43H7Z", "M52 29H102V63H52Z"],
   },
   exterior: {
-    wall: "M4 10H96V73L84 70L72 73L60 70L48 73L36 70L24 73L4 74Z",
-    exclusions: ["M16 30H32V69H16Z", "M43 25H58V67H43Z", "M69 29H90V69H69Z"],
+    wall: "M2 8H98V74L84 71L72 74L60 71L48 74L36 71L24 74L2 75Z",
+    exclusions: ["M15 29H33V70H15Z", "M42 24H59V68H42Z", "M68 28H91V70H68Z"],
   },
 };
 
@@ -131,12 +131,17 @@ export default function ColorVisualizer() {
                       preserveAspectRatio="none"
                     >
                       <defs>
-                        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+                        <filter id={`${maskId}-feather`} x="-4%" y="-4%" width="108%" height="108%">
+                          <feGaussianBlur stdDeviation="0.35" />
+                        </filter>
+                        <mask id={maskId} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
                           <rect width="100" height="100" fill="black" />
-                          <path d={mask.wall} fill="white" />
-                          {mask.exclusions.map((path, index) => (
-                            <path key={`${activeRoom.id}-exclusion-${index}`} d={path} fill="black" />
-                          ))}
+                          <g filter={`url(#${maskId}-feather)`}>
+                            <path d={mask.wall} fill="white" stroke="white" strokeWidth="1.35" strokeLinejoin="round" />
+                            {mask.exclusions.map((path, index) => (
+                              <path key={`${activeRoom.id}-exclusion-${index}`} d={path} fill="black" stroke="black" strokeWidth="0.7" strokeLinejoin="round" />
+                            ))}
+                          </g>
                         </mask>
                       </defs>
                       <rect

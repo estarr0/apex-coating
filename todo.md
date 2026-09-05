@@ -10,3 +10,9 @@
 - [x] Ensure selected colors apply only to wall surfaces with preserved texture, shadows, and highlights.
 - [x] Verify representative scenes and save a checkpoint.
 
+
+## Wall-mask coverage and cart simplification
+- [x] Inspect the current SVG wall masks and cart fulfillment state/UI.
+- [x] Extend wall masks with continuous coverage, overlap, and feathering; remove delivery and pickup logic from the cart.
+- [x] Validate visualizer and cart flows and save a checkpoint.
+
