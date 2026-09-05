@@ -11,14 +11,35 @@ const LIGHTING_PRESETS = [
   { id: "evening", name: "Evening", icon: Moon, filter: "brightness(0.8) saturate(0.85) hue-rotate(5deg)" },
 ];
 
-// Approximate wall-only masks for the supplied room photography. The masks intentionally stop before furniture, floors, and foreground objects so colour remains a useful surface preview rather than a full-image tint.
-const WALL_MASKS: Record<string, string> = {
-  living: "polygon(0% 0%, 100% 0%, 100% 62%, 86% 60%, 76% 58%, 64% 59%, 53% 56%, 41% 60%, 29% 58%, 17% 61%, 0% 58%)",
-  bedroom: "polygon(0% 0%, 100% 0%, 100% 64%, 84% 62%, 68% 64%, 52% 60%, 36% 63%, 18% 60%, 0% 63%)",
-  kitchen: "polygon(0% 0%, 100% 0%, 100% 58%, 83% 57%, 70% 59%, 55% 56%, 41% 58%, 22% 55%, 0% 58%)",
-  office: "polygon(0% 0%, 100% 0%, 100% 58%, 84% 57%, 70% 59%, 55% 56%, 41% 58%, 22% 55%, 0% 58%)",
-  exterior: "polygon(4% 10%, 96% 10%, 96% 73%, 83% 71%, 70% 74%, 55% 71%, 40% 74%, 22% 71%, 4% 74%)",
+// Scene-specific SVG masks. White shapes are paintable wall surfaces; black cut-outs protect windows,
+// furniture, doors, cabinetry, and foreground objects. The normalized viewBox keeps masks aligned
+// with the responsive 16:10 preview without tinting the whole image.
+type WallMask = { wall: string; exclusions: string[] };
+
+const WALL_MASKS: Record<string, WallMask> = {
+  living: {
+    wall: "M0 0H100V59L92 57L84 59L76 56L68 58L60 56L52 59L44 57L36 59L28 56L20 59L12 57L0 60Z",
+    exclusions: ["M70 14H96V49H70Z", "M0 43H24V66H0Z"],
+  },
+  bedroom: {
+    wall: "M0 0H100V62L90 60L80 63L70 60L60 63L50 60L40 63L30 60L20 63L10 60L0 63Z",
+    exclusions: ["M7 16H31V46H7Z", "M36 43H69V69H36Z"],
+  },
+  kitchen: {
+    wall: "M0 0H100V57L90 55L80 58L70 55L60 58L50 55L40 58L30 55L20 58L10 55L0 58Z",
+    exclusions: ["M8 14H33V42H8Z", "M53 30H100V62H53Z"],
+  },
+  office: {
+    wall: "M0 0H100V57L90 55L80 58L70 55L60 58L50 55L40 58L30 55L20 58L10 55L0 58Z",
+    exclusions: ["M8 14H33V42H8Z", "M53 30H100V62H53Z"],
+  },
+  exterior: {
+    wall: "M4 10H96V73L84 70L72 73L60 70L48 73L36 70L24 73L4 74Z",
+    exclusions: ["M16 30H32V69H16Z", "M43 25H58V67H43Z", "M69 29H90V69H69Z"],
+  },
 };
+
+const getWallMask = (roomId: string) => WALL_MASKS[roomId] || WALL_MASKS.living;
 
 export default function ColorVisualizer() {
   const { theme } = useTheme();
@@ -97,19 +118,41 @@ export default function ColorVisualizer() {
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
                   style={{ filter: activeLightingFilter }}
                 />
-                {/* Wall-only paint layer: the image remains underneath so shadows and surface texture survive; the clipped layer excludes furniture and foreground objects. */}
-                {selectedColor && (
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 mix-blend-multiply transition-all duration-500"
-                    style={{
-                      backgroundColor: selectedColor.hex,
-                      clipPath: WALL_MASKS[activeRoom.id] || WALL_MASKS.living,
-                      filter: getFinishStyle(activeFinish),
-                      opacity: 0.68,
-                    }}
-                  />
-                )}
+                {/* Selective wall paint layer: the original photo remains visible beneath a masked,
+                    multiply-blended layer so wall texture, shadows, and highlights survive. */}
+                {selectedColor && (() => {
+                  const mask = getWallMask(activeRoom.id);
+                  const maskId = `wall-mask-${activeRoom.id}`;
+                  return (
+                    <svg
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 h-full w-full"
+                      viewBox="0 0 100 100"
+                      preserveAspectRatio="none"
+                    >
+                      <defs>
+                        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+                          <rect width="100" height="100" fill="black" />
+                          <path d={mask.wall} fill="white" />
+                          {mask.exclusions.map((path, index) => (
+                            <path key={`${activeRoom.id}-exclusion-${index}`} d={path} fill="black" />
+                          ))}
+                        </mask>
+                      </defs>
+                      <rect
+                        width="100"
+                        height="100"
+                        fill={selectedColor.hex}
+                        mask={`url(#${maskId})`}
+                        style={{
+                          mixBlendMode: "multiply",
+                          filter: getFinishStyle(activeFinish),
+                          opacity: 0.62,
+                        }}
+                      />
+                    </svg>
+                  );
+                })()}
                 {/* Room label */}
                 <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-lg glass-overlay">
                   <span className="text-xs font-medium text-white">{activeRoom.name}</span>
