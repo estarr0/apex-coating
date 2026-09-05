@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 import { Search, ShoppingCart, Menu, X, ChevronDown, Phone, Sun, Moon } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useTheme } from "@/contexts/ThemeContext";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
-  onNavigate: (section: string) => void;
+  onNavigate?: (section: string) => void;
 }
 
 // Apex Coating — logo rendered with bg-white rounded container so the JPEG blends cleanly
@@ -26,6 +27,7 @@ const PremierCoatBadge = ({ scrolled, size = "h-9 lg:h-11" }: { scrolled?: boole
 
 export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [, setLocation] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -61,11 +63,27 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchQuery);
-    onNavigate("shade-card");
+    if (onNavigate) onNavigate("shade-card");
+    else setLocation(`/bs-4800${searchQuery.trim() ? `?search=${encodeURIComponent(searchQuery.trim())}` : ""}`);
+    setMobileOpen(false);
   };
 
   const handleNav = (section: string) => {
-    onNavigate(section);
+    if (onNavigate) {
+      onNavigate(section);
+    } else {
+      const routeMap: Record<string, string> = {
+        hero: "/",
+        products: "/products",
+        "shade-card": "/bs-4800",
+        visualizer: "/visualizer",
+        mixer: "/mixer",
+        tools: "/tools",
+        news: "/news",
+        about: "/about",
+      };
+      setLocation(routeMap[section] || "/");
+    }
     setMobileOpen(false);
   };
 
@@ -134,6 +152,14 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
 
           {/* Desktop Nav Items */}
           <div className="hidden lg:flex items-center gap-4">
+            <button
+              onClick={() => handleNav("hero")}
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
+              }`}
+            >
+              Home
+            </button>
             <div ref={categoryRef} className="relative">
               <button
                 onClick={() => setCategoryOpen(!categoryOpen)}
@@ -160,6 +186,30 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
               )}
             </div>
 
+            <button
+              onClick={() => handleNav("tools")}
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
+              }`}
+            >
+              Tools
+            </button>
+            <button
+              onClick={() => handleNav("news")}
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
+              }`}
+            >
+              News
+            </button>
+            <button
+              onClick={() => handleNav("about")}
+              className={`text-sm font-medium transition-colors ${
+                scrolled ? (isDark ? "text-slate-300 hover:text-white" : "text-slate-700 hover:text-blue-500") : "text-blue-100 hover:text-white"
+              }`}
+            >
+              About
+            </button>
             <button
               onClick={() => handleNav("shade-card")}
               className={`text-sm font-medium transition-colors ${
@@ -298,6 +348,38 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
                   {cat.label}
                 </button>
               ))}
+              <button
+                onClick={() => handleNav("products")}
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                Product catalogue
+              </button>
+              <button
+                onClick={() => handleNav("tools")}
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                Tools hub
+              </button>
+              <button
+                onClick={() => handleNav("news")}
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                News & media
+              </button>
+              <button
+                onClick={() => handleNav("about")}
+                className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isDark ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                About Apex
+              </button>
               <button
                 onClick={() => handleNav("shade-card")}
                 className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${

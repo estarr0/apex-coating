@@ -11,6 +11,15 @@ const LIGHTING_PRESETS = [
   { id: "evening", name: "Evening", icon: Moon, filter: "brightness(0.8) saturate(0.85) hue-rotate(5deg)" },
 ];
 
+// Approximate wall-only masks for the supplied room photography. The masks intentionally stop before furniture, floors, and foreground objects so colour remains a useful surface preview rather than a full-image tint.
+const WALL_MASKS: Record<string, string> = {
+  living: "polygon(0% 0%, 100% 0%, 100% 62%, 86% 60%, 76% 58%, 64% 59%, 53% 56%, 41% 60%, 29% 58%, 17% 61%, 0% 58%)",
+  bedroom: "polygon(0% 0%, 100% 0%, 100% 64%, 84% 62%, 68% 64%, 52% 60%, 36% 63%, 18% 60%, 0% 63%)",
+  kitchen: "polygon(0% 0%, 100% 0%, 100% 58%, 83% 57%, 70% 59%, 55% 56%, 41% 58%, 22% 55%, 0% 58%)",
+  office: "polygon(0% 0%, 100% 0%, 100% 58%, 84% 57%, 70% 59%, 55% 56%, 41% 58%, 22% 55%, 0% 58%)",
+  exterior: "polygon(4% 10%, 96% 10%, 96% 73%, 83% 71%, 70% 74%, 55% 71%, 40% 74%, 22% 71%, 4% 74%)",
+};
+
 export default function ColorVisualizer() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -88,14 +97,16 @@ export default function ColorVisualizer() {
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
                   style={{ filter: activeLightingFilter }}
                 />
-                {/* Wall overlay for paint color */}
+                {/* Wall-only paint layer: the image remains underneath so shadows and surface texture survive; the clipped layer excludes furniture and foreground objects. */}
                 {selectedColor && (
                   <div
-                    className="absolute inset-0 mix-blend-multiply transition-all duration-500"
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 mix-blend-multiply transition-all duration-500"
                     style={{
                       backgroundColor: selectedColor.hex,
+                      clipPath: WALL_MASKS[activeRoom.id] || WALL_MASKS.living,
                       filter: getFinishStyle(activeFinish),
-                      opacity: 0.65,
+                      opacity: 0.68,
                     }}
                   />
                 )}

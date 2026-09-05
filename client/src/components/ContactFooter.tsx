@@ -168,12 +168,12 @@ export default function ContactFooter() {
             <div>
               <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">Product Lines</h4>
               <ul className="space-y-2 text-sm text-blue-200/70">
-                <li><a href="#products" className="hover:text-white transition-colors">WeatherShield Exterior</a></li>
-                <li><a href="#products" className="hover:text-white transition-colors">Silk Emulsion</a></li>
-                <li><a href="#products" className="hover:text-white transition-colors">Industrial Primer</a></li>
-                <li><a href="#products" className="hover:text-white transition-colors">Gloss Enamel</a></li>
-                <li><a href="#products" className="hover:text-white transition-colors">Wood Finish</a></li>
-                <li><a href="#products" className="hover:text-white transition-colors">RoofGuard</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">WeatherShield Exterior</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">Silk Emulsion</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">Industrial Primer</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">Gloss Enamel</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">Wood Finish</a></li>
+                <li><a href="/products" className="hover:text-white transition-colors">RoofGuard</a></li>
               </ul>
             </div>
 
@@ -181,11 +181,11 @@ export default function ContactFooter() {
             <div>
               <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-400 mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-blue-200/70">
-                <li><a href="#shade-card" className="hover:text-white transition-colors">BS 4800 Shade Card</a></li>
-                <li><a href="#visualizer" className="hover:text-white transition-colors">Color Visualizer</a></li>
-                <li><a href="#mixer" className="hover:text-white transition-colors">Paint Mixer</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Request a Quote</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Technical Data Sheets</a></li>
+                <li><a href="/bs-4800" className="hover:text-white transition-colors">BS 4800 Shade Card</a></li>
+                <li><a href="/visualizer" className="hover:text-white transition-colors">Color Visualizer</a></li>
+                <li><a href="/mixer" className="hover:text-white transition-colors">Paint Mixer</a></li>
+                <li><a href="/#contact" className="hover:text-white transition-colors">Request a Quote</a></li>
+                <li><a href="/news" className="hover:text-white transition-colors">Field notes</a></li>
               </ul>
             </div>
 

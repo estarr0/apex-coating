@@ -1,98 +1,148 @@
-import { useState, useCallback } from "react";
-import Navbar from "@/components/Navbar";
+// Industrial Luxury style reminder: the homepage is a confident three-stage entry point—welcome, context, then a vivid working dashboard with swatch-led accents and direct routes.
+import { ArrowRight, Eye, Hash, Info, Palette, ShoppingBag, Sparkles } from "lucide-react";
+import { useLocation } from "wouter";
 import HeroCarousel from "@/components/HeroCarousel";
-import Features from "@/components/Features";
-import ShadeCard from "@/components/ShadeCard";
-import ColorVisualizer from "@/components/ColorVisualizer";
-import CustomPaintMixer from "@/components/CustomPaintMixer";
-import ProductCatalog from "@/components/ProductCatalog";
-import ContactFooter from "@/components/ContactFooter";
-import CartDrawer from "@/components/CartDrawer";
+
+const modules = [
+  {
+    number: "01",
+    title: "Color Visualizer",
+    description: "Test a BS 4800 shade in realistic room scenes, lighting conditions, and finish types.",
+    href: "/visualizer",
+    icon: Eye,
+    accent: "#238b68",
+    code: "SURFACE / ROOM",
+  },
+  {
+    number: "02",
+    title: "Color Chart",
+    description: "Search the standardized collection by code, family, or named shade and send it straight to an order.",
+    href: "/bs-4800",
+    icon: Hash,
+    accent: "#b46a2d",
+    code: "BS 4800 / PALETTE",
+  },
+  {
+    number: "03",
+    title: "Color Mixer",
+    description: "Build a custom HEX shade, compare the closest standard colour, and add a mixed finish to your cart.",
+    href: "/mixer",
+    icon: Palette,
+    accent: "#7b3f77",
+    code: "CUSTOM / MATCH",
+  },
+  {
+    number: "04",
+    title: "Products Catalog",
+    description: "Browse decorative, industrial, automotive, adhesive, wood-care, and solvent ranges with live pack pricing.",
+    href: "/products",
+    icon: ShoppingBag,
+    accent: "#2d75d7",
+    code: "RANGE / PRICING",
+  },
+  {
+    number: "05",
+    title: "Info / About",
+    description: "Understand the Apex and Premier Coat range, head-office support, and how to bring a clear brief to the team.",
+    href: "/about",
+    icon: Info,
+    accent: "#8e5a38",
+    code: "COMPANY / SUPPORT",
+  },
+];
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
+  const handleNavigate = (target: string) => {
+    const routeMap: Record<string, string> = {
+      hero: "/",
+      visualizer: "/visualizer",
+      mixer: "/mixer",
+      shades: "/bs-4800",
+      "shade-card": "/bs-4800",
+      products: "/products",
+      about: "/about",
+      contact: "/#contact",
+    };
+    setLocation(routeMap[target] || "/");
+  };
 
-  const handleNavigate = useCallback((section: string) => {
-    if (section === "hero") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    const el = document.getElementById(section);
-    if (el) {
-      const navHeight = 72;
-      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  }, []);
+  const scrollToHub = () => {
+    document.getElementById("feature-hub")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar onSearch={setSearchQuery} onNavigate={handleNavigate} />
-      <main>
+    <>
+      <section id="welcome" className="scroll-mt-20">
         <HeroCarousel onNavigate={handleNavigate} />
+      </section>
 
-        {/* Brand Banner — The actual dual-brand marketing image */}
-        <section className="py-12 lg:py-16 bg-gradient-to-r from-slate-50 to-white border-b border-slate-100">
-          <div className="container">
-            <div className="rounded-2xl overflow-hidden swatch-shadow-lg">
-              <img
-                src="/manus-storage/dual-brand-banner_3672e58c.png"
-                alt="Apex Coating E.A Ltd & Premier Coat — Two Brands. One Commitment. Quality. Protection. Lasting Beauty."
-                className="w-full h-auto object-cover"
-              />
+      <section id="introduction" className="scroll-mt-20 border-b border-slate-200 bg-white py-14 lg:py-20">
+        <div className="container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+          <div>
+            <div className="mb-4 flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.24em] text-[#2d75d7]">
+              <span className="h-px w-9 bg-[#2d75d7]" />
+              02 / Introduction
             </div>
-            {/* Trust badges row below the banner */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
-              {[
-                { label: "Superior Protection", icon: "shield" },
-                { label: "Excellent Finish", icon: "paint" },
-                { label: "Long Lasting Durability", icon: "clock" },
-                { label: "Environmentally Friendly", icon: "leaf" },
-                { label: "Trusted Quality", icon: "star" },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 px-3 py-3 bg-slate-50 rounded-lg border border-slate-100">
-                  <div className="w-8 h-8 rounded-lg bg-[#0A1B3D] flex items-center justify-center flex-shrink-0">
-                    {item.icon === "shield" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-blue-400 fill-current">
-                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
-                      </svg>
-                    )}
-                    {item.icon === "paint" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-blue-400 fill-current">
-                        <path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z" />
-                      </svg>
-                    )}
-                    {item.icon === "clock" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-emerald-400 fill-current">
-                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                      </svg>
-                    )}
-                    {item.icon === "leaf" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-emerald-400 fill-current">
-                        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
-                      </svg>
-                    )}
-                    {item.icon === "star" && (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 text-amber-400 fill-current">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                      </svg>
-                    )}
-                  </div>
-                  <span className="text-[11px] font-semibold text-slate-700 leading-tight">{item.label}</span>
-                </div>
-              ))}
-            </div>
+            <h1 className="max-w-xl font-display text-3xl font-extrabold leading-tight tracking-[-0.04em] text-[#0A1B3D] md:text-5xl">
+              Two trusted brands. One considered finish.
+            </h1>
           </div>
-        </section>
+          <div className="max-w-2xl lg:justify-self-end">
+            <p className="text-lg leading-8 text-slate-600">
+              Apex Coating East Africa Ltd develops dependable decorative, industrial, automotive, adhesive, and wood-care coatings for the region’s demanding surfaces. Explore a clear digital catalogue, test colour with confidence, and send a precise order without losing the human support behind it.
+            </p>
+            <button
+              onClick={scrollToHub}
+              className="mt-7 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.12em] text-[#0A1B3D] transition-colors hover:text-[#2d75d7] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2d75d7] focus-visible:ring-offset-4"
+            >
+              Open the feature dashboard <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
 
-        <Features />
-        <ShadeCard externalSearch={searchQuery} />
-        <ColorVisualizer />
-        <CustomPaintMixer />
-        <ProductCatalog />
-        <ContactFooter />
-      </main>
-      <CartDrawer />
-    </div>
+      <section id="feature-hub" className="scroll-mt-20 bg-[#f7f8fa] py-16 lg:py-24">
+        <div className="container">
+          <div className="mb-10 flex flex-col justify-between gap-5 border-b border-slate-200 pb-6 md:flex-row md:items-end">
+            <div>
+              <div className="mb-3 flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-slate-500">
+                <Sparkles className="h-3.5 w-3.5 text-[#2d75d7]" />
+                03 / Interactive hub
+              </div>
+              <h2 className="font-display text-3xl font-bold tracking-[-0.03em] text-[#0A1B3D] md:text-4xl">Choose your next move.</h2>
+            </div>
+            <p className="max-w-sm text-sm leading-6 text-slate-500">Start with the tool that matches the surface, shade, or brief in front of you.</p>
+          </div>
+
+          <div className="grid gap-px overflow-hidden border border-slate-200 bg-slate-200 md:grid-cols-2 xl:grid-cols-5">
+            {modules.map((module) => {
+              const Icon = module.icon;
+              return (
+                <button
+                  key={module.href}
+                  onClick={() => setLocation(module.href)}
+                  className="group min-h-[270px] bg-white p-6 text-left transition-colors hover:bg-[#0A1B3D] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2d75d7] focus-visible:ring-inset lg:p-7"
+                >
+                  <div className="mb-6 h-1.5 w-full" style={{ backgroundColor: module.accent }} aria-hidden="true" />
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="font-mono text-xs tracking-[0.18em] text-slate-400 transition-colors group-hover:text-blue-200">{module.number}</span>
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-slate-200 transition-colors group-hover:border-white/20" style={{ color: module.accent }}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="mt-10">
+                    <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-400 transition-colors group-hover:text-blue-200/70">{module.code}</div>
+                    <h3 className="mt-3 font-display text-xl font-bold leading-tight text-[#0A1B3D] transition-colors group-hover:text-white">{module.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-500 transition-colors group-hover:text-blue-100/70">{module.description}</p>
+                  </div>
+                  <ArrowRight className="mt-6 h-5 w-5 text-slate-300 transition-all group-hover:translate-x-1 group-hover:text-white" />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

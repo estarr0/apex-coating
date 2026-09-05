@@ -320,11 +320,11 @@ export default function ProductCatalog() {
 
               <div className="overflow-y-auto flex-1 p-4" style={{ maxHeight: "380px" }}>
                 <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
-                  {filteredShades.map((c) => {
+                  {filteredShades.map((c, idx) => {
                     const isSelected = selectedColors[shadePickerOpen!]?.code === c.code;
                     return (
                       <button
-                        key={c.code}
+                        key={`${c.family}|${c.code}|${c.name}|${idx}`}
                         onClick={() => {
                           setSelectedColors((prev) => ({ ...prev, [shadePickerOpen!]: c }));
                           setShadePickerOpen(null);
