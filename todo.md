@@ -22,3 +22,9 @@
 - [x] Refactor each scene to use a continuous full-coverage wall layer with multiply blending and natural foreground protection.
 - [x] Validate representative scenes and save a checkpoint.
 
+
+## Solid-color visualizer fill
+- [x] Inspect the current visualizer color rendering and swatch state.
+- [x] Remove blend modes, opacity, hue filters, and implement exact solid hex wall fills with a clean transition.
+- [x] Validate shade selection and save a checkpoint.
+

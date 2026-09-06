@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { ROOM_SCENES, FINISHES } from "@/lib/products";
 import { BS4800_COLORS, BSColor } from "@/lib/bs4800";
-import { Check, Palette, Eye, ShoppingCart, Sun, Moon, Cloud } from "lucide-react";
+import { Check, Palette, Eye, ShoppingCart } from "lucide-react";
 import OrderThisShadeModal from "./OrderThisShadeModal";
 import { useTheme } from "@/contexts/ThemeContext";
-
-const LIGHTING_PRESETS = [
-  { id: "daylight", name: "Daylight", icon: Sun, filter: "brightness(1.05) saturate(1.1)" },
-  { id: "warm-indoor", name: "Warm Indoor", icon: Cloud, filter: "brightness(0.95) saturate(0.9) sepia(0.08)" },
-  { id: "evening", name: "Evening", icon: Moon, filter: "brightness(0.8) saturate(0.85) hue-rotate(5deg)" },
-];
 
 // Each scene uses one continuous wall plane, then restores the natural image over
 // windows, furniture, floor, ceiling, doors, cabinetry, and other foreground details.
@@ -78,7 +72,6 @@ export default function ColorVisualizer() {
   const [activeRoom, setActiveRoom] = useState(ROOM_SCENES[0]);
   const [selectedColor, setSelectedColor] = useState<BSColor | null>(null);
   const [activeFinish, setActiveFinish] = useState("matte");
-  const [activeLighting, setActiveLighting] = useState("daylight");
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [colorSearch, setColorSearch] = useState("");
   const [orderShade, setOrderShade] = useState<BSColor | null>(null);
@@ -88,19 +81,6 @@ export default function ColorVisualizer() {
     const q = colorSearch.toLowerCase().trim();
     return c.code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q);
   });
-
-  const getFinishStyle = (finishId: string) => {
-    switch (finishId) {
-      case "matte": return "none";
-      case "silk": return "saturate(1.1) brightness(1.05)";
-      case "eggshell": return "saturate(1.05) brightness(1.02)";
-      case "gloss": return "saturate(1.2) brightness(1.15) contrast(1.05)";
-      case "weather-guard": return "saturate(0.95) brightness(0.98)";
-      default: return "none";
-    }
-  };
-
-  const activeLightingFilter = LIGHTING_PRESETS.find(l => l.id === activeLighting)?.filter || "none";
 
   const sectionBg = isDark ? "bg-slate-900" : "bg-slate-50";
   const sectionText = isDark ? "text-slate-100" : "text-[#0A1B3D]";
@@ -147,10 +127,9 @@ export default function ColorVisualizer() {
                   src={activeRoom.image}
                   alt={activeRoom.name}
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-                  style={{ filter: activeLightingFilter, backgroundColor: '#9a3737' }}
                 />
-                {/* Selective wall paint layer: the original photo remains visible beneath a masked,
-                    multiply-blended layer so wall texture, shadows, and highlights survive. */}
+                {/* Solid wall paint layer: the selected shade is rendered at its exact hex value
+                    inside the wall mask; protected room objects are restored above it. */}
                 {selectedColor && (() => {
                   const mask = getWallMask(activeRoom.id);
                   const maskId = `wall-mask-${activeRoom.id}`;
@@ -162,12 +141,9 @@ export default function ColorVisualizer() {
                       preserveAspectRatio="none"
                     >
                       <defs>
-                        <filter id={`${maskId}-feather`} x="-4%" y="-4%" width="108%" height="108%">
-                          <feGaussianBlur stdDeviation="0.35" />
-                        </filter>
                         <mask id={`${maskId}-paint`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
                           <rect width="100" height="100" fill="black" />
-                          <g filter={`url(#${maskId}-feather)`}>
+                          <g>
                             <path d={mask.wall} fill="white" stroke="white" strokeWidth="1.6" strokeLinejoin="round" />
                             {mask.exclusions.map((path, index) => (
                               <path key={`${activeRoom.id}-paint-exclusion-${index}`} d={path} fill="black" stroke="black" strokeWidth="0.95" strokeLinejoin="round" />
@@ -176,7 +152,7 @@ export default function ColorVisualizer() {
                         </mask>
                         <mask id={`${maskId}-foreground`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
                           <rect width="100" height="100" fill="black" />
-                          <g filter={`url(#${maskId}-feather)`}>
+                          <g>
                             {mask.exclusions.map((path, index) => (
                               <path key={`${activeRoom.id}-foreground-${index}`} d={path} fill="white" stroke="white" strokeWidth="0.95" strokeLinejoin="round" />
                             ))}
@@ -190,11 +166,7 @@ export default function ColorVisualizer() {
                         height="100"
                         fill={selectedColor.hex}
                         mask={`url(#${maskId}-paint)`}
-                        style={{
-                          mixBlendMode: "multiply",
-                          filter: getFinishStyle(activeFinish),
-                          opacity: 0.62,
-                        }}
+                        style={{ transition: "fill 0.3s ease" }}
                       />
                       {/* Restore the original photograph above the paint in protected regions so
                           furniture, windows, ceilings, and flooring remain completely natural. */}
@@ -206,8 +178,7 @@ export default function ColorVisualizer() {
                         height="100"
                         preserveAspectRatio="none"
                         mask={`url(#${maskId}-foreground)`}
-                        style={{ filter: activeLightingFilter }}
-                      />
+                            />
                     </svg>
                   );
                 })()}
@@ -245,22 +216,6 @@ export default function ColorVisualizer() {
               ))}
             </div>
 
-            {/* Lighting Toggle */}
-            <div className={`flex gap-2 mt-4 ${cardBg} rounded-xl p-4 border transition-colors`}>
-              <span className={`text-[10px] font-mono ${labelColor} uppercase tracking-wider flex items-center mr-2`}>Lighting</span>
-              {LIGHTING_PRESETS.map((preset) => (
-                <button
-                  key={preset.id}
-                  onClick={() => setActiveLighting(preset.id)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-                    activeLighting === preset.id ? selectActiveBg : selectBg
-                  }`}
-                >
-                  <preset.icon className="w-3.5 h-3.5" />
-                  {preset.name}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Controls Panel */}
