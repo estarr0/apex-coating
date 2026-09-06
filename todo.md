@@ -16,3 +16,9 @@
 - [x] Extend wall masks with continuous coverage, overlap, and feathering; remove delivery and pickup logic from the cart.
 - [x] Validate visualizer and cart flows and save a checkpoint.
 
+
+## Full-coverage visualizer wall layer
+- [x] Inspect the current scene-layer and foreground stacking architecture.
+- [x] Refactor each scene to use a continuous full-coverage wall layer with multiply blending and natural foreground protection.
+- [x] Validate representative scenes and save a checkpoint.
+

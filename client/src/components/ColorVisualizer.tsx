@@ -11,31 +11,62 @@ const LIGHTING_PRESETS = [
   { id: "evening", name: "Evening", icon: Moon, filter: "brightness(0.8) saturate(0.85) hue-rotate(5deg)" },
 ];
 
-// Scene-specific SVG masks. White shapes are paintable wall surfaces; black cut-outs protect windows,
-// furniture, doors, cabinetry, and foreground objects. The normalized viewBox keeps masks aligned
-// with the responsive 16:10 preview without tinting the whole image.
+// Each scene uses one continuous wall plane, then restores the natural image over
+// windows, furniture, floor, ceiling, doors, cabinetry, and other foreground details.
+// The normalized 0–100 viewBox keeps the masks aligned with the responsive preview.
 type WallMask = { wall: string; exclusions: string[] };
 
 const WALL_MASKS: Record<string, WallMask> = {
   living: {
-    wall: "M-2 -2H102V60L92 58L84 60L76 57L68 59L60 57L52 60L44 58L36 60L28 57L20 60L12 58L-2 61Z",
-    exclusions: ["M69 13H97V50H69Z", "M-2 42H25V67H-2Z"],
+    wall: "M-3 8H103V73H-3Z",
+    exclusions: [
+      "M-3 -3H103V10H-3Z", // ceiling
+      "M69 13H97V50H69Z", // window
+      "M9 29H29V55H9Z", // television
+      "M-3 12H9V61H-3Z", // shelving edge
+      "M-3 58H27V88H-3Z", // armchair
+      "M57 53C69 50 87 52 103 59V91H57Z", // sofa
+      "M34 67H61V84H34Z", // coffee table
+      "M-3 78H103V103H-3Z", // floor
+    ],
   },
   bedroom: {
-    wall: "M-2 -2H102V63L90 61L80 64L70 61L60 64L50 61L40 64L30 61L20 64L10 61L-2 64Z",
-    exclusions: ["M6 15H32V47H6Z", "M35 42H70V70H35Z"],
+    wall: "M-3 8H103V74H-3Z",
+    exclusions: [
+      "M-3 -3H103V10H-3Z", // ceiling
+      "M6 15H32V47H6Z", // window
+      "M35 42H70V70H35Z", // bed
+      "M69 50H103V86H69Z", // foreground furniture
+      "M-3 79H103V103H-3Z", // floor
+    ],
   },
   kitchen: {
-    wall: "M-2 -2H102V58L90 56L80 59L70 56L60 59L50 56L40 59L30 56L20 59L10 56L-2 59Z",
-    exclusions: ["M7 13H34V43H7Z", "M52 29H102V63H52Z"],
+    wall: "M-3 7H103V72H-3Z",
+    exclusions: [
+      "M-3 -3H103V9H-3Z", // ceiling
+      "M7 13H34V43H7Z", // window
+      "M52 29H103V66H52Z", // cabinetry and counter
+      "M-3 78H103V103H-3Z", // floor
+    ],
   },
   office: {
-    wall: "M-2 -2H102V58L90 56L80 59L70 56L60 59L50 56L40 59L30 56L20 59L10 56L-2 59Z",
-    exclusions: ["M7 13H34V43H7Z", "M52 29H102V63H52Z"],
+    wall: "M-3 7H103V72H-3Z",
+    exclusions: [
+      "M-3 -3H103V9H-3Z", // ceiling
+      "M7 13H34V43H7Z", // window
+      "M52 29H103V66H52Z", // desk and cabinetry
+      "M-3 78H103V103H-3Z", // floor
+    ],
   },
   exterior: {
-    wall: "M2 8H98V74L84 71L72 74L60 71L48 74L36 71L24 74L2 75Z",
-    exclusions: ["M15 29H33V70H15Z", "M42 24H59V68H42Z", "M68 28H91V70H68Z"],
+    wall: "M-3 5H103V84H-3Z",
+    exclusions: [
+      "M-3 -3H103V7H-3Z", // sky/roof line
+      "M15 29H33V70H15Z", // door/window
+      "M42 24H59V68H42Z", // central opening
+      "M68 28H91V70H68Z", // right opening
+      "M-3 82H103V103H-3Z", // ground
+    ],
   },
 };
 
@@ -116,7 +147,7 @@ export default function ColorVisualizer() {
                   src={activeRoom.image}
                   alt={activeRoom.name}
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-                  style={{ filter: activeLightingFilter }}
+                  style={{ filter: activeLightingFilter, backgroundColor: '#9a3737' }}
                 />
                 {/* Selective wall paint layer: the original photo remains visible beneath a masked,
                     multiply-blended layer so wall texture, shadows, and highlights survive. */}
@@ -134,26 +165,48 @@ export default function ColorVisualizer() {
                         <filter id={`${maskId}-feather`} x="-4%" y="-4%" width="108%" height="108%">
                           <feGaussianBlur stdDeviation="0.35" />
                         </filter>
-                        <mask id={maskId} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
+                        <mask id={`${maskId}-paint`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
                           <rect width="100" height="100" fill="black" />
                           <g filter={`url(#${maskId}-feather)`}>
-                            <path d={mask.wall} fill="white" stroke="white" strokeWidth="1.35" strokeLinejoin="round" />
+                            <path d={mask.wall} fill="white" stroke="white" strokeWidth="1.6" strokeLinejoin="round" />
                             {mask.exclusions.map((path, index) => (
-                              <path key={`${activeRoom.id}-exclusion-${index}`} d={path} fill="black" stroke="black" strokeWidth="0.7" strokeLinejoin="round" />
+                              <path key={`${activeRoom.id}-paint-exclusion-${index}`} d={path} fill="black" stroke="black" strokeWidth="0.95" strokeLinejoin="round" />
+                            ))}
+                          </g>
+                        </mask>
+                        <mask id={`${maskId}-foreground`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
+                          <rect width="100" height="100" fill="black" />
+                          <g filter={`url(#${maskId}-feather)`}>
+                            {mask.exclusions.map((path, index) => (
+                              <path key={`${activeRoom.id}-foreground-${index}`} d={path} fill="white" stroke="white" strokeWidth="0.95" strokeLinejoin="round" />
                             ))}
                           </g>
                         </mask>
                       </defs>
+                      {/* One uninterrupted wall plane provides complete coverage; exclusions are
+                          only protected foreground/ceiling regions, not breaks in the painted wall. */}
                       <rect
                         width="100"
                         height="100"
                         fill={selectedColor.hex}
-                        mask={`url(#${maskId})`}
+                        mask={`url(#${maskId}-paint)`}
                         style={{
                           mixBlendMode: "multiply",
                           filter: getFinishStyle(activeFinish),
                           opacity: 0.62,
                         }}
+                      />
+                      {/* Restore the original photograph above the paint in protected regions so
+                          furniture, windows, ceilings, and flooring remain completely natural. */}
+                      <image
+                        href={activeRoom.image}
+                        x="0"
+                        y="0"
+                        width="100"
+                        height="100"
+                        preserveAspectRatio="none"
+                        mask={`url(#${maskId}-foreground)`}
+                        style={{ filter: activeLightingFilter }}
                       />
                     </svg>
                   );
