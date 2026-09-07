@@ -128,11 +128,11 @@ export default function ColorVisualizer() {
                   alt={activeRoom.name}
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
                 />
-                {/* Solid wall paint layer: the selected shade is rendered at its exact hex value
-                    inside the wall mask; protected room objects are restored above it. */}
+                {/* Dulux-style wall overlay: a single even-odd SVG path maps the wall plane and
+                    protected foreground regions while the photograph remains visible beneath it. */}
                 {selectedColor && (() => {
                   const mask = getWallMask(activeRoom.id);
-                  const maskId = `wall-mask-${activeRoom.id}`;
+                  const wallSurface = `${mask.wall} ${mask.exclusions.join(" ")}`;
                   return (
                     <svg
                       aria-hidden="true"
@@ -140,45 +140,17 @@ export default function ColorVisualizer() {
                       viewBox="0 0 100 100"
                       preserveAspectRatio="none"
                     >
-                      <defs>
-                        <mask id={`${maskId}-paint`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
-                          <rect width="100" height="100" fill="black" />
-                          <g>
-                            <path d={mask.wall} fill="white" stroke="white" strokeWidth="1.6" strokeLinejoin="round" />
-                            {mask.exclusions.map((path, index) => (
-                              <path key={`${activeRoom.id}-paint-exclusion-${index}`} d={path} fill="black" stroke="black" strokeWidth="0.95" strokeLinejoin="round" />
-                            ))}
-                          </g>
-                        </mask>
-                        <mask id={`${maskId}-foreground`} maskUnits="userSpaceOnUse" mask-type="luminance" x="0" y="0" width="100" height="100">
-                          <rect width="100" height="100" fill="black" />
-                          <g>
-                            {mask.exclusions.map((path, index) => (
-                              <path key={`${activeRoom.id}-foreground-${index}`} d={path} fill="white" stroke="white" strokeWidth="0.95" strokeLinejoin="round" />
-                            ))}
-                          </g>
-                        </mask>
-                      </defs>
-                      {/* One uninterrupted wall plane provides complete coverage; exclusions are
-                          only protected foreground/ceiling regions, not breaks in the painted wall. */}
-                      <rect
-                        width="100"
-                        height="100"
+                      <path
+                        id="wall-surface"
+                        d={wallSurface}
                         fill={selectedColor.hex}
-                        mask={`url(#${maskId}-paint)`}
-                        style={{ transition: "fill 0.3s ease" }}
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        stroke={selectedColor.hex}
+                        strokeWidth="0.35"
+                        strokeLinejoin="round"
+                        style={{ mixBlendMode: "multiply", opacity: 0.72, transition: "fill 0.3s ease" }}
                       />
-                      {/* Restore the original photograph above the paint in protected regions so
-                          furniture, windows, ceilings, and flooring remain completely natural. */}
-                      <image
-                        href={activeRoom.image}
-                        x="0"
-                        y="0"
-                        width="100"
-                        height="100"
-                        preserveAspectRatio="none"
-                        mask={`url(#${maskId}-foreground)`}
-                            />
                     </svg>
                   );
                 })()}

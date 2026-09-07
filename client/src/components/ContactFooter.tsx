@@ -11,7 +11,7 @@ export default function ContactFooter() {
     e.preventDefault();
     const subject = `Custom Quote Request - ${form.name}`;
     const body = `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`;
-    window.location.href = `mailto:sales@apexcoating.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; // TODO: Replace email with real address
+    window.location.href = `mailto:ccare@apexcoating.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; // TODO: Replace email with real address
   };
 
   const contactBg = isDark ? "bg-slate-900" : "bg-slate-50";
@@ -48,8 +48,8 @@ export default function ContactFooter() {
                 {[
                   { icon: MapPin, label: "Head Office", value: "Industrial Area, Lusingeti Road, Nairobi, Kenya" },
                   { icon: Phone, label: "Phone / WhatsApp", value: "+254 722 252 134" },
-                  { icon: Mail, label: "Email", value: "sales@apexcoating.co.ke" },
-                  { icon: Clock, label: "Business Hours", value: "Mon - Sat: 7:30 AM - 5:30 PM" },
+                  { icon: Mail, label: "Email", value: "ccare@apexcoating.co.ke" },
+                  { icon: Clock, label: "Business Hours", value: "Monday – Friday: 7:30 AM – 5:30 PM" },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-3">
                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? "bg-blue-600" : "bg-[#0A1B3D]"}`}>
@@ -196,7 +196,7 @@ export default function ContactFooter() {
                 <li>Industrial Area, Lusingeti Road</li>
                 <li>Nairobi, Kenya</li>
                 <li>+254 722 252 134</li>
-                <li>sales@apexcoating.co.ke</li>
+                <li>ccare@apexcoating.co.ke</li>
               </ul>
             </div>
           </div>

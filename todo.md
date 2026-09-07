@@ -52,3 +52,9 @@
 - [x] Locate every Bituminous Black product record and standalone occurrence.
 - [x] Remove the product from the catalog source and regenerate the standalone index.html.
 - [x] Verify the product is absent and save a published checkpoint.
+
+## Contact and SVG wall visualizer update
+- [x] Audit all standalone email, hours, and visualizer occurrences.
+- [x] Update contact email to ccare@apexcoating.co.ke and hours to Monday–Friday, 7:30 AM–5:30 PM.
+- [x] Replace the solid visualizer block with an SVG #wall-surface overlay using multiply blending and 0.72 opacity.
+- [x] Validate shade-driven fill updates and deliver the complete standalone index.html.

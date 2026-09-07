@@ -55,7 +55,7 @@ export default function About() {
             </div>
             <div className="grid gap-4 text-sm text-slate-600 sm:grid-cols-2 lg:justify-self-end">
               <div className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 text-[#2d75d7]" /><span>Industrial Area, Lusingeti Road<br />Nairobi, Kenya</span></div>
-              <div className="flex gap-3"><Clock3 className="mt-0.5 h-4 w-4 text-[#b46a2d]" /><span>Mon–Sat<br />7:30 AM – 5:30 PM</span></div>
+              <div className="flex gap-3"><Clock3 className="mt-0.5 h-4 w-4 text-[#b46a2d]" /><span>Monday – Friday<br />7:30 AM – 5:30 PM</span></div>
             </div>
           </div>
 

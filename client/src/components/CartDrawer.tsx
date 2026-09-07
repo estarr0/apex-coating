@@ -5,7 +5,7 @@ import { X, Minus, Plus, Trash2, MessageCircle, Mail, ShoppingBag, Droplets } fr
 import { useTheme } from "@/contexts/ThemeContext";
 
 const WHATSAPP_NUMBER = "254722252134";
-const SALES_EMAIL = "sales@apexcoating.co.ke";
+const SALES_EMAIL = "ccare@apexcoating.co.ke";
 
 export default function CartDrawer() {
   const { items, isCartOpen, setCartOpen, removeItem, updateQuantity, subtotal, clearCart } = useCart();
