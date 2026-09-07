@@ -40,3 +40,10 @@
 - [x] Update the Texstar Emulsion image mapping in the React catalog and regenerate the standalone `standalone/index.html`.
 - [x] Verify the image reference, syntax, and rendered product card.
 - [ ] Save a checkpoint for the updated website.
+
+## Standalone catalog and solid-color visualizer update
+- [x] Audit the current standalone product, contact, and visualizer logic.
+- [x] Update email, hours, Serafric 3260 MM, Serafric Trade image, NC Wood Care naming, and remove the requested products.
+- [x] Restore full solid hue/shade block visualizer behavior in the standalone file.
+- [x] Regenerate and validate the complete single-file `index.html`.
+- [ ] Save a checkpoint and deliver the updated standalone file.

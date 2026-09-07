@@ -1,46 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0A1B3D">
-  <title>Apex Coating E.A. Ltd — Industrial Luxury Colour Studio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: { apex: '#0A1B3D', signal: '#E84A3C', mint: '#4D9B75' },
-          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'], mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'] }
-        }
-      }
-    };
-  </script>
-  <style>
-    :root { color-scheme: light; }
-    html.dark { color-scheme: dark; }
-    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; background:#f7f8fa; color:#0A1B3D; }
-    html.dark body { background:#081329; color:#f8fafc; }
-    .app-shell { min-height:100vh; }
-    .glass { background:rgba(255,255,255,.88); backdrop-filter:blur(18px); }
-    html.dark .glass { background:rgba(8,19,41,.88); }
-    .card { border:1px solid rgba(148,163,184,.2); box-shadow:0 14px 40px rgba(10,27,61,.08); }
-    html.dark .card { border-color:rgba(148,163,184,.18); box-shadow:0 14px 40px rgba(0,0,0,.2); }
-    .modal-backdrop { background:rgba(2,8,23,.64); backdrop-filter:blur(8px); }
-    .drawer { animation:drawer-in .22s ease-out; }
-    @keyframes drawer-in { from { transform:translateX(100%); } to { transform:translateX(0); } }
-    .swatch { transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .swatch:hover { transform:translateY(-2px); }
-    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .hero-grid { background-image:linear-gradient(rgba(10,27,61,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,27,61,.08) 1px,transparent 1px); background-size:28px 28px; }
-    html.dark .hero-grid { background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px); }
-    button:active { transform:scale(.98); }
-  </style>
-</head>
-<body>
-  <div id="app" class="app-shell"></div>
-  <script>
+
     const PRODUCTS = [
 {
     id: "texstar-emulsion",
@@ -829,6 +787,4 @@
       document.querySelector('[data-mixer-order]')?.addEventListener('click',()=>{const p=productById('plastic-emulsion')||PRODUCTS[0],m=closestMatch(blendedColor());addToCart(p,m.shade,p.sizes[0],'Custom blend');});
     }
     render();
-  </script>
-</body>
-</html>
+  
