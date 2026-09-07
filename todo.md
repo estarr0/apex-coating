@@ -58,3 +58,8 @@
 - [x] Update contact email to ccare@apexcoating.co.ke and hours to Monday–Friday, 7:30 AM–5:30 PM.
 - [x] Replace the solid visualizer block with an SVG #wall-surface overlay using multiply blending and 0.72 opacity.
 - [x] Validate shade-driven fill updates and deliver the complete standalone index.html.
+
+## Nitrocellulose Wood Finish photo replacement
+- [x] Locate the current Nitrocellulose Wood Finish product image mapping.
+- [x] Upload `nc.jpeg` and apply it to the React catalog and standalone index.html.
+- [x] Verify the replacement image renders and save a published checkpoint.

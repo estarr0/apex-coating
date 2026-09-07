@@ -214,7 +214,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Wood Finishes",
     description: "Nitrocellulose sanding sealer for wood surfaces. Prepares wood for top coats with excellent sealing and filling properties.",
-    image: "/manus-storage/nc-sanding-sealer-v2_272b3a77.png",
+    image: "/manus-storage/nc_7c47eb54.jpeg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 10000 },
       { label: "4L", volume: "4 Litre", price: 2400 },
