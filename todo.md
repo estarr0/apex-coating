@@ -47,3 +47,8 @@
 - [x] Restore full solid hue/shade block visualizer behavior in the standalone file.
 - [x] Regenerate and validate the complete single-file `index.html`.
 - [ ] Save a checkpoint and deliver the updated standalone file.
+
+## Remove Bituminous Black product
+- [x] Locate every Bituminous Black product record and standalone occurrence.
+- [x] Remove the product from the catalog source and regenerate the standalone index.html.
+- [x] Verify the product is absent and save a published checkpoint.
