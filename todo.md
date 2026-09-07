@@ -28,3 +28,15 @@
 - [x] Remove blend modes, opacity, hue filters, and implement exact solid hex wall fills with a clean transition.
 - [x] Validate shade selection and save a checkpoint.
 
+
+## Standalone single-file HTML conversion
+- [ ] Inspect current product, shade, pricing, cart, and mixer data needed for the standalone file.
+- [ ] Author one executable index.html using Tailwind CDN and embedded vanilla JavaScript only.
+- [ ] Run syntax and interaction checks, then package the single-file deliverable.
+
+
+## Texstar Emulsion image replacement
+- [x] Upload the user-provided Texstar Emulsion product photo to the web project asset store.
+- [x] Update the Texstar Emulsion image mapping in the React catalog and regenerate the standalone `standalone/index.html`.
+- [x] Verify the image reference, syntax, and rendered product card.
+- [ ] Save a checkpoint for the updated website.

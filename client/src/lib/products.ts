@@ -74,7 +74,7 @@ export const PRODUCTS: Product[] = [
     category: "Decorative & Specialty",
     subcategory: "Decorative",
     description: "Premium water-based interior emulsion with excellent coverage and washability. Ideal for walls and ceilings in residential and commercial spaces.",
-    image: "/manus-storage/texstar_coat_b6415fa7.png",
+    image: "/manus-storage/texstar-emulsion_4daedd5f.jpeg",
     sizes: [
       { label: "20L", volume: "20 Litre", price: 2700 },
       { label: "10L", volume: "10 Litre", price: 1300 },
