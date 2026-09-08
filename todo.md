@@ -69,3 +69,9 @@
 - [ ] Implement precise wall polygons/paths with foreground exclusions, hover highlighting, and click-to-apply shade behavior.
 - [ ] Apply multiply blending and 0.75 opacity to interactive wall layers.
 - [ ] Validate the standalone HTML and publish the complete visualizer update.
+
+## Single-polygon SVG wall visualizer refactor
+- [x] Audit the current standalone visualizer markup and shade-fill bindings.
+- [x] Replace the multi-region overlay with one `#wall-surface` polygon, requested Tailwind container, 0.85 opacity, and multiply filter.
+- [x] Regenerate and validate `standalone/index.html`, including dynamic fill updates and room-detail exclusions.
+- [ ] Publish and deliver the updated standalone HTML.
