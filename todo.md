@@ -63,3 +63,9 @@
 - [x] Locate the current Nitrocellulose Wood Finish product image mapping.
 - [x] Upload `nc.jpeg` and apply it to the React catalog and standalone index.html.
 - [x] Verify the replacement image renders and save a published checkpoint.
+
+## SVG multi-polygon visualizer rebuild
+- [ ] Audit current standalone scene data and visualizer event logic.
+- [ ] Implement precise wall polygons/paths with foreground exclusions, hover highlighting, and click-to-apply shade behavior.
+- [ ] Apply multiply blending and 0.75 opacity to interactive wall layers.
+- [ ] Validate the standalone HTML and publish the complete visualizer update.
