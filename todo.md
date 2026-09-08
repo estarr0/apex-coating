@@ -75,3 +75,11 @@
 - [x] Replace the multi-region overlay with one `#wall-surface` polygon, requested Tailwind container, 0.85 opacity, and multiply filter.
 - [x] Regenerate and validate `standalone/index.html`, including dynamic fill updates and room-detail exclusions.
 - [ ] Publish and deliver the updated standalone HTML.
+
+## Five-scene Duracoat visualizer rebuild
+- [ ] Audit the current standalone scene manager, room assets, and visualizer bindings.
+- [ ] Implement five scene configurations with base image, SVG wall vectors, shadow layer, and multiply duplicate layers.
+- [ ] Implement smooth room switching that reapplies the selected shade to the active scene.
+- [ ] Validate and publish the complete standalone `index.html`.
+
+- [ ] Repair the five-scene patch script after its compilation error, then rerun the migration and validation.
