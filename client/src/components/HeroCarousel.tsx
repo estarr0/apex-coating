@@ -49,7 +49,7 @@ const slides = [
 // Transparent brand marks blend into the emblem strip without white plates or border wrappers.
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
   <div className="brand-logo-frame flex items-center justify-center shrink-0">
-    <img src="/manus-storage/apex-coating-logo-transparent_efef8c63.png" alt="Apex Coating" className={`brand-image ${className} object-contain`} />
+    <img src="/manus-storage/apex-coating-mark-transparent_3ad0f350.png" alt="Apex Coating" className={`brand-image ${className} object-contain`} />
   </div>
 );
 

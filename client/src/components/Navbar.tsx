@@ -13,7 +13,7 @@ interface NavbarProps {
 // The image treatment is defined globally in index.css: multiply in light mode, normal blend plus a soft white shadow in dark mode.
 const ApexLogo = ({ scrolled = false, size = "h-10 lg:h-12" }: { scrolled?: boolean; size?: string }) => (
   <div className="brand-logo-frame flex items-center justify-center shrink-0">
-    <img src="/manus-storage/apex-coating-logo-transparent_efef8c63.png" alt="Apex Coating Logo" className={`${scrolled ? "brand-image" : "brand-image brand-image--dark-surface"} ${size} object-contain`} />
+    <img src="/manus-storage/apex-coating-mark-transparent_3ad0f350.png" alt="Apex Coating Logo" className={`${scrolled ? "brand-image" : "brand-image brand-image--dark-surface"} ${size} object-contain`} />
   </div>
 );
 
