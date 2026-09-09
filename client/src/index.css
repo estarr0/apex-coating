@@ -41,6 +41,23 @@
   box-shadow: 0 10px 40px -12px rgba(10, 27, 61, 0.12), 0 4px 12px rgba(10, 27, 61, 0.06);
 }
 
+/* Transparent brand system: logos blend into light surfaces and stay legible on deep blue. */
+.brand-logo-frame {
+  background: transparent;
+}
+
+.brand-image {
+  display: block;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.dark .brand-image,
+.brand-image--dark-surface {
+  mix-blend-mode: normal;
+  filter: brightness(1.75) saturate(1.15) drop-shadow(0 2px 8px rgba(255, 255, 255, 0.15));
+}
+
 /* Glass nav */
 .glass-nav {
   background: rgba(255, 255, 255, 0.92);

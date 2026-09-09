@@ -9,19 +9,17 @@ interface NavbarProps {
   onNavigate?: (section: string) => void;
 }
 
-// Apex Coating — logo rendered with bg-white rounded container so the JPEG blends cleanly
-// In the scrolled state (opaque nav), logos sit directly on white/dark bg
-// In the transparent hero state, logos get a frosted-glass backing
-const ApexLogo = ({ scrolled, size = "h-10 lg:h-12" }: { scrolled?: boolean; size?: string }) => (
-  <div className={`flex items-center justify-center rounded-lg overflow-hidden ${scrolled ? '' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`} style={{ width: 'auto', padding: '2px 4px' }}>
-    <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating Logo" className={`${size} object-contain rounded-sm`} />
+// Transparent logo frames keep the official marks integrated into both light and deep-blue navigation surfaces.
+// The image treatment is defined globally in index.css: multiply in light mode, normal blend plus a soft white shadow in dark mode.
+const ApexLogo = ({ scrolled = false, size = "h-10 lg:h-12" }: { scrolled?: boolean; size?: string }) => (
+  <div className="brand-logo-frame flex items-center justify-center shrink-0">
+    <img src="/manus-storage/apex-coating-logo-transparent_efef8c63.png" alt="Apex Coating Logo" className={`${scrolled ? "brand-image" : "brand-image brand-image--dark-surface"} ${size} object-contain`} />
   </div>
 );
 
-// Premier Coat badge — compact oval rendered on a frosted backing in transparent state
-const PremierCoatBadge = ({ scrolled, size = "h-9 lg:h-11" }: { scrolled?: boolean; size?: string }) => (
-  <div className={`flex items-center justify-center rounded-lg overflow-hidden ${scrolled ? '' : 'bg-white/90 backdrop-blur-sm shadow-sm'}`} style={{ padding: '2px 4px' }}>
-    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat Logo" className={`${size} object-contain rounded-sm`} />
+const PremierCoatBadge = ({ scrolled = false, size = "h-9 lg:h-11" }: { scrolled?: boolean; size?: string }) => (
+  <div className="brand-logo-frame flex items-center justify-center shrink-0">
+    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat Logo" className={`${scrolled ? "brand-image" : "brand-image brand-image--dark-surface"} ${size} object-contain`} />
   </div>
 );
 
@@ -105,7 +103,7 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
       >
         <nav className="container flex items-center justify-between h-16 lg:h-[72px]">
           {/* Dual Branding — modern, premium logo treatment */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-3 lg:gap-4">
             <button
               onClick={() => handleNav("hero")}
               className="flex items-center gap-3 group"
@@ -128,11 +126,11 @@ export default function Navbar({ onSearch, onNavigate }: NavbarProps) {
             </button>
 
             {/* Elegant divider between brands */}
-            <div className={`mx-3 lg:mx-4 transition-colors ${scrolled ? (isDark ? "bg-slate-700" : "bg-slate-200") : "bg-white/20"}`} style={{ width: 1, height: 32 }} />
+            <div className={`transition-colors ${scrolled ? (isDark ? "bg-slate-700" : "bg-slate-200") : "bg-white/20"}`} style={{ width: 1, height: 32 }} />
 
             <button
               onClick={() => handleNav("hero")}
-              className="flex items-center gap-2.5"
+              className="flex items-center gap-3"
             >
               <PremierCoatBadge scrolled={scrolled} size="h-9 lg:h-11" />
               <div className="hidden sm:block">

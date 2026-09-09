@@ -46,16 +46,16 @@ const slides = [
   },
 ];
 
-// Hi-res logo images with frosted-glass backing for clean blending on the white emblem strip
+// Transparent brand marks blend into the emblem strip without white plates or border wrappers.
 const ApexLogoSVG = ({ className = "" }: { className?: string }) => (
-  <div className="flex items-center justify-center bg-white/90 rounded-lg shadow-sm overflow-hidden" style={{ padding: '2px 4px' }}>
-    <img src="/manus-storage/apex-logo-official_e7e227be.jpeg" alt="Apex Coating" className={`${className} object-contain rounded-sm`} />
+  <div className="brand-logo-frame flex items-center justify-center shrink-0">
+    <img src="/manus-storage/apex-coating-logo-transparent_efef8c63.png" alt="Apex Coating" className={`brand-image ${className} object-contain`} />
   </div>
 );
 
 const PremierCoatBadge = ({ className = "" }: { className?: string }) => (
-  <div className="flex items-center justify-center bg-white/90 rounded-lg shadow-sm overflow-hidden" style={{ padding: '2px 4px' }}>
-    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat" className={`${className} object-contain rounded-sm`} />
+  <div className="brand-logo-frame flex items-center justify-center shrink-0">
+    <img src="/manus-storage/logo-premier-coat-hires_3e8fa752.png" alt="Premier Coat" className={`brand-image ${className} object-contain`} />
   </div>
 );
 
